@@ -1,0 +1,4 @@
+# Versión exacta: la app usa comportamiento de widgets de Streamlit
+# (number_input vacío, icon_position, width="stretch") que puede cambiar
+# entre versiones. Antes de subirla, correr las pruebas y la demo.
+streamlit==1.62.0
