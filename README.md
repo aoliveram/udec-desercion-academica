@@ -18,7 +18,7 @@ modelo de integración de Tinto.
 ## Primeros pasos
 
 ```bash
-git clone git@github.com:aoliveram/udec-desercion-academica.git
+git clone https://github.com/aoliveram/udec-desercion-academica.git
 cd udec-desercion-academica/encuesta
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements-dev.txt
