@@ -1,0 +1,13 @@
+# Material de trabajo local, no se sincroniza
+playground/
+
+# Datos con nombres reales, base de respuestas, exportaciones y secretos
+encuesta/data/
+encuesta/.streamlit/secrets.toml
+
+# Entorno y archivos generados
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
