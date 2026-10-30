@@ -1,5 +1,7 @@
 # Abandono académico en Ciencias Físicas (UdeC)
 
+📖 **Libro de clases de psicometría básica:** <https://aoliveram.github.io/udec-desercion-academica/>
+
 Proyecto de tesis sobre abandono académico en la carrera de Ciencias Físicas
 de la Universidad de Concepción (FCFM), trabajado como curso guiado entre
 octubre y diciembre de 2026. Combina redes de estudiantes (afinidad, ayuda
@@ -12,7 +14,7 @@ modelo de integración de Tinto.
 |---|---|
 | [`encuesta/`](encuesta/) | Herramienta para aplicar la encuesta, en reemplazo del Google Forms. Empezar por [`encuesta/README.md`](encuesta/README.md) |
 | [`libro-psicometria-2026/`](libro-psicometria-2026/) | Libro de clases de psicometría básica: constructos, redacción de ítems, ítems invertidos y alfa de Cronbach (fuente Quarto) |
-| `docs/` | El libro ya compilado. Para leerlo, abrir `docs/index.html` en el navegador |
+| `docs/` | El libro ya compilado, publicado en [GitHub Pages](https://aoliveram.github.io/udec-desercion-academica/) |
 | `informe-yannely-abandono-academico-udec.pdf` | Informe de agosto de 2026: problema, hipótesis, marco teórico y metodología |
 | [`papers/`](papers/) | Lecturas de referencia |
 | `Notas.txt` | Notas y tareas de trabajo |
