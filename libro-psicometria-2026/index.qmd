@@ -1,0 +1,35 @@
+# Bienvenida {.unnumbered}
+
+En este libro encontrarás el material de la clase de psicometría básica del curso guiado sobre abandono académico en Ciencias Físicas (Universidad de Concepción, 2026).
+
+La encuesta del proyecto va a medir cosas que no se ven: autoeficacia, pertenencia, soledad, intención de abandono. Antes de elegir escalas y cargarlas en `instrumento.py`, conviene saber cómo se construye una escala y cómo se juzga si funciona. Eso es lo que cubre este libro, en dos capítulos:
+
+1. **Del constructo a los ítems**: qué se está midiendo y cómo se escriben las preguntas.
+2. **Confiabilidad y alfa de Cronbach**: cómo saber si esas preguntas miden lo mismo, con código reproducible en R.
+
+## ¿Para quién es este libro? {.unnumbered}
+
+Para quien llega a la psicometría desde otra disciplina, en este curso desde la Física. **No se asume formación en psicología.** Sí se asume algo de estadística: varianza, covarianza y correlación.
+
+## Los capítulos {.unnumbered}
+
+| Capítulo | De qué trata |
+|---|---|
+| [Del constructo a los ítems](01-constructos-e-items.qmd) | Variables latentes, definición operacional, reglas de redacción, escalas Likert e ítems invertidos. Por qué adaptar escalas validadas en vez de inventarlas. |
+| [Confiabilidad y alfa de Cronbach](02-confiabilidad-y-alfa.qmd) | Puntaje verdadero y error, la fórmula de alfa, cómo se rompe, el diagnóstico ítem por ítem y lo que alfa no dice. Cómo calcularlo con la exportación de la encuesta. |
+
+Al final hay un [vocabulario](vocabulario.qmd) con los términos del libro y sus otros nombres (en psicometría casi todo tiene dos o tres).
+
+Los dos capítulos usan el mismo ejemplo: **ansiedad ante los exámenes**, un constructo que todos conocemos de primera mano. No está en la encuesta del proyecto, a propósito: así el ejemplo no decide por ti qué escalas usar.
+
+Cada capítulo trae **preguntas** para conversar en la clase y recuadros **Para jugar**: variaciones que conviene hacer por cuenta propia. Ahí es donde se aprende.
+
+## Materiales {.unnumbered}
+
+- Repositorio del proyecto: <https://github.com/aoliveram/udec-desercion-academica>
+- Datos del capítulo 2: [`libro-psicometria-2026/datos/ansiedad_examenes.csv`](https://github.com/aoliveram/udec-desercion-academica/tree/main/libro-psicometria-2026/datos) (simulados; ninguna persona real)
+- Referencias citadas: [capítulo de referencias](referencias.qmd)
+
+::: {.callout-note}
+El código está en R, con el paquete `psych`. El capítulo 2 incluye también la versión en Python del cálculo de alfa, para usarla con la misma instalación de la encuesta.
+:::

@@ -1,0 +1,218 @@
+---
+author: "Aníbal Olivera Morales"
+date: "2026-10-30"
+---
+
+# Del constructo a los ítems
+
+::: {.callout-tip icon="false"}
+## Qué haremos
+
+Nadie observa la ansiedad de una estudiante, su sentido de pertenencia o sus ganas de dejar la carrera. Lo que sí se observa son **respuestas a preguntas**. Este capítulo trata de cómo pasar de una idea (el **constructo**) a un conjunto de preguntas (los **ítems**) que la capturen.
+:::
+
+| Sección | Contenido |
+|---|---|
+| 1. Constructos | Qué es una variable latente y por qué se mide con varios ítems |
+| 2. Definir | La definición que guía la redacción: facetas, límites, población |
+| 3. Redactar | Ocho reglas, con ejemplos malos y mejores |
+| 4. Responder | La escala Likert y el puntaje de la escala |
+| 5. Ítems invertidos | Para qué sirven, qué cuestan y cómo se recodifican |
+| 6. Adaptar | Por qué en la tesis se adaptan escalas validadas en vez de inventarlas |
+
+Todo el capítulo usa un mismo ejemplo: **ansiedad ante los exámenes**, con respuestas de 1 (*Muy en desacuerdo*) a 5 (*Muy de acuerdo*).
+
+## Qué es un constructo
+
+Un **constructo** es una característica de las personas que no se observa directamente, pero que suponemos detrás de lo que sí observamos. La ansiedad ante los exámenes no se ve. Se ven sus huellas: palpitaciones antes de una prueba, la mente en blanco frente a la hoja, una mala noche antes del certamen.
+
+En psicometría el constructo se trata como una **variable latente** $\theta$ (theta), y cada ítem como un **indicador** imperfecto de $\theta$. El modelo detrás de casi todas las escalas que vas a revisar es
+
+$$
+X_j = \lambda_j\,\theta + \varepsilon_j,
+$$
+
+donde $X_j$ es la respuesta al ítem $j$; $\lambda_j$, la **carga**, dice cuánto depende ese ítem del constructo; y $\varepsilon_j$ es todo lo demás: cómo se entendió la frase, el ánimo de ese día, una distracción. Las flechas van **del constructo a los ítems**: una persona responde «sí, me dan palpitaciones» *porque* tiene ansiedad, y no al revés.
+
+```{dot}
+//| label: fig-modelo
+//| fig-cap: "El modelo de un constructo. La ansiedad (θ) no se observa; causa las respuestas a los cuatro ítems, cada una con su propio error (ε)."
+digraph modelo {
+  bgcolor = "white";
+  rankdir = TB;
+  nodesep = 0.35;
+  node [fontname = "Helvetica", fontsize = 12, color = "#555555", fontcolor = "#222222"];
+  edge [color = "#555555", fontname = "Helvetica", fontsize = 11, fontcolor = "#555555"];
+
+  theta [label = "Ansiedad ante\nlos exámenes (θ)", shape = ellipse, style = filled, fillcolor = "#dbe9f6", color = "#2c6fb7", penwidth = 1.5];
+
+  node [shape = box, style = "rounded,filled", fillcolor = "#f4f4f4"];
+  x1 [label = "X₁ palpitaciones"];
+  x2 [label = "X₂ noche previa"];
+  x3 [label = "X₃ quedar en blanco"];
+  x4 [label = "X₄ malestar estomacal"];
+
+  node [shape = circle, style = filled, fillcolor = "white", color = "#999999", fontsize = 11, width = 0.42, fixedsize = true];
+  e1 [label = "ε₁"]; e2 [label = "ε₂"]; e3 [label = "ε₃"]; e4 [label = "ε₄"];
+
+  theta -> x1 [label = " λ₁"];
+  theta -> x2 [label = " λ₂"];
+  theta -> x3 [label = " λ₃"];
+  theta -> x4 [label = " λ₄"];
+  x1 -> e1 [dir = back, color = "#999999"];
+  x2 -> e2 [dir = back, color = "#999999"];
+  x3 -> e3 [dir = back, color = "#999999"];
+  x4 -> e4 [dir = back, color = "#999999"];
+}
+```
+
+::: callout-note
+## Una analogía de laboratorio
+
+Para medir la temperatura de un líquido tienes cuatro termómetros baratos. Cada uno se equivoca un poco, y cada uno a su manera. Si los cuatro miden temperatura, sus lecturas suben y bajan juntas, y el promedio se equivoca menos que cualquiera por separado.
+
+Una escala hace lo mismo: varias preguntas imperfectas sobre el mismo constructo, y un puntaje que las promedia. Y si uno de los "termómetros" en realidad mide humedad, no se moverá con los demás. El [capítulo 2](02-confiabilidad-y-alfa.qmd) convierte esa intuición en un número: el alfa de Cronbach.
+:::
+
+Con una sola pregunta, $\theta$ y $\varepsilon$ quedan mezclados y no hay forma de separarlos. Con varias, los errores (que son distintos en cada ítem) se compensan en parte al promediar, y lo que queda es lo que los ítems comparten: el constructo.
+
+*Pregunta 1. De los constructos candidatos para tu encuesta (autoeficacia, pertenencia, soledad, intención de abandono…), ¿alguno se podría medir bien con una sola pregunta? ¿Qué se perdería?*
+
+## Definir antes de redactar
+
+Los ítems salen de la definición, no al revés. Una **definición operacional** útil responde cuatro preguntas.
+
+1. **Qué es.** La ansiedad ante los exámenes es el malestar que aparece antes o durante una evaluación por anticipar un mal resultado.
+2. **Qué facetas tiene.** Desde Liebert & Morris (1967) se distinguen dos: la **preocupación**, que es cognitiva (pensar que vas a reprobar, que te vas a quedar en blanco), y la **emocionalidad**, que es fisiológica (palpitaciones, tensión, malestar estomacal). Una escala que cubre solo una faceta mide un constructo más angosto que el que dice medir.
+3. **Qué no es.** No es estudiar poco ni tener un profesor que explica mal. Esas cosas pueden *causar* ansiedad o *acompañarla*, pero son otros constructos. Escribir los límites evita que se cuelen ítems ajenos (en el capítulo 2 veremos qué le hacen al alfa).
+4. **En quién y cuándo.** Estudiantes universitarios, frente a las evaluaciones del semestre. El marco temporal entra en la redacción: «antes de un examen», «la noche previa».
+
+Con esa definición, cuatro ítems que cubren las dos facetas:
+
+| Faceta | Ítem |
+|---|---|
+| Emocionalidad | «Siento palpitaciones o tensión muscular minutos antes de iniciar un examen.» |
+| Preocupación | «Me cuesta concentrarme la noche previa a una prueba por el temor a reprobar.» |
+| Preocupación | «Tengo la sensación constante de que me voy a quedar en blanco frente a la hoja.» |
+| Emocionalidad | «La preocupación por las notas me genera malestar estomacal antes de rendir.» |
+
+Los cuatro apuntan al mismo constructo y en la misma dirección: quien responde 5 en el primero muy probablemente responde 4 o 5 en el resto.
+
+## Redactar ítems
+
+Un ítem funciona cuando **todas las personas lo entienden igual**. Casi todas las reglas de redacción salen de ahí (Lietz 2010; Muñiz & Fonseca-Pedrero 2019).
+
+| Regla | Mal | Mejor |
+|---|---|---|
+| 1. Una idea por ítem | «Me pongo nervioso/a y duermo mal antes de un examen.» | Dos ítems: «Me pongo nervioso/a antes de un examen.» y «Duermo mal la noche antes de un examen.» |
+| 2. Lenguaje simple | «Experimento sintomatología somática ante instancias evaluativas.» | «Siento malestar físico antes de una prueba.» |
+| 3. Sin dobles negaciones | «No es cierto que no me ponga nervioso/a en los exámenes.» | «Me pongo nervioso/a en los exámenes.» |
+| 4. Sin absolutos | «Siempre me quedo en blanco en los exámenes.» | «Me quedo en blanco en los exámenes.» |
+| 5. Situación concreta | «Soy una persona ansiosa.» | «Me siento ansioso/a antes de las pruebas.» |
+| 6. Este constructo y no otro | «El profesor explica la materia muy rápido.» | Fuera de esta escala: mide percepción de la docencia. |
+| 7. Que distinga entre personas | «Prefiero aprobar a reprobar.» | Fuera: todas las personas responden lo mismo. |
+| 8. Sin respuesta "correcta" | «Como todo buen estudiante, me preparo con tiempo para las pruebas.» | «Empiezo a estudiar para una prueba con al menos una semana de anticipación.» |
+
+Cuatro de ellas merecen una línea más:
+
+- **Una idea por ítem.** Si alguien se pone nervioso pero duerme bien, ¿qué responde? Cualquier número que marque es ambiguo. En inglés se les llama ítems *double-barreled*.
+- **Sin absolutos.** Con «siempre», casi nadie está de acuerdo y el ítem deja de distinguir entre quien se pone ansioso a menudo y quien no. Lo frecuente o lo intenso lo dice la respuesta, no la frase.
+- **Que distinga.** Un ítem que todas las personas responden igual tiene varianza cero: no dice nada sobre las diferencias entre personas, que es justamente lo que una escala mide.
+- **Sin respuesta "correcta".** Cuando una frase deja claro qué es lo bien visto, la gente tiende a responder eso (**deseabilidad social**).
+
+*Pregunta 2. El cuarto ítem del ejemplo («La preocupación por las notas me genera malestar estomacal antes de rendir») tiene dos ideas: preocupación y malestar. ¿Viola la regla 1? ¿Cómo lo reescribirías?*
+
+## La escala de respuesta
+
+Casi todas las escalas de este proyecto son de tipo **Likert** (Likert 1932): una afirmación y categorías ordenadas de acuerdo. En `instrumento.py` ya está definida la de cinco puntos:
+
+```python
+ACUERDO_5 = ["Muy en desacuerdo", "En desacuerdo", "Ni de acuerdo ni en desacuerdo", "De acuerdo", "Muy de acuerdo"]
+```
+
+Cuatro decisiones:
+
+- **Cuántas categorías.** Entre 5 y 7 es lo habitual. Menos pierde información; más cansa y no mejora mucho la medición (Lietz 2010).
+- **Todas rotuladas.** Cada categoría con palabras, no solo los extremos: así todos interpretan igual el "3".
+- **Punto medio.** «Ni de acuerdo ni en desacuerdo» permite una posición neutral genuina, pero también sirve de refugio para no pensar. Si la escala validada lo tiene, se mantiene; si no lo tiene, no se agrega.
+- **Acuerdo o frecuencia.** Algunas escalas preguntan cuánto ocurre algo y no cuánto se está de acuerdo (la UCLA-3 usa *Casi nunca / A veces / A menudo*). Se usa el formato de la validación.
+
+La exportación de la encuesta guarda cada respuesta como su **posición** en la lista: 1 = *Muy en desacuerdo*, …, 5 = *Muy de acuerdo*. Quien elige «Prefiero no contestar» queda como `OMITIDA`, que al analizar es un dato faltante.
+
+El **puntaje de la escala** es la suma o el promedio de sus ítems. El promedio tiene dos ventajas: queda en la misma escala de 1 a 5 (un 4.2 se lee "en promedio, de acuerdo") y tolera mejor algún ítem sin respuesta. Estrictamente, las respuestas son categorías ordenadas y no números; sumarlas es la práctica habitual y funciona bien con varios ítems y cinco o más categorías.
+
+## Ítems invertidos
+
+Un **ítem invertido** está redactado en sentido contrario al constructo: estar de acuerdo indica *menos* ansiedad, no más.
+
+> «Disfruto los días en que debo rendir evaluaciones.»
+
+Una persona con mucha ansiedad responde 1 o 2.
+
+**Para qué sirven.** Algunas personas tienden a estar de acuerdo con todo (**aquiescencia**) o responden en piloto automático. Si todos los ítems apuntan hacia el mismo lado, quien marca 5 en todo obtiene el puntaje máximo sin haber leído nada. Un ítem invertido rompe ese patrón: quien está «muy de acuerdo» con sentir palpitaciones *y* con disfrutar los exámenes no leyó con atención.
+
+**Cómo se puntúan.** Antes de sumar se **recodifican**, dando vuelta la escala:
+
+$$
+X' = (\text{mín} + \text{máx}) - X, \qquad \text{que en una escala de 1 a 5 es} \qquad X' = 6 - X.
+$$
+
+| Respuesta original | 1 | 2 | 3 | 4 | 5 |
+|---|:-:|:-:|:-:|:-:|:-:|
+| **Recodificada** | 5 | 4 | 3 | 2 | 1 |
+
+**Qué cuestan.** Los ítems invertidos confunden, sobre todo los que se invierten agregando un «no» («No me pongo nervioso/a antes de un examen»). Producen más errores de respuesta, bajan la confiabilidad y a veces forman un "factor" propio que refleja la redacción y no el constructo (Weijters & Baumgartner 2012; Suárez-Alvarez et al. 2018). Por eso:
+
+- Si vas a invertir, escribe un **opuesto genuino** («Me siento tranquilo/a antes de un examen»), no la misma frase con un «no».
+- Pocos y bien escritos.
+- En una escala adaptada, respeta los invertidos del original. Cuáles son lo dice el paper de validación.
+
+**En tu encuesta.** El bloque de intención de abandono de `instrumento.py` ya tiene uno:
+
+```python
+INTENCION = bloque(
+    "intencion",
+    "¿Qué tan de acuerdo estás con cada afirmación?",
+    items=[
+        ("int_dejar_carrera", "Durante este semestre he pensado seriamente en dejar la carrera de Ciencias Físicas."),
+        ("int_cambiar_carrera", "Si pudiera, el próximo año me cambiaría a otra carrera."),
+        ("int_terminar", "Estoy decidido/a a terminar esta carrera."),
+        ("int_seguir_udec", "El próximo año pienso seguir estudiando en la Universidad de Concepción."),
+    ],
+    opciones=ACUERDO_5,
+    constructo="Intención de abandono",
+    fuente=NUEVO,
+    invertidos=["int_terminar"],
+)
+```
+
+`invertidos=` no cambia lo que ve quien responde, ni recodifica nada: la exportación guarda la respuesta tal cual (1 a 5) y marca el ítem con `invertido = 1` en `codebook.csv`. La recodificación se hace al analizar (el capítulo 2 muestra cómo). Si un ítem invertido no se declara aquí, lo más probable es que después nadie lo recodifique.
+
+::: callout-warning
+## El error más común
+
+Olvidar recodificar un ítem invertido. No aparece ningún error, el análisis corre igual, y el resultado es una escala que se contradice a sí misma. En el capítulo 2 veremos lo que eso le hace al alfa.
+:::
+
+*Pregunta 3. ¿Por qué `int_terminar` es el invertido del bloque? Ahora lee `int_seguir_udec`: ¿en qué dirección apunta? ¿Qué respondería alguien que piensa cambiarse a otra carrera dentro de la UdeC?*
+
+## Adaptar, no inventar
+
+Para tu tesis, casi todos los constructos ya tienen escalas validadas, varias en Chile (los comentarios de `instrumento.py` listan las previstas). Usarlas tiene tres ventajas: sus propiedades son conocidas, tus resultados se pueden comparar con otros estudios y son más fáciles de defender frente al comité de ética y la comisión de tesis. Inventar ítems queda para lo que no existe, como el bloque de intención de abandono (marcado `fuente=NUEVO`).
+
+Al adaptar una escala:
+
+1. **Ítems textuales** de la validación, en español si existe una validación chilena o hispana.
+2. **Mismo formato de respuesta y mismos invertidos** que el original.
+3. Si solo existe en inglés: **traducción y retrotraducción** (otra persona traduce de vuelta al inglés sin ver el original, y se comparan las dos versiones), y una prueba con personas de la población (Muñiz, Elosua & Hambleton 2013).
+4. **Registrar la fuente** en el argumento `fuente=` del `bloque()`.
+5. **No eliminar ni reescribir ítems** "porque suenan raros". Eso cambia el instrumento y lo hace incomparable con la validación; si hay que hacerlo, se justifica y se reporta.
+
+::: {.callout-note}
+## Para jugar
+
+1. Toma tres ítems de una de tus escalas candidatas y revísalos contra las ocho reglas. ¿Alguno falla? ¿Cuál regla?
+2. Busca en el paper de validación de esa escala qué ítems son invertidos. ¿Están escritos con un «no» o como opuesto genuino?
+3. Escribe dos ítems invertidos para la ansiedad ante los exámenes: uno con negación y otro como opuesto genuino. Muéstraselos a alguien y fíjate en cuál entiende más rápido.
+4. Escribe un ítem que viole dos reglas a la vez y pídele a alguien del laboratorio que lo arregle.
+:::

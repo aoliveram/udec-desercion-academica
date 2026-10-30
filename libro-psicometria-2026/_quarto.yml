@@ -1,0 +1,36 @@
+project:
+  type: book
+  output-dir: ../docs
+
+lang: es
+date-format: "MMMM YYYY"
+
+book:
+  title: "Psicometría básica"
+  subtitle: "Libro de clases · Abandono académico en Ciencias Físicas, UdeC 2026"
+  author: "Aníbal Olivera Morales"
+  date: today
+  repo-url: https://github.com/aoliveram/udec-desercion-academica
+  site-url: https://aoliveram.github.io/udec-desercion-academica/
+  sidebar:
+    search: true
+  chapters:
+    - index.qmd
+    - 01-constructos-e-items.qmd
+    - 02-confiabilidad-y-alfa.qmd
+    - referencias.qmd
+  appendices:
+    - vocabulario.qmd
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    code-overflow: wrap
+
+execute:
+  freeze: auto

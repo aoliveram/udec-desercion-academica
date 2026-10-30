@@ -1,0 +1,45 @@
+# Referencias {.unnumbered}
+
+## Para empezar
+
+- **Muñiz & Fonseca-Pedrero (2019)**, *Diez pasos para la construcción de un test*. En español y breve: el proceso completo, desde la definición del constructo hasta la versión final.
+- **DeVellis & Thorpe (2022)**, *Scale Development*. El manual clásico de construcción de escalas, muy legible.
+- **Lietz (2010)**. Qué dice la evidencia sobre la redacción de preguntas y las escalas de respuesta. Ya está en tu lista de lecturas.
+
+## Por capítulo
+
+**Del constructo a los ítems.** Liebert & Morris (1967) sobre las dos facetas de la ansiedad ante los exámenes; Likert (1932); Lietz (2010) y Muñiz & Fonseca-Pedrero (2019) sobre redacción; Weijters & Baumgartner (2012) y Suárez-Alvarez et al. (2018) sobre ítems invertidos; Muñiz, Elosua & Hambleton (2013) sobre traducción y adaptación.
+
+**Confiabilidad y alfa de Cronbach.** Cronbach (1951); Nunnally (1978) y Lance, Butts & Michels (2006) sobre los puntos de corte; Cortina (1993) y Sijtsma (2009) sobre lo que alfa no dice; McNeish (2018) sobre omega; Revelle (2025) para el paquete `psych`.
+
+## Lista completa
+
+Cortina, J. M. (1993). What is coefficient alpha? An examination of theory and applications. *Journal of Applied Psychology, 78*(1), 98–104. <https://doi.org/10.1037/0021-9010.78.1.98>
+
+Cronbach, L. J. (1951). Coefficient alpha and the internal structure of tests. *Psychometrika, 16*(3), 297–334. <https://doi.org/10.1007/BF02310555>
+
+DeVellis, R. F., & Thorpe, C. T. (2022). *Scale development: Theory and applications* (5th ed.). SAGE.
+
+Lance, C. E., Butts, M. M., & Michels, L. C. (2006). The sources of four commonly reported cutoff criteria: What did they really say? *Organizational Research Methods, 9*(2), 202–220. <https://doi.org/10.1177/1094428105284919>
+
+Liebert, R. M., & Morris, L. W. (1967). Cognitive and emotional components of test anxiety: A distinction and some initial data. *Psychological Reports, 20*(3), 975–978. <https://doi.org/10.2466/pr0.1967.20.3.975>
+
+Lietz, P. (2010). Research into questionnaire design: A summary of the literature. *International Journal of Market Research, 52*(2), 249–272. <https://doi.org/10.2501/S147078530920120X>
+
+Likert, R. (1932). A technique for the measurement of attitudes. *Archives of Psychology, 22*(140), 1–55.
+
+McNeish, D. (2018). Thanks coefficient alpha, we'll take it from here. *Psychological Methods, 23*(3), 412–433. <https://doi.org/10.1037/met0000144>
+
+Muñiz, J., Elosua, P., & Hambleton, R. K. (2013). Directrices para la traducción y adaptación de los tests: segunda edición. *Psicothema, 25*(2), 151–157. <https://doi.org/10.7334/psicothema2013.24>
+
+Muñiz, J., & Fonseca-Pedrero, E. (2019). Diez pasos para la construcción de un test. *Psicothema, 31*(1), 7–16. <https://doi.org/10.7334/psicothema2018.291>
+
+Nunnally, J. C. (1978). *Psychometric theory* (2nd ed.). McGraw-Hill.
+
+Revelle, W. (2025). *psych: Procedures for psychological, psychometric, and personality research* (R package version 2.5.3). Northwestern University. <https://CRAN.R-project.org/package=psych>
+
+Sijtsma, K. (2009). On the use, the misuse, and the very limited usefulness of Cronbach's alpha. *Psychometrika, 74*(1), 107–120. <https://doi.org/10.1007/s11336-008-9101-0>
+
+Suárez-Alvarez, J., Pedrosa, I., Lozano, L. M., García-Cueto, E., Cuesta, M., & Muñiz, J. (2018). Using reversed items in Likert scales: A questionable practice. *Psicothema, 30*(2), 149–158. <https://doi.org/10.7334/psicothema2018.33>
+
+Weijters, B., & Baumgartner, H. (2012). Misresponse to reversed and negated items in surveys: A review. *Journal of Marketing Research, 49*(5), 737–747. <https://doi.org/10.1509/jmr.11.0368>

@@ -11,6 +11,8 @@ modelo de integración de Tinto.
 | Carpeta o archivo | Qué es |
 |---|---|
 | [`encuesta/`](encuesta/) | Herramienta para aplicar la encuesta, en reemplazo del Google Forms. Empezar por [`encuesta/README.md`](encuesta/README.md) |
+| [`libro-psicometria-2026/`](libro-psicometria-2026/) | Libro de clases de psicometría básica: constructos, redacción de ítems, ítems invertidos y alfa de Cronbach (fuente Quarto) |
+| `docs/` | El libro ya compilado. Para leerlo, abrir `docs/index.html` en el navegador |
 | `informe-yannely-abandono-academico-udec.pdf` | Informe de agosto de 2026: problema, hipótesis, marco teórico y metodología |
 | [`papers/`](papers/) | Lecturas de referencia |
 | `Notas.txt` | Notas y tareas de trabajo |
@@ -26,6 +28,17 @@ python scripts/demo.py       # abre la encuesta con una nómina ficticia
 ```
 
 La encuesta se diseña editando un solo archivo, `encuesta/instrumento.py`.
+
+## Libro de clases
+
+El libro está en `libro-psicometria-2026/` y su versión compilada en `docs/`.
+Para volver a compilarlo después de editar un capítulo (requiere
+[Quarto](https://quarto.org) y R con el paquete `psych`), desde la carpeta del
+repositorio:
+
+```bash
+quarto render libro-psicometria-2026
+```
 
 ## Datos
 

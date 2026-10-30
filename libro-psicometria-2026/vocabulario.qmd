@@ -1,0 +1,38 @@
+# Vocabulario {.unnumbered}
+
+En psicometría muchos conceptos tienen **más de un nombre**: el de los manuales en español, el de la literatura en inglés y el que aparece en la salida de `psych`.
+
+## Medir
+
+| Concepto | También llamado | En una frase |
+|---|---|---|
+| **Constructo** | variable latente, rasgo, factor, $\theta$ | Característica que no se observa pero que suponemos detrás de las respuestas. |
+| **Ítem** | reactivo, indicador, pregunta, *item* | Cada afirmación o pregunta de una escala. |
+| **Escala** | instrumento, test, cuestionario, *scale* | Conjunto de ítems que miden un mismo constructo y se combinan en un puntaje. |
+| **Carga** | *loading*, $\lambda$ | Cuánto depende un ítem del constructo. |
+| **Definición operacional** | definición del constructo | Qué es y qué no es el constructo, escrito de modo que guíe la redacción de los ítems. |
+| **Faceta** | dimensión, componente, subescala | Parte del constructo que conviene cubrir con ítems propios (preocupación y emocionalidad, en la ansiedad ante los exámenes). |
+| **Escala Likert** | escala de acuerdo, *rating scale* | Afirmaciones respondidas en categorías ordenadas, de *Muy en desacuerdo* a *Muy de acuerdo*. |
+| **Ítem doble** | *double-barreled* | Ítem con dos ideas, que no se puede responder si solo una es cierta. |
+| **Ítem invertido** | inverso, *reverse-keyed*, *reversed item* | Ítem en que estar de acuerdo indica menos del constructo. |
+| **Recodificar** | invertir, *reverse scoring* | Dar vuelta la escala de un ítem invertido: $6 - x$ en una escala de 1 a 5. |
+| **Aquiescencia** | sesgo de asentimiento, *acquiescence* | Tendencia a estar de acuerdo con todo, lea lo que lea. |
+| **Deseabilidad social** | *social desirability* | Tendencia a responder lo que queda bien. |
+| **Adaptación** | traducción y retrotraducción, *back-translation* | Llevar una escala validada a otro idioma o población cuidando que mida lo mismo. |
+
+## Evaluar
+
+| Concepto | También llamado | En una frase |
+|---|---|---|
+| **Teoría clásica de los tests** | TCT, *classical test theory* | El marco donde el puntaje observado es verdadero más error, $X = T + E$. |
+| **Puntaje verdadero** | *true score*, $T$ | El puntaje que una persona tendría si no hubiera error de medición. |
+| **Confiabilidad** | fiabilidad, *reliability*, $\rho$ | Qué fracción de la varianza del puntaje es constructo y no error. |
+| **Consistencia interna** | homogeneidad, *internal consistency* | Que los ítems de una escala covaríen entre sí. |
+| **Alfa de Cronbach** | $\alpha$, coeficiente alfa; KR-20 si los ítems son binarios | Consistencia interna calculada con las varianzas de los ítems y la del total. En `psych`: `raw_alpha`. |
+| **Alfa estandarizado** | `std.alpha` | El mismo alfa, calculado con correlaciones en vez de covarianzas. |
+| **Correlación ítem-total corregida** | discriminación, `r.drop`, *corrected item-total correlation* | Correlación de un ítem con la suma de los demás ítems. |
+| **Alfa si se elimina** | *alpha if item deleted*, *Reliability if an item is dropped* | El alfa recalculado sin ese ítem. |
+| **Unidimensionalidad** | — | Que una escala mida un solo constructo. Alfa no la prueba; para eso está el análisis factorial. |
+| **Omega de McDonald** | $\omega$, `omega.tot` | Alternativa a alfa que permite que cada ítem tenga una carga distinta. |
+| **Validez** | *validity* | Que la escala mida el constructo que dice medir. Se argumenta con contenido y con relaciones con otras variables. |
+| **Test-retest** | estabilidad temporal | Confiabilidad estimada como la correlación entre dos aplicaciones a las mismas personas. |

@@ -11,3 +11,8 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .DS_Store
+
+# Libro de psicometría: artefactos de Quarto (el libro renderizado va en docs/, que sí se versiona)
+/libro-psicometria-2026/_freeze/
+/libro-psicometria-2026/*_files/
+/libro-psicometria-2026/site_libs/
