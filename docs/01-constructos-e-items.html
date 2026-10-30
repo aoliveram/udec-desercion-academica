@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Aníbal Olivera Morales">
+
+<title>1&nbsp; Del constructo a los ítems – Psicometría básica</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-confiabilidad-y-alfa.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-bf8030b5a8b8f2de5bceddfb8bf38a1d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2a6abe4c656e78118c5caf32e94a2824.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-bf8030b5a8b8f2de5bceddfb8bf38a1d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-constructos-e-items.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del constructo a los ítems</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Psicometría básica</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/aoliveram/udec-desercion-academica" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenida</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-constructos-e-items.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del constructo a los ítems</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-confiabilidad-y-alfa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Confiabilidad y alfa de Cronbach</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./referencias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./vocabulario.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vocabulario</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#qué-es-un-constructo" id="toc-qué-es-un-constructo" class="nav-link active" data-scroll-target="#qué-es-un-constructo"><span class="header-section-number">1.1</span> Qué es un constructo</a></li>
+  <li><a href="#definir-antes-de-redactar" id="toc-definir-antes-de-redactar" class="nav-link" data-scroll-target="#definir-antes-de-redactar"><span class="header-section-number">1.2</span> Definir antes de redactar</a></li>
+  <li><a href="#redactar-ítems" id="toc-redactar-ítems" class="nav-link" data-scroll-target="#redactar-ítems"><span class="header-section-number">1.3</span> Redactar ítems</a></li>
+  <li><a href="#la-escala-de-respuesta" id="toc-la-escala-de-respuesta" class="nav-link" data-scroll-target="#la-escala-de-respuesta"><span class="header-section-number">1.4</span> La escala de respuesta</a></li>
+  <li><a href="#ítems-invertidos" id="toc-ítems-invertidos" class="nav-link" data-scroll-target="#ítems-invertidos"><span class="header-section-number">1.5</span> Ítems invertidos</a></li>
+  <li><a href="#adaptar-no-inventar" id="toc-adaptar-no-inventar" class="nav-link" data-scroll-target="#adaptar-no-inventar"><span class="header-section-number">1.6</span> Adaptar, no inventar</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del constructo a los ítems</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor/a</div>
+    <div class="quarto-title-meta-contents">
+             <p>Aníbal Olivera Morales </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Fecha de publicación</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">octubre 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Qué haremos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nadie observa la ansiedad de una estudiante, su sentido de pertenencia o sus ganas de dejar la carrera. Lo que sí se observa son <strong>respuestas a preguntas</strong>. Este capítulo trata de cómo pasar de una idea (el <strong>constructo</strong>) a un conjunto de preguntas (los <strong>ítems</strong>) que la capturen.</p>
+</div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sección</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Constructos</td>
+<td>Qué es una variable latente y por qué se mide con varios ítems</td>
+</tr>
+<tr class="even">
+<td>2. Definir</td>
+<td>La definición que guía la redacción: facetas, límites, población</td>
+</tr>
+<tr class="odd">
+<td>3. Redactar</td>
+<td>Ocho reglas, con ejemplos malos y mejores</td>
+</tr>
+<tr class="even">
+<td>4. Responder</td>
+<td>La escala Likert y el puntaje de la escala</td>
+</tr>
+<tr class="odd">
+<td>5. Ítems invertidos</td>
+<td>Para qué sirven, qué cuestan y cómo se recodifican</td>
+</tr>
+<tr class="even">
+<td>6. Adaptar</td>
+<td>Por qué en la tesis se adaptan escalas validadas en vez de inventarlas</td>
+</tr>
+</tbody>
+</table>
+<p>Todo el capítulo usa un mismo ejemplo: <strong>ansiedad ante los exámenes</strong>, con respuestas de 1 (<em>Muy en desacuerdo</em>) a 5 (<em>Muy de acuerdo</em>).</p>
+<section id="qué-es-un-constructo" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="qué-es-un-constructo"><span class="header-section-number">1.1</span> Qué es un constructo</h2>
+<p>Un <strong>constructo</strong> es una característica de las personas que no se observa directamente, pero que suponemos detrás de lo que sí observamos. La ansiedad ante los exámenes no se ve. Se ven sus huellas: palpitaciones antes de una prueba, la mente en blanco frente a la hoja, una mala noche antes del certamen.</p>
+<p>En psicometría el constructo se trata como una <strong>variable latente</strong> <span class="math inline">\(\theta\)</span> (theta), y cada ítem como un <strong>indicador</strong> imperfecto de <span class="math inline">\(\theta\)</span>. El modelo detrás de casi todas las escalas que vas a revisar es</p>
+<p><span class="math display">\[
+X_j = \lambda_j\,\theta + \varepsilon_j,
+\]</span></p>
+<p>donde <span class="math inline">\(X_j\)</span> es la respuesta al ítem <span class="math inline">\(j\)</span>; <span class="math inline">\(\lambda_j\)</span>, la <strong>carga</strong>, dice cuánto depende ese ítem del constructo; y <span class="math inline">\(\varepsilon_j\)</span> es todo lo demás: cómo se entendió la frase, el ánimo de ese día, una distracción. Las flechas van <strong>del constructo a los ítems</strong>: una persona responde «sí, me dan palpitaciones» <em>porque</em> tiene ansiedad, y no al revés.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-modelo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-modelo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 568.38 212.24" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 208.24)">
+<title>modelo</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-208.24 564.38,-208.24 564.38,4 -4,4"></polygon>
+<!-- theta -->
+<g id="node1" class="node">
+<title>theta</title>
+<ellipse fill="#dbe9f6" stroke="#2c6fb7" stroke-width="1.5" cx="233.69" cy="-178.22" rx="76.27" ry="26.04"></ellipse>
+<text text-anchor="middle" x="233.69" y="-181.82" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#222222">Ansiedad ante</text>
+<text text-anchor="middle" x="233.69" y="-167.42" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#222222">los exámenes (θ)</text>
+</g>
+<!-- x1 -->
+<g id="node2" class="node">
+<title>x1</title>
+<path fill="#f4f4f4" stroke="#555555" d="M95.58,-103C95.58,-103 11.8,-103 11.8,-103 5.8,-103 -0.2,-97 -0.2,-91 -0.2,-91 -0.2,-79 -0.2,-79 -0.2,-73 5.8,-67 11.8,-67 11.8,-67 95.58,-67 95.58,-67 101.58,-67 107.58,-73 107.58,-79 107.58,-79 107.58,-91 107.58,-91 107.58,-97 101.58,-103 95.58,-103"></path>
+<text text-anchor="middle" x="53.69" y="-81.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#222222">X₁ palpitaciones</text>
+</g>
+<!-- theta&#45;&gt;x1 -->
+<g id="edge1" class="edge">
+<title>theta-&gt;x1</title>
+<path fill="none" stroke="#555555" d="M192.4,-156.29C163.65,-141.72 125.4,-122.34 96.36,-107.62"></path>
+<polygon fill="#555555" stroke="#555555" points="97.77,-104.41 87.27,-103.02 94.61,-110.66 97.77,-104.41"></polygon>
+<text text-anchor="middle" x="152.86" y="-124.3" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#555555"> λ₁</text>
+</g>
+<!-- x2 -->
+<g id="node3" class="node">
+<title>x2</title>
+<path fill="#f4f4f4" stroke="#555555" d="M226.75,-103C226.75,-103 144.64,-103 144.64,-103 138.64,-103 132.64,-97 132.64,-91 132.64,-91 132.64,-79 132.64,-79 132.64,-73 138.64,-67 144.64,-67 144.64,-67 226.75,-67 226.75,-67 232.75,-67 238.75,-73 238.75,-79 238.75,-79 238.75,-91 238.75,-91 238.75,-97 232.75,-103 226.75,-103"></path>
+<text text-anchor="middle" x="185.69" y="-81.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#222222">X₂ noche previa</text>
+</g>
+<!-- theta&#45;&gt;x2 -->
+<g id="edge2" class="edge">
+<title>theta-&gt;x2</title>
+<path fill="none" stroke="#555555" d="M220.58,-152.29C214.03,-139.85 206.11,-124.8 199.48,-112.19"></path>
+<polygon fill="#555555" stroke="#555555" points="202.45,-110.32 194.69,-103.1 196.25,-113.58 202.45,-110.32"></polygon>
+<text text-anchor="middle" x="218.86" y="-124.3" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#555555"> λ₂</text>
+</g>
+<!-- x3 -->
+<g id="node4" class="node">
+<title>x3</title>
+<path fill="#f4f4f4" stroke="#555555" d="M381.78,-103C381.78,-103 275.61,-103 275.61,-103 269.61,-103 263.61,-97 263.61,-91 263.61,-91 263.61,-79 263.61,-79 263.61,-73 269.61,-67 275.61,-67 275.61,-67 381.78,-67 381.78,-67 387.78,-67 393.78,-73 393.78,-79 393.78,-79 393.78,-91 393.78,-91 393.78,-97 387.78,-103 381.78,-103"></path>
+<text text-anchor="middle" x="328.69" y="-81.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#222222">X₃ quedar en blanco</text>
+</g>
+<!-- theta&#45;&gt;x3 -->
+<g id="edge3" class="edge">
+<title>theta-&gt;x3</title>
+<path fill="none" stroke="#555555" d="M258.65,-153.25C272.48,-139.98 289.61,-123.53 303.48,-110.21"></path>
+<polygon fill="#555555" stroke="#555555" points="306.01,-112.63 310.8,-103.18 301.16,-107.58 306.01,-112.63"></polygon>
+<text text-anchor="middle" x="299.86" y="-124.3" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#555555"> λ₃</text>
+</g>
+<!-- x4 -->
+<g id="node5" class="node">
+<title>x4</title>
+<path fill="#f4f4f4" stroke="#555555" d="M548.57,-103C548.57,-103 430.81,-103 430.81,-103 424.81,-103 418.81,-97 418.81,-91 418.81,-91 418.81,-79 418.81,-79 418.81,-73 424.81,-67 430.81,-67 430.81,-67 548.57,-67 548.57,-67 554.57,-67 560.57,-73 560.57,-79 560.57,-79 560.57,-91 560.57,-91 560.57,-97 554.57,-103 548.57,-103"></path>
+<text text-anchor="middle" x="489.69" y="-81.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#222222">X₄ malestar estomacal</text>
+</g>
+<!-- theta&#45;&gt;x4 -->
+<g id="edge4" class="edge">
+<title>theta-&gt;x4</title>
+<path fill="none" stroke="#555555" d="M285.19,-158.87C327.77,-143.7 388.18,-122.17 432.3,-106.45"></path>
+<polygon fill="#555555" stroke="#555555" points="433.5,-109.74 441.74,-103.09 431.15,-103.15 433.5,-109.74"></polygon>
+<text text-anchor="middle" x="393.86" y="-124.3" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#555555"> λ₄</text>
+</g>
+<!-- e1 -->
+<g id="node6" class="node">
+<title>e1</title>
+<ellipse fill="white" stroke="#999999" cx="53.69" cy="-15" rx="15" ry="15"></ellipse>
+<text text-anchor="middle" x="53.69" y="-11.7" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">ε₁</text>
+</g>
+<!-- x1&#45;&gt;e1 -->
+<g id="edge5" class="edge">
+<title>x1-&gt;e1</title>
+<path fill="none" stroke="#999999" d="M53.69,-56.65C53.69,-47.57 53.69,-37.84 53.69,-30.17"></path>
+<polygon fill="#999999" stroke="#999999" points="50.19,-56.84 53.69,-66.84 57.19,-56.84 50.19,-56.84"></polygon>
+</g>
+<!-- e2 -->
+<g id="node7" class="node">
+<title>e2</title>
+<ellipse fill="white" stroke="#999999" cx="185.69" cy="-15" rx="15" ry="15"></ellipse>
+<text text-anchor="middle" x="185.69" y="-11.7" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">ε₂</text>
+</g>
+<!-- x2&#45;&gt;e2 -->
+<g id="edge6" class="edge">
+<title>x2-&gt;e2</title>
+<path fill="none" stroke="#999999" d="M185.69,-56.65C185.69,-47.57 185.69,-37.84 185.69,-30.17"></path>
+<polygon fill="#999999" stroke="#999999" points="182.19,-56.84 185.69,-66.84 189.19,-56.84 182.19,-56.84"></polygon>
+</g>
+<!-- e3 -->
+<g id="node8" class="node">
+<title>e3</title>
+<ellipse fill="white" stroke="#999999" cx="328.69" cy="-15" rx="15" ry="15"></ellipse>
+<text text-anchor="middle" x="328.69" y="-11.7" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">ε₃</text>
+</g>
+<!-- x3&#45;&gt;e3 -->
+<g id="edge7" class="edge">
+<title>x3-&gt;e3</title>
+<path fill="none" stroke="#999999" d="M328.69,-56.65C328.69,-47.57 328.69,-37.84 328.69,-30.17"></path>
+<polygon fill="#999999" stroke="#999999" points="325.19,-56.84 328.69,-66.84 332.19,-56.84 325.19,-56.84"></polygon>
+</g>
+<!-- e4 -->
+<g id="node9" class="node">
+<title>e4</title>
+<ellipse fill="white" stroke="#999999" cx="489.69" cy="-15" rx="15" ry="15"></ellipse>
+<text text-anchor="middle" x="489.69" y="-11.7" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">ε₄</text>
+</g>
+<!-- x4&#45;&gt;e4 -->
+<g id="edge8" class="edge">
+<title>x4-&gt;e4</title>
+<path fill="none" stroke="#999999" d="M489.69,-56.65C489.69,-47.57 489.69,-37.84 489.69,-30.17"></path>
+<polygon fill="#999999" stroke="#999999" points="486.19,-56.84 489.69,-66.84 493.19,-56.84 486.19,-56.84"></polygon>
+</g>
+</g>
+</svg>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-modelo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1.1: El modelo de un constructo. La ansiedad (θ) no se observa; causa las respuestas a los cuatro ítems, cada una con su propio error (ε).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Una analogía de laboratorio
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para medir la temperatura de un líquido tienes cuatro termómetros baratos. Cada uno se equivoca un poco, y cada uno a su manera. Si los cuatro miden temperatura, sus lecturas suben y bajan juntas, y el promedio se equivoca menos que cualquiera por separado.</p>
+<p>Una escala hace lo mismo: varias preguntas imperfectas sobre el mismo constructo, y un puntaje que las promedia. Y si uno de los “termómetros” en realidad mide humedad, no se moverá con los demás. El <a href="./02-confiabilidad-y-alfa.html">capítulo 2</a> convierte esa intuición en un número: el alfa de Cronbach.</p>
+</div>
+</div>
+<p>Con una sola pregunta, <span class="math inline">\(\theta\)</span> y <span class="math inline">\(\varepsilon\)</span> quedan mezclados y no hay forma de separarlos. Con varias, los errores (que son distintos en cada ítem) se compensan en parte al promediar, y lo que queda es lo que los ítems comparten: el constructo.</p>
+<p><em>Pregunta 1. De los constructos candidatos para tu encuesta (autoeficacia, pertenencia, soledad, intención de abandono…), ¿alguno se podría medir bien con una sola pregunta? ¿Qué se perdería?</em></p>
+</section>
+<section id="definir-antes-de-redactar" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="definir-antes-de-redactar"><span class="header-section-number">1.2</span> Definir antes de redactar</h2>
+<p>Los ítems salen de la definición, no al revés. Una <strong>definición operacional</strong> útil responde cuatro preguntas.</p>
+<ol type="1">
+<li><strong>Qué es.</strong> La ansiedad ante los exámenes es el malestar que aparece antes o durante una evaluación por anticipar un mal resultado.</li>
+<li><strong>Qué facetas tiene.</strong> Desde Liebert &amp; Morris (1967) se distinguen dos: la <strong>preocupación</strong>, que es cognitiva (pensar que vas a reprobar, que te vas a quedar en blanco), y la <strong>emocionalidad</strong>, que es fisiológica (palpitaciones, tensión, malestar estomacal). Una escala que cubre solo una faceta mide un constructo más angosto que el que dice medir.</li>
+<li><strong>Qué no es.</strong> No es estudiar poco ni tener un profesor que explica mal. Esas cosas pueden <em>causar</em> ansiedad o <em>acompañarla</em>, pero son otros constructos. Escribir los límites evita que se cuelen ítems ajenos (en el capítulo 2 veremos qué le hacen al alfa).</li>
+<li><strong>En quién y cuándo.</strong> Estudiantes universitarios, frente a las evaluaciones del semestre. El marco temporal entra en la redacción: «antes de un examen», «la noche previa».</li>
+</ol>
+<p>Con esa definición, cuatro ítems que cubren las dos facetas:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Faceta</th>
+<th>Ítem</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Emocionalidad</td>
+<td>«Siento palpitaciones o tensión muscular minutos antes de iniciar un examen.»</td>
+</tr>
+<tr class="even">
+<td>Preocupación</td>
+<td>«Me cuesta concentrarme la noche previa a una prueba por el temor a reprobar.»</td>
+</tr>
+<tr class="odd">
+<td>Preocupación</td>
+<td>«Tengo la sensación constante de que me voy a quedar en blanco frente a la hoja.»</td>
+</tr>
+<tr class="even">
+<td>Emocionalidad</td>
+<td>«La preocupación por las notas me genera malestar estomacal antes de rendir.»</td>
+</tr>
+</tbody>
+</table>
+<p>Los cuatro apuntan al mismo constructo y en la misma dirección: quien responde 5 en el primero muy probablemente responde 4 o 5 en el resto.</p>
+</section>
+<section id="redactar-ítems" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="redactar-ítems"><span class="header-section-number">1.3</span> Redactar ítems</h2>
+<p>Un ítem funciona cuando <strong>todas las personas lo entienden igual</strong>. Casi todas las reglas de redacción salen de ahí (Lietz 2010; Muñiz &amp; Fonseca-Pedrero 2019).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Regla</th>
+<th>Mal</th>
+<th>Mejor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Una idea por ítem</td>
+<td>«Me pongo nervioso/a y duermo mal antes de un examen.»</td>
+<td>Dos ítems: «Me pongo nervioso/a antes de un examen.» y «Duermo mal la noche antes de un examen.»</td>
+</tr>
+<tr class="even">
+<td>2. Lenguaje simple</td>
+<td>«Experimento sintomatología somática ante instancias evaluativas.»</td>
+<td>«Siento malestar físico antes de una prueba.»</td>
+</tr>
+<tr class="odd">
+<td>3. Sin dobles negaciones</td>
+<td>«No es cierto que no me ponga nervioso/a en los exámenes.»</td>
+<td>«Me pongo nervioso/a en los exámenes.»</td>
+</tr>
+<tr class="even">
+<td>4. Sin absolutos</td>
+<td>«Siempre me quedo en blanco en los exámenes.»</td>
+<td>«Me quedo en blanco en los exámenes.»</td>
+</tr>
+<tr class="odd">
+<td>5. Situación concreta</td>
+<td>«Soy una persona ansiosa.»</td>
+<td>«Me siento ansioso/a antes de las pruebas.»</td>
+</tr>
+<tr class="even">
+<td>6. Este constructo y no otro</td>
+<td>«El profesor explica la materia muy rápido.»</td>
+<td>Fuera de esta escala: mide percepción de la docencia.</td>
+</tr>
+<tr class="odd">
+<td>7. Que distinga entre personas</td>
+<td>«Prefiero aprobar a reprobar.»</td>
+<td>Fuera: todas las personas responden lo mismo.</td>
+</tr>
+<tr class="even">
+<td>8. Sin respuesta “correcta”</td>
+<td>«Como todo buen estudiante, me preparo con tiempo para las pruebas.»</td>
+<td>«Empiezo a estudiar para una prueba con al menos una semana de anticipación.»</td>
+</tr>
+</tbody>
+</table>
+<p>Cuatro de ellas merecen una línea más:</p>
+<ul>
+<li><strong>Una idea por ítem.</strong> Si alguien se pone nervioso pero duerme bien, ¿qué responde? Cualquier número que marque es ambiguo. En inglés se les llama ítems <em>double-barreled</em>.</li>
+<li><strong>Sin absolutos.</strong> Con «siempre», casi nadie está de acuerdo y el ítem deja de distinguir entre quien se pone ansioso a menudo y quien no. Lo frecuente o lo intenso lo dice la respuesta, no la frase.</li>
+<li><strong>Que distinga.</strong> Un ítem que todas las personas responden igual tiene varianza cero: no dice nada sobre las diferencias entre personas, que es justamente lo que una escala mide.</li>
+<li><strong>Sin respuesta “correcta”.</strong> Cuando una frase deja claro qué es lo bien visto, la gente tiende a responder eso (<strong>deseabilidad social</strong>).</li>
+</ul>
+<p><em>Pregunta 2. El cuarto ítem del ejemplo («La preocupación por las notas me genera malestar estomacal antes de rendir») tiene dos ideas: preocupación y malestar. ¿Viola la regla 1? ¿Cómo lo reescribirías?</em></p>
+</section>
+<section id="la-escala-de-respuesta" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="la-escala-de-respuesta"><span class="header-section-number">1.4</span> La escala de respuesta</h2>
+<p>Casi todas las escalas de este proyecto son de tipo <strong>Likert</strong> (Likert 1932): una afirmación y categorías ordenadas de acuerdo. En <code>instrumento.py</code> ya está definida la de cinco puntos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ACUERDO_5 <span class="op">=</span> [<span class="st">"Muy en desacuerdo"</span>, <span class="st">"En desacuerdo"</span>, <span class="st">"Ni de acuerdo ni en desacuerdo"</span>, <span class="st">"De acuerdo"</span>, <span class="st">"Muy de acuerdo"</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Cuatro decisiones:</p>
+<ul>
+<li><strong>Cuántas categorías.</strong> Entre 5 y 7 es lo habitual. Menos pierde información; más cansa y no mejora mucho la medición (Lietz 2010).</li>
+<li><strong>Todas rotuladas.</strong> Cada categoría con palabras, no solo los extremos: así todos interpretan igual el “3”.</li>
+<li><strong>Punto medio.</strong> «Ni de acuerdo ni en desacuerdo» permite una posición neutral genuina, pero también sirve de refugio para no pensar. Si la escala validada lo tiene, se mantiene; si no lo tiene, no se agrega.</li>
+<li><strong>Acuerdo o frecuencia.</strong> Algunas escalas preguntan cuánto ocurre algo y no cuánto se está de acuerdo (la UCLA-3 usa <em>Casi nunca / A veces / A menudo</em>). Se usa el formato de la validación.</li>
+</ul>
+<p>La exportación de la encuesta guarda cada respuesta como su <strong>posición</strong> en la lista: 1 = <em>Muy en desacuerdo</em>, …, 5 = <em>Muy de acuerdo</em>. Quien elige «Prefiero no contestar» queda como <code>OMITIDA</code>, que al analizar es un dato faltante.</p>
+<p>El <strong>puntaje de la escala</strong> es la suma o el promedio de sus ítems. El promedio tiene dos ventajas: queda en la misma escala de 1 a 5 (un 4.2 se lee “en promedio, de acuerdo”) y tolera mejor algún ítem sin respuesta. Estrictamente, las respuestas son categorías ordenadas y no números; sumarlas es la práctica habitual y funciona bien con varios ítems y cinco o más categorías.</p>
+</section>
+<section id="ítems-invertidos" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="ítems-invertidos"><span class="header-section-number">1.5</span> Ítems invertidos</h2>
+<p>Un <strong>ítem invertido</strong> está redactado en sentido contrario al constructo: estar de acuerdo indica <em>menos</em> ansiedad, no más.</p>
+<blockquote class="blockquote">
+<p>«Disfruto los días en que debo rendir evaluaciones.»</p>
+</blockquote>
+<p>Una persona con mucha ansiedad responde 1 o 2.</p>
+<p><strong>Para qué sirven.</strong> Algunas personas tienden a estar de acuerdo con todo (<strong>aquiescencia</strong>) o responden en piloto automático. Si todos los ítems apuntan hacia el mismo lado, quien marca 5 en todo obtiene el puntaje máximo sin haber leído nada. Un ítem invertido rompe ese patrón: quien está «muy de acuerdo» con sentir palpitaciones <em>y</em> con disfrutar los exámenes no leyó con atención.</p>
+<p><strong>Cómo se puntúan.</strong> Antes de sumar se <strong>recodifican</strong>, dando vuelta la escala:</p>
+<p><span class="math display">\[
+X' = (\text{mín} + \text{máx}) - X, \qquad \text{que en una escala de 1 a 5 es} \qquad X' = 6 - X.
+\]</span></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Respuesta original</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Recodificada</strong></td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Qué cuestan.</strong> Los ítems invertidos confunden, sobre todo los que se invierten agregando un «no» («No me pongo nervioso/a antes de un examen»). Producen más errores de respuesta, bajan la confiabilidad y a veces forman un “factor” propio que refleja la redacción y no el constructo (Weijters &amp; Baumgartner 2012; Suárez-Alvarez et al.&nbsp;2018). Por eso:</p>
+<ul>
+<li>Si vas a invertir, escribe un <strong>opuesto genuino</strong> («Me siento tranquilo/a antes de un examen»), no la misma frase con un «no».</li>
+<li>Pocos y bien escritos.</li>
+<li>En una escala adaptada, respeta los invertidos del original. Cuáles son lo dice el paper de validación.</li>
+</ul>
+<p><strong>En tu encuesta.</strong> El bloque de intención de abandono de <code>instrumento.py</code> ya tiene uno:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>INTENCION <span class="op">=</span> bloque(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"intencion"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"¿Qué tan de acuerdo estás con cada afirmación?"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    items<span class="op">=</span>[</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"int_dejar_carrera"</span>, <span class="st">"Durante este semestre he pensado seriamente en dejar la carrera de Ciencias Físicas."</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"int_cambiar_carrera"</span>, <span class="st">"Si pudiera, el próximo año me cambiaría a otra carrera."</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"int_terminar"</span>, <span class="st">"Estoy decidido/a a terminar esta carrera."</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"int_seguir_udec"</span>, <span class="st">"El próximo año pienso seguir estudiando en la Universidad de Concepción."</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    opciones<span class="op">=</span>ACUERDO_5,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    constructo<span class="op">=</span><span class="st">"Intención de abandono"</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    fuente<span class="op">=</span>NUEVO,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    invertidos<span class="op">=</span>[<span class="st">"int_terminar"</span>],</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>invertidos=</code> no cambia lo que ve quien responde, ni recodifica nada: la exportación guarda la respuesta tal cual (1 a 5) y marca el ítem con <code>invertido = 1</code> en <code>codebook.csv</code>. La recodificación se hace al analizar (el capítulo 2 muestra cómo). Si un ítem invertido no se declara aquí, lo más probable es que después nadie lo recodifique.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>El error más común
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Olvidar recodificar un ítem invertido. No aparece ningún error, el análisis corre igual, y el resultado es una escala que se contradice a sí misma. En el capítulo 2 veremos lo que eso le hace al alfa.</p>
+</div>
+</div>
+<p><em>Pregunta 3. ¿Por qué <code>int_terminar</code> es el invertido del bloque? Ahora lee <code>int_seguir_udec</code>: ¿en qué dirección apunta? ¿Qué respondería alguien que piensa cambiarse a otra carrera dentro de la UdeC?</em></p>
+</section>
+<section id="adaptar-no-inventar" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="adaptar-no-inventar"><span class="header-section-number">1.6</span> Adaptar, no inventar</h2>
+<p>Para tu tesis, casi todos los constructos ya tienen escalas validadas, varias en Chile (los comentarios de <code>instrumento.py</code> listan las previstas). Usarlas tiene tres ventajas: sus propiedades son conocidas, tus resultados se pueden comparar con otros estudios y son más fáciles de defender frente al comité de ética y la comisión de tesis. Inventar ítems queda para lo que no existe, como el bloque de intención de abandono (marcado <code>fuente=NUEVO</code>).</p>
+<p>Al adaptar una escala:</p>
+<ol type="1">
+<li><strong>Ítems textuales</strong> de la validación, en español si existe una validación chilena o hispana.</li>
+<li><strong>Mismo formato de respuesta y mismos invertidos</strong> que el original.</li>
+<li>Si solo existe en inglés: <strong>traducción y retrotraducción</strong> (otra persona traduce de vuelta al inglés sin ver el original, y se comparan las dos versiones), y una prueba con personas de la población (Muñiz, Elosua &amp; Hambleton 2013).</li>
+<li><strong>Registrar la fuente</strong> en el argumento <code>fuente=</code> del <code>bloque()</code>.</li>
+<li><strong>No eliminar ni reescribir ítems</strong> “porque suenan raros”. Eso cambia el instrumento y lo hace incomparable con la validación; si hay que hacerlo, se justifica y se reporta.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Para jugar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Toma tres ítems de una de tus escalas candidatas y revísalos contra las ocho reglas. ¿Alguno falla? ¿Cuál regla?</li>
+<li>Busca en el paper de validación de esa escala qué ítems son invertidos. ¿Están escritos con un «no» o como opuesto genuino?</li>
+<li>Escribe dos ítems invertidos para la ansiedad ante los exámenes: uno con negación y otro como opuesto genuino. Muéstraselos a alguien y fíjate en cuál entiende más rápido.</li>
+<li>Escribe un ítem que viole dos reglas a la vez y pídele a alguien del laboratorio que lo arregle.</li>
+</ol>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/aoliveram\.github\.io\/udec-desercion-academica\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Bienvenida">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Bienvenida</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-confiabilidad-y-alfa.html" class="pagination-link" aria-label="Confiabilidad y alfa de Cronbach">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Confiabilidad y alfa de Cronbach</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
