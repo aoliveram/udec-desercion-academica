@@ -6,6 +6,8 @@ validación, se carga en [`encuesta/instrumento.py`](../encuesta/instrumento.py)
 
 Los ítems ya extraídos de cada paper están en
 [`items-extraidos.pdf`](items-extraidos.pdf) (fuente: `items-extraidos.md`).
+La misma información, en el formato del Google Docs de Yannely, está en
+[`escalas-items.docx`](escalas-items.docx).
 
 Regla de oro: los ítems de una escala validada se copian **textuales** del
 artículo. Si se cambia la redacción, deja de ser la escala validada.
