@@ -1,6 +1,5 @@
 project:
   type: book
-  output-dir: ../docs
 
 lang: es
 date-format: "MMMM YYYY"

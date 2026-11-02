@@ -14,7 +14,7 @@ modelo de integración de Tinto.
 |---|---|
 | [`encuesta/`](encuesta/) | Herramienta para aplicar la encuesta, en reemplazo del Google Forms. Empezar por [`encuesta/README.md`](encuesta/README.md) |
 | [`libro-psicometria-2026/`](libro-psicometria-2026/) | Libro de clases de psicometría básica: constructos, redacción de ítems, ítems invertidos y alfa de Cronbach (fuente Quarto) |
-| `docs/` | El libro ya compilado, publicado en [GitHub Pages](https://aoliveram.github.io/udec-desercion-academica/) |
+| [`docs/`](docs/) | Documentos del proyecto |
 | [`docs/reporte-yannely-2026.pdf`](docs/reporte-yannely-2026.pdf) | Encuesta FCFM 2026: constructos candidatos, ejemplo completo (UCLA-3) y calendario |
 | `informe-yannely-abandono-academico-udec.pdf` | Informe de agosto de 2026: problema, hipótesis, marco teórico y metodología |
 | [`papers/`](papers/) | Lecturas de referencia |
@@ -34,14 +34,17 @@ La encuesta se diseña editando un solo archivo, `encuesta/instrumento.py`.
 
 ## Libro de clases
 
-El libro está en `libro-psicometria-2026/` y su versión compilada en `docs/`.
-Para volver a compilarlo después de editar un capítulo (requiere
-[Quarto](https://quarto.org) y R con el paquete `psych`), desde la carpeta del
-repositorio:
+El libro está en `libro-psicometria-2026/` y se publica en
+[GitHub Pages](https://aoliveram.github.io/udec-desercion-academica/) desde la
+rama `gh-pages`. Para publicarlo de nuevo después de editar un capítulo
+(requiere [Quarto](https://quarto.org) y R con el paquete `psych`):
 
 ```bash
-quarto render libro-psicometria-2026
+cd libro-psicometria-2026
+quarto publish gh-pages
 ```
+
+Para solo verlo en local, `quarto preview libro-psicometria-2026`.
 
 ## Datos
 
