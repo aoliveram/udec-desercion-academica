@@ -1,0 +1,177 @@
+ENTRADAS QUE FALTAN EN EL GOOGLE DOCS
+Formato del documento de Yannely. Ítems copiados textuales de cada paper.
+[FALTA: ...] = el paper no trae ese dato.
+
+==========================================================================
+
+
+                                 Soledad
+
+Constructo: Soledad o aislamiento percibido.
+
+Qué capta: La experiencia desagradable de tener menos relaciones, o relaciones menos cercanas, de las que uno quisiera. No es lo mismo que estar solo/a: se puede tener muchos contactos y sentirse solo/a. Es la versión sentida del aislamiento que mide la red.
+
+Escala de referencia: UCLA-3 / TILS (Three-Item Loneliness Scale).
+
+Autores originales: Hughes, M. E., Waite, L. J., Hawkley, L. C., y Cacioppo, J. T. (2004). A short scale for measuring loneliness in large surveys. Research on Aging, 26(6), 655-672.
+
+Validación en español: Trucharte, A., et al. (2023). Three-item loneliness scale: psychometric properties and normative data of the Spanish version. Current Psychology, 42, 7466-7474. N = 1.951, muestra representativa de España.
+
+Número de ítems: 3 ítems, un factor.
+
+Formato de respuesta: 3 puntos: 1 = hardly ever, 2 = some of the time, 3 = often. [FALTA: etiquetas en español, no aparecen en el artículo]
+
+Confiabilidad reportada: α = .82.
+
+Ítems invertidos: ninguno.
+
+1.- "¿Con qué frecuencia sientes que te falta compañía?"
+2.- "¿Con qué frecuencia te sientes excluido?"
+3.- "¿Con qué frecuencia te sientes aislado de los demás?"
+
+
+                     Apoyo a la Autonomía Docente
+
+Constructo: Relación con docentes (polo positivo): apoyo a la autonomía.
+
+Qué capta: La percepción de que los docentes reconocen el punto de vista del estudiante, dan opciones y explican, en vez de controlar. Tiene respaldo chileno: actúa sobre la intención de permanencia a través de la satisfacción académica.
+
+Escala de referencia: LCQ (Learning Climate Questionnaire), forma corta LCQ-5.
+
+Autores originales: Williams, G. C., y Deci, E. L. (1996).
+
+Validación en español: Núñez, J. L., León, J., Grijalvo, F., y Martín-Albo, J. (2012). Measuring autonomy support in university students: The Spanish version of the Learning Climate Questionnaire. The Spanish Journal of Psychology, 15(3), 1466-1472. N = 422 universitarios.
+
+Número de ítems: 5 (forma corta). La forma larga tiene 15; la corta usa los ítems 4, 8, 11, 13 y 14.
+
+Formato de respuesta: Likert de 7 puntos, de 1 (strongly disagree) a 7 (strongly agree), con 4 (moderately agree) al medio. [FALTA: etiquetas en español e instrucción, no aparecen en el artículo]
+
+Confiabilidad reportada: α = .91 (forma corta); test-retest a 4 semanas r = .66.
+
+Ítems invertidos: ninguno.
+
+1.- "Mi profesor/a me transmite confianza para hacer las cosas bien en la asignatura."
+2.- "Confío mucho en mi profesor/a."
+3.- "Mi profesor/a maneja muy bien las emociones de las personas."
+4.- "Me siento muy bien con la forma en que mi profesor/a me habla."
+5.- "Mi profesor/a intenta comprender mi punto de vista antes de explicarme una nueva forma de hacer las cosas."
+
+
+                               Incivilidad
+
+Constructo: Relación con docentes (polo negativo): incivilidad.
+
+Qué capta: Trato descortés o descalificador, de baja intensidad y de intención ambigua (ignorar, interrumpir, hacer bromas a costa de alguien). Es la "perturbación" de la integración que propone el informe.
+
+Escala de referencia: WIS (Workplace Incivility Scale), versión corta de Matthews y Ritter (2016).
+
+Autores originales: Cortina, L. M., Magley, V. J., Williams, J. H., y Langhout, R. D. (2001). Incivility in the workplace: Incidence and impact. Journal of Occupational Health Psychology, 6(1), 64-80.
+
+Validación en español: Di Marco, D., Martínez-Corts, I., Arenas, A., y Gamero, N. (2018). Spanish validation of the shorter version of the Workplace Incivility Scale: An employment status invariant measure. Frontiers in Psychology, 9, 959. N = 407 trabajadores españoles (no estudiantes).
+
+Número de ítems: 4 ítems.
+
+Formato de respuesta: Likert de 5 puntos, de 1 (never) a 5 (many times), sobre el último año y referido a compañeros de trabajo o supervisores. [FALTA: instrucción y etiquetas en español, no aparecen en el artículo]
+
+Confiabilidad reportada: α = .75.
+
+Uso: no hay escala validada para universitarios. Estos ítems son la base para redactar los ítems nuevos de incivilidad docente (cambiando el referente a "docentes de la carrera").
+
+1.- "¿Ha/n prestado poca atención a sus ideas o ha/n mostrado poco interés en sus opiniones?"
+2.- "¿Le ha/n interrumpido o ha/n comenzado a hablar mientras usted hablaba?"
+3.- "¿Le ha/n ignorado o ha/n dejado de hablarle (por ejemplo: le ha/n hecho el vacío)?"
+4.- "¿Han/n hecho bromas a su costa?" [sic, así aparece en el artículo]
+
+
+==========================================================================
+CORRECCIONES A LAS ENTRADAS QUE YA ESTÁN EN EL DOCS
+Los ítems del docs no coinciden con el texto de los papers. Regla de oro:
+copiar textual. Reemplazar por estos.
+==========================================================================
+
+
+AUTOEFICACIA ACADÉMICA (ASES)
+
+- Son 8 ítems, no 9. Formato: Likert de 7 puntos (no de 5). α = .816.
+- Los 9 ítems del docs no son los del paper. Texto de Calderón Carvajal et al. (2019), Tabla 2:
+
+1.- "Sé cómo organizar mi tiempo para cumplir con una tarea académica."
+2.- "Sé cómo tomar apuntes."
+3.- "Sé cómo estudiar para que me vaya bien en una prueba."
+4.- "Soy bueno haciendo trabajos escritos y de investigación"
+5.- "Soy un muy buen estudiante."
+6.- "Normalmente obtengo muy buenas notas de mis trabajos académicos."
+7.- "Encuentro que mis actividades académicas son interesantes y apasionantes."
+8.- "Me siento seguro(a) de que podré enfrentar con éxito todas las exigencias que se me presenten en la universidad."
+
+
+SENTIDO DE PERTENENCIA (ESPU)
+
+- Formato: Likert de 7 puntos, de 1 = "nada de acuerdo" a 7 = "totalmente de acuerdo".
+- No tiene ítems invertidos. Dos factores: integración social (1-5) y orgullo (6-10). α = .83 y .78.
+- El docs usa ítems de la escala inicial de 13 (Tabla 1). Cuatro de ellos fueron eliminados en la versión final ("Me siento parte de esta universidad", "Estoy contento de estar realizando esta carrera", "Los profesores tienen un trato cordial con los estudiantes", "Me siento orgulloso de estudiar en esta universidad"). Versión final, Tabla 2:
+
+1.- "Interactúo socialmente con compañeros de clase dentro y fuera de la Universidad"
+2.- "Me siento integrado dentro de clase"
+3.- "Tengo afecto por mis compañeros"
+4.- "Tengo muchos amigos estudiando en esta Universidad"
+5.- "En la universidad me siento aceptado por los demás"
+6.- "Estaría orgulloso de apoyar a mi universidad en lo que pueda en el futuro"
+7.- "Creo que hay suficientes recursos para los estudiantes en el campus"
+8.- "Me gusta que otros sepan que estudio en esta universidad"
+9.- "Los profesores muestran interés y compromiso en el aprendizaje de los estudiantes"
+10.- "Me siento a gusto en las instalaciones de la universidad: aulas, biblioteca, cafetería"
+
+
+SATISFACCIÓN ACADÉMICA (ESA)
+
+- En el docs los ítems 1, 2, 4 y 5 están reescritos y los ítems 6 y 7 siguen diciendo "esta asignatura". Texto del paper (Vergara-Morales et al., 2018, Anexo), que se refiere a una asignatura:
+
+1.- "Estoy satisfecho con la decisión de haber cursado esta asignatura."
+2.- "Me siento cómodo con el ambiente educativo generado en esta asignatura."
+3.- "Disfruto de mis clases la mayor parte del tiempo."
+4.- "En general estoy satisfecho con mi experiencia académica."
+5.- "Disfruto cuando me estimulan intelectualmente en esta asignatura."
+6.- "Me entusiasman los contenidos transmitidos en esta asignatura."
+7.- "Me gusta lo que he aprendido en esta asignatura."
+
+- Para referirla a la carrera hay que usar la versión de Medrano et al. (2014). [FALTA: conseguir ese paper]
+
+
+COMPROMISO ACADÉMICO (UWES-9S)
+
+- La cita correcta es Frontiers in Psychology, 10, 1017 (no 838). N = 1.502. α = .900, ω = .902.
+- Varios ítems del docs pertenecen a la versión de 17, no a la de 9 ("Mis estudios tienen un significado importante para mí", "El tiempo pasa volando...", "Cuando estoy estudiando, me olvido de todo..."). Texto del Manual UWES en español, versión para estudiantes, ítems marcados como UWES-9:
+
+1.- "Mis tareas como estudiante me hacen sentir lleno de energía" (vigor)
+2.- "Me siento fuerte y vigoroso cuando estoy estudiando o voy a las clases" (vigor)
+3.- "Estoy entusiasmado con mi carrera" (dedicación)
+4.- "Mis estudios me inspiran cosas nuevas" (dedicación)
+5.- "Cuando me levanto por la mañana me apetece ir a clase o estudiar" (vigor)
+6.- "Soy feliz cuando estoy haciendo tareas relacionadas con mis estudios" (absorción)
+7.- "Estoy orgulloso de hacer esta carrera" (dedicación)
+8.- "Estoy inmerso en mis estudios" (absorción)
+9.- "Me "dejo llevar" cuando realizo mis tareas como estudiante" (absorción)
+
+- Formato: 0 Nunca (ninguna vez) / 1 Casi nunca (pocas veces al año) / 2 Algunas veces (una vez al mes o menos) / 3 Regularmente (pocas veces al mes) / 4 Bastante veces (una vez por semana) / 5 Casi siempre (pocas veces por semana) / 6 Siempre (todos los días).
+
+
+APOYO SOCIAL PERCIBIDO (MSPSS)
+
+- Autores correctos de la validación chilena: López-Angulo, Y., Pérez-Villalobos, M. V., Bernardo, A. B., Cobo Rendón, R., Sáez Delgado, F., y Díaz-Mujica, A. (2021). RIDEP, 58(1), 127-140. N = 1.975. α = .903 (familia), .928 (amigos), .864 (otros significativos).
+- Los ítems del docs son una traducción directa del inglés. Esa validación usó la versión en español de Arechabala y Miranda (2002), Ciencia y Enfermería, 8(1), 49-55. Su texto (Tabla 1):
+
+1.- "Cuando necesito algo, sé que hay alguien que me puede ayudar." (Otros significativos)
+2.- "Cuando tengo penas o alegrías, hay alguien que me puede ayudar." (Otros significativos)
+3.- "Tengo la seguridad que mi familia trata de ayudarme." (Familia)
+4.- "Mi familia me da la ayuda y apoyo emocional que requiero." (Familia)
+5.- "Hay una persona que me ofrece consuelo cuando lo necesito." (Otros significativos)
+6.- "Tengo la seguridad de que mis amigos tratan de ayudarme." (Amigos)
+7.- "Puedo contar con mis amigos cuando tengo problemas." (Amigos)
+8.- "Puedo conversar de mis problemas con mi familia." (Familia)
+9.- "Cuando tengo alegrías o penas puedo compartirlas con mis amigos" (Amigos)
+10.- "Hay una persona que se interesa por lo que yo siento." (Otros significativos)
+11.- "Mi familia me ayuda a tomar decisiones" (Familia)
+12.- "Puedo conversar de mis problemas con mis amigos." (Amigos)
+
+- Ojo: López-Angulo cita dos ítems con otra redacción ("...trata de apoyarme"; "Cuando necesito ayuda, sé que hay alguien que me puede apoyar"). [FALTA: su versión completa, pedirla a los autores]
