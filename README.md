@@ -16,7 +16,7 @@ modelo de integración de Tinto.
 | [`libro-psicometria-2026/`](libro-psicometria-2026/) | Libro de clases de psicometría básica: constructos, redacción de ítems, ítems invertidos y alfa de Cronbach (fuente Quarto) |
 | [`docs/`](docs/) | Documentos del proyecto |
 | [`docs/reporte-yannely-2026.pdf`](docs/reporte-yannely-2026.pdf) ([md](docs/reporte-yannely-2026.md)) | Encuesta FCFM 2026: constructos candidatos, ejemplo completo (UCLA-3) y calendario |
-| [`docs/programa-curso-2026.pdf`](docs/programa-curso-2026.pdf) ([md](docs/programa-curso-2026.md)) | Programa del curso guiado: horario de reuniones e hitos |
+| [`docs/programa-curso-2026.pdf`](docs/programa-curso-2026.pdf) | Programa del curso guiado: horario de reuniones e hitos |
 | `informe-yannely-abandono-academico-udec.pdf` | Informe de agosto de 2026: problema, hipótesis, marco teórico y metodología |
 | [`papers/`](papers/) | Lecturas de referencia |
 | `Notas.txt` | Notas y tareas de trabajo |
