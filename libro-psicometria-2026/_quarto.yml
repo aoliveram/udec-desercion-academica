@@ -17,6 +17,7 @@ book:
     - index.qmd
     - 01-constructos-e-items.qmd
     - 02-confiabilidad-y-alfa.qmd
+    - 03-analisis-factorial.qmd
     - referencias.qmd
   appendices:
     - vocabulario.qmd

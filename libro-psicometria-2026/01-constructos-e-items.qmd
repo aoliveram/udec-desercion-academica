@@ -14,7 +14,7 @@ Nadie observa la ansiedad de una estudiante, su sentido de pertenencia o sus gan
 | Sección | Contenido |
 |---|---|
 | 1. Constructos | Qué es una variable latente y por qué se mide con varios ítems |
-| 2. Definir | La definición que guía la redacción: facetas, límites, población |
+| 2. Definir | La definición que guía la redacción: dimensiones, límites, población |
 | 3. Redactar | Ocho reglas, con ejemplos malos y mejores |
 | 4. Responder | La escala Likert y el puntaje de la escala |
 | 5. Ítems invertidos | Para qué sirven, qué cuestan y cómo se recodifican |
@@ -83,13 +83,13 @@ Con una sola pregunta, $\theta$ y $\varepsilon$ quedan mezclados y no hay forma 
 Los ítems salen de la definición, no al revés. Una **definición operacional** útil responde cuatro preguntas.
 
 1. **Qué es.** La ansiedad ante los exámenes es el malestar que aparece antes o durante una evaluación por anticipar un mal resultado.
-2. **Qué facetas tiene.** Desde Liebert & Morris (1967) se distinguen dos: la **preocupación**, que es cognitiva (pensar que vas a reprobar, que te vas a quedar en blanco), y la **emocionalidad**, que es fisiológica (palpitaciones, tensión, malestar estomacal). Una escala que cubre solo una faceta mide un constructo más angosto que el que dice medir.
+2. **Qué dimensiones tiene.** Desde Liebert & Morris (1967) se distinguen dos: la **preocupación**, que es cognitiva (pensar que vas a reprobar, que te vas a quedar en blanco), y la **emocionalidad**, que es fisiológica (palpitaciones, tensión, malestar estomacal). Una escala que cubre solo una dimensión mide un constructo más angosto que el que dice medir. El [capítulo 3](03-analisis-factorial.qmd) muestra cómo se comprueba que las dimensiones están en los datos.
 3. **Qué no es.** No es estudiar poco ni tener un profesor que explica mal. Esas cosas pueden *causar* ansiedad o *acompañarla*, pero son otros constructos. Escribir los límites evita que se cuelen ítems ajenos (en el capítulo 2 veremos qué le hacen al alfa).
 4. **En quién y cuándo.** Estudiantes universitarios, frente a las evaluaciones del semestre. El marco temporal entra en la redacción: «antes de un examen», «la noche previa».
 
-Con esa definición, cuatro ítems que cubren las dos facetas:
+Con esa definición, cuatro ítems que cubren las dos dimensiones:
 
-| Faceta | Ítem |
+| Dimensión | Ítem |
 |---|---|
 | Emocionalidad | «Siento palpitaciones o tensión muscular minutos antes de iniciar un examen.» |
 | Preocupación | «Me cuesta concentrarme la noche previa a una prueba por el temor a reprobar.» |

@@ -8,17 +8,35 @@
 
 ## Por capítulo
 
-**Del constructo a los ítems.** Liebert & Morris (1967) sobre las dos facetas de la ansiedad ante los exámenes; Likert (1932); Lietz (2010) y Muñiz & Fonseca-Pedrero (2019) sobre redacción; Weijters & Baumgartner (2012) y Suárez-Alvarez et al. (2018) sobre ítems invertidos; Muñiz, Elosua & Hambleton (2013) sobre traducción y adaptación.
+**Del constructo a los ítems.** Liebert & Morris (1967) sobre las dos dimensiones de la ansiedad ante los exámenes; Likert (1932); Lietz (2010) y Muñiz & Fonseca-Pedrero (2019) sobre redacción; Weijters & Baumgartner (2012) y Suárez-Alvarez et al. (2018) sobre ítems invertidos; Muñiz, Elosua & Hambleton (2013) sobre traducción y adaptación.
 
 **Confiabilidad y alfa de Cronbach.** Cronbach (1951); Nunnally (1978) y Lance, Butts & Michels (2006) sobre los puntos de corte; Cortina (1993) y Sijtsma (2009) sobre lo que alfa no dice; McNeish (2018) sobre omega; Revelle (2025) para el paquete `psych`.
 
+**Análisis factorial.** Horn (1965) sobre el análisis paralelo; Fabrigar et al. (1999) sobre el AFE; Brown (2015) sobre el AFC y Rosseel (2012) para `lavaan`; Hu & Bentler (1999) sobre los índices de ajuste; Reise (2012) sobre el modelo bifactor; Putnick & Bornstein (2016) sobre invarianza; AERA, APA & NCME (2014) sobre validez; Wolf et al. (2013) sobre tamaño de muestra; Calderón Carvajal et al. (2019), Schaufeli, Bakker & Salanova (2006), Zimet et al. (1988) y Núñez et al. (2012) sobre las escalas de la encuesta; Borsboom & Cramer (2013), Golino & Epskamp (2017) y Marsman et al. (2018) sobre psicometría de redes.
+
 ## Lista completa
+
+American Educational Research Association, American Psychological Association, & National Council on Measurement in Education. (2014). *Standards for educational and psychological testing*. American Educational Research Association.
+
+Borsboom, D., & Cramer, A. O. J. (2013). Network analysis: An integrative approach to the structure of psychopathology. *Annual Review of Clinical Psychology, 9*, 91–121. <https://doi.org/10.1146/annurev-clinpsy-050212-185608>
+
+Brown, T. A. (2015). *Confirmatory factor analysis for applied research* (2nd ed.). Guilford Press.
+
+Calderón Carvajal, C., Carreño Mendoza, B., Micin Carvallo, S., & Urzúa Martínez, S. (2019). Estructura interna e invarianza métrica de la escala de autoeficacia académica ASES. *Salud & Sociedad, 10*(2), 164–172.
 
 Cortina, J. M. (1993). What is coefficient alpha? An examination of theory and applications. *Journal of Applied Psychology, 78*(1), 98–104. <https://doi.org/10.1037/0021-9010.78.1.98>
 
 Cronbach, L. J. (1951). Coefficient alpha and the internal structure of tests. *Psychometrika, 16*(3), 297–334. <https://doi.org/10.1007/BF02310555>
 
 DeVellis, R. F., & Thorpe, C. T. (2022). *Scale development: Theory and applications* (5th ed.). SAGE.
+
+Fabrigar, L. R., Wegener, D. T., MacCallum, R. C., & Strahan, E. J. (1999). Evaluating the use of exploratory factor analysis in psychological research. *Psychological Methods, 4*(3), 272–299. <https://doi.org/10.1037/1082-989X.4.3.272>
+
+Golino, H. F., & Epskamp, S. (2017). Exploratory graph analysis: A new approach for estimating the number of dimensions in psychological research. *PLOS ONE, 12*(6), e0174035. <https://doi.org/10.1371/journal.pone.0174035>
+
+Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. *Psychometrika, 30*(2), 179–185. <https://doi.org/10.1007/BF02289447>
+
+Hu, L., & Bentler, P. M. (1999). Cutoff criteria for fit indexes in covariance structure analysis: Conventional criteria versus new alternatives. *Structural Equation Modeling, 6*(1), 1–55. <https://doi.org/10.1080/10705519909540118>
 
 Lance, C. E., Butts, M. M., & Michels, L. C. (2006). The sources of four commonly reported cutoff criteria: What did they really say? *Organizational Research Methods, 9*(2), 202–220. <https://doi.org/10.1177/1094428105284919>
 
@@ -28,18 +46,34 @@ Lietz, P. (2010). Research into questionnaire design: A summary of the literatur
 
 Likert, R. (1932). A technique for the measurement of attitudes. *Archives of Psychology, 22*(140), 1–55.
 
+Marsman, M., Borsboom, D., Kruis, J., Epskamp, S., van Bork, R., Waldorp, L. J., van der Maas, H. L. J., & Maris, G. (2018). An introduction to network psychometrics: Relating Ising network models to item response theory models. *Multivariate Behavioral Research, 53*(1), 15–35. <https://doi.org/10.1080/00273171.2017.1379379>
+
 McNeish, D. (2018). Thanks coefficient alpha, we'll take it from here. *Psychological Methods, 23*(3), 412–433. <https://doi.org/10.1037/met0000144>
 
 Muñiz, J., Elosua, P., & Hambleton, R. K. (2013). Directrices para la traducción y adaptación de los tests: segunda edición. *Psicothema, 25*(2), 151–157. <https://doi.org/10.7334/psicothema2013.24>
 
 Muñiz, J., & Fonseca-Pedrero, E. (2019). Diez pasos para la construcción de un test. *Psicothema, 31*(1), 7–16. <https://doi.org/10.7334/psicothema2018.291>
 
+Núñez, J. L., León, J., Grijalvo, F., & Martín-Albo, J. (2012). Measuring autonomy support in university students: The Spanish version of the Learning Climate Questionnaire. *The Spanish Journal of Psychology, 15*(3), 1466–1472. <https://doi.org/10.5209/rev_SJOP.2012.v15.n3.39430>
+
 Nunnally, J. C. (1978). *Psychometric theory* (2nd ed.). McGraw-Hill.
 
+Putnick, D. L., & Bornstein, M. H. (2016). Measurement invariance conventions and reporting: The state of the art and future directions for psychological research. *Developmental Review, 41*, 71–90. <https://doi.org/10.1016/j.dr.2016.06.004>
+
+Reise, S. P. (2012). The rediscovery of bifactor measurement models. *Multivariate Behavioral Research, 47*(5), 667–696. <https://doi.org/10.1080/00273171.2012.715555>
+
 Revelle, W. (2025). *psych: Procedures for psychological, psychometric, and personality research* (R package version 2.5.3). Northwestern University. <https://CRAN.R-project.org/package=psych>
+
+Rosseel, Y. (2012). lavaan: An R package for structural equation modeling. *Journal of Statistical Software, 48*(2), 1–36. <https://doi.org/10.18637/jss.v048.i02>
+
+Schaufeli, W. B., Bakker, A. B., & Salanova, M. (2006). The measurement of work engagement with a short questionnaire: A cross-national study. *Educational and Psychological Measurement, 66*(4), 701–716. <https://doi.org/10.1177/0013164405282471>
 
 Sijtsma, K. (2009). On the use, the misuse, and the very limited usefulness of Cronbach's alpha. *Psychometrika, 74*(1), 107–120. <https://doi.org/10.1007/s11336-008-9101-0>
 
 Suárez-Alvarez, J., Pedrosa, I., Lozano, L. M., García-Cueto, E., Cuesta, M., & Muñiz, J. (2018). Using reversed items in Likert scales: A questionable practice. *Psicothema, 30*(2), 149–158. <https://doi.org/10.7334/psicothema2018.33>
 
 Weijters, B., & Baumgartner, H. (2012). Misresponse to reversed and negated items in surveys: A review. *Journal of Marketing Research, 49*(5), 737–747. <https://doi.org/10.1509/jmr.11.0368>
+
+Wolf, E. J., Harrington, K. M., Clark, S. L., & Miller, M. W. (2013). Sample size requirements for structural equation models: An evaluation of power, bias, and solution propriety. *Educational and Psychological Measurement, 73*(6), 913–934. <https://doi.org/10.1177/0013164413495237>
+
+Zimet, G. D., Dahlem, N. W., Zimet, S. G., & Farley, G. K. (1988). The Multidimensional Scale of Perceived Social Support. *Journal of Personality Assessment, 52*(1), 30–41. <https://doi.org/10.1207/s15327752jpa5201_2>

@@ -13,7 +13,7 @@ modelo de integración de Tinto.
 | Carpeta o archivo | Qué es |
 |---|---|
 | [`encuesta/`](encuesta/) | Herramienta para aplicar la encuesta, en reemplazo del Google Forms. Empezar por [`encuesta/README.md`](encuesta/README.md) |
-| [`libro-psicometria-2026/`](libro-psicometria-2026/) | Libro de clases de psicometría básica: constructos, redacción de ítems, ítems invertidos y alfa de Cronbach (fuente Quarto) |
+| [`libro-psicometria-2026/`](libro-psicometria-2026/) | Libro de clases de psicometría básica: constructos, redacción de ítems, ítems invertidos, alfa de Cronbach y análisis factorial (fuente Quarto) |
 | [`docs/`](docs/) | Documentos del proyecto |
 | [`docs/reporte-yannely-2026.pdf`](docs/reporte-yannely-2026.pdf) ([md](docs/reporte-yannely-2026.md)) | Encuesta FCFM 2026: constructos candidatos, ejemplo completo (UCLA-3) y calendario |
 | [`docs/programa-curso-2026.pdf`](docs/programa-curso-2026.pdf) | Programa del curso guiado: horario de reuniones e hitos |
@@ -38,7 +38,7 @@ La encuesta se diseña editando un solo archivo, `encuesta/instrumento.py`.
 El libro está en `libro-psicometria-2026/` y se publica en
 [GitHub Pages](https://aoliveram.github.io/udec-desercion-academica/) desde la
 rama `gh-pages`. Para publicarlo de nuevo después de editar un capítulo
-(requiere [Quarto](https://quarto.org) y R con el paquete `psych`):
+(requiere [Quarto](https://quarto.org) y R con los paquetes `psych`, `GPArotation`, `lavaan`, `semTools`, `qgraph` y `EGAnet`):
 
 ```bash
 cd libro-psicometria-2026

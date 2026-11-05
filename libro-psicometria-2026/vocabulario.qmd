@@ -11,7 +11,7 @@ En psicometría muchos conceptos tienen **más de un nombre**: el de los manuale
 | **Escala** | instrumento, test, cuestionario, *scale* | Conjunto de ítems que miden un mismo constructo y se combinan en un puntaje. |
 | **Carga** | *loading*, $\lambda$ | Cuánto depende un ítem del constructo. |
 | **Definición operacional** | definición del constructo | Qué es y qué no es el constructo, escrito de modo que guíe la redacción de los ítems. |
-| **Faceta** | dimensión, componente, subescala | Parte del constructo que conviene cubrir con ítems propios (preocupación y emocionalidad, en la ansiedad ante los exámenes). |
+| **Dimensión** | faceta, componente | Parte del constructo que la teoría distingue y que se cubre con ítems propios (preocupación y emocionalidad, en la ansiedad ante los exámenes). |
 | **Escala Likert** | escala de acuerdo, *rating scale* | Afirmaciones respondidas en categorías ordenadas, de *Muy en desacuerdo* a *Muy de acuerdo*. |
 | **Ítem doble** | *double-barreled* | Ítem con dos ideas, que no se puede responder si solo una es cierta. |
 | **Ítem invertido** | inverso, *reverse-keyed*, *reversed item* | Ítem en que estar de acuerdo indica menos del constructo. |
@@ -36,3 +36,24 @@ En psicometría muchos conceptos tienen **más de un nombre**: el de los manuale
 | **Omega de McDonald** | $\omega$, `omega.tot` | Alternativa a alfa que permite que cada ítem tenga una carga distinta. |
 | **Validez** | *validity* | Que la escala mida el constructo que dice medir. Se argumenta con contenido y con relaciones con otras variables. |
 | **Test-retest** | estabilidad temporal | Confiabilidad estimada como la correlación entre dos aplicaciones a las mismas personas. |
+
+## Estructura
+
+| Concepto | También llamado | En una frase |
+|---|---|---|
+| **Factor** | variable latente, $\theta$, *factor* | Una dimensión convertida en variable dentro del modelo estadístico. |
+| **Subescala** | *subscale* | Los ítems de una dimensión, y su puntaje. |
+| **Carga cruzada** | *cross-loading* | Carga importante de un ítem en un factor que no es el suyo. |
+| **Estructura simple** | *simple structure* | Cada ítem carga en un solo factor. Lo que se espera de una escala bien construida. |
+| **Análisis paralelo** | *parallel analysis*, `fa.parallel` | Cuenta los factores que explican más que datos al azar. |
+| **Análisis factorial exploratorio** | AFE, *EFA* | Estima todas las cargas sin decirle al modelo qué ítem va con qué factor. |
+| **Análisis factorial confirmatorio** | AFC, *CFA* | Prueba si una estructura declarada de antemano es compatible con los datos. |
+| **Rotación oblicua** | oblimin, promax | Permite que los factores correlacionen. La ortogonal (varimax) lo prohíbe. |
+| **Correlación policórica** | *polychoric*, `cor = "poly"` | Correlación para ítems ordinales, como si se respondieran en una escala continua. |
+| **Índices de ajuste** | CFI, TLI, RMSEA, SRMR | Cuánto se parecen las correlaciones predichas por el modelo a las observadas. |
+| **Factor general** | factor de segundo orden, *g* | El constructo completo en el modelo: explica por qué correlacionan los factores. |
+| **Modelo bifactor** | *bifactor* | Cada ítem depende del factor general y de un factor específico de su dimensión. |
+| **Invarianza de medición** | *measurement invariance* (configural, métrica, escalar) | Que la escala mida lo mismo en distintos grupos. Necesaria para comparar promedios. |
+| **Forma corta** | versión abreviada, *short form* | Subconjunto de ítems validado como escala propia, como la LCQ-5. |
+| **Psicometría de redes** | *network psychometrics* | Los ítems se influyen entre sí; no se supone un constructo que los cause. |
+| **EGA** | *exploratory graph analysis* | Cuenta dimensiones como comunidades de una red de ítems. |
