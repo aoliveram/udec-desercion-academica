@@ -346,7 +346,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Bienvenida</span></a>
+ <span class="menu-text">Hola!</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -400,7 +400,7 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#los-datos" id="toc-los-datos" class="nav-link active" data-scroll-target="#los-datos"><span class="header-section-number">2.1</span> Los datos</a></li>
+  <li><a href="#datos-simulados" id="toc-datos-simulados" class="nav-link active" data-scroll-target="#datos-simulados"><span class="header-section-number">2.1</span> Datos simulados</a></li>
   <li><a href="#confiabilidad" id="toc-confiabilidad" class="nav-link" data-scroll-target="#confiabilidad"><span class="header-section-number">2.2</span> Confiabilidad</a>
   <ul class="collapse">
   <li><a href="#puntaje-observado-verdadero-error" id="toc-puntaje-observado-verdadero-error" class="nav-link" data-scroll-target="#puntaje-observado-verdadero-error"><span class="header-section-number">2.2.1</span> Puntaje observado = verdadero + error</a></li>
@@ -411,9 +411,9 @@ window.Quarto = {
   <li><a href="#la-fórmula" id="toc-la-fórmula" class="nav-link" data-scroll-target="#la-fórmula"><span class="header-section-number">2.3.1</span> La fórmula</a></li>
   <li><a href="#a-mano" id="toc-a-mano" class="nav-link" data-scroll-target="#a-mano"><span class="header-section-number">2.3.2</span> A mano</a></li>
   <li><a href="#con-psychalpha" id="toc-con-psychalpha" class="nav-link" data-scroll-target="#con-psychalpha"><span class="header-section-number">2.3.3</span> Con <code>psych::alpha</code></a></li>
-  <li><a href="#cuánto-es-suficiente" id="toc-cuánto-es-suficiente" class="nav-link" data-scroll-target="#cuánto-es-suficiente"><span class="header-section-number">2.3.4</span> ¿Cuánto es suficiente?</a></li>
+  <li><a href="#thumb-rule" id="toc-thumb-rule" class="nav-link" data-scroll-target="#thumb-rule"><span class="header-section-number">2.3.4</span> Thumb rule</a></li>
   </ul></li>
-  <li><a href="#cómo-se-rompe-el-alfa" id="toc-cómo-se-rompe-el-alfa" class="nav-link" data-scroll-target="#cómo-se-rompe-el-alfa"><span class="header-section-number">2.4</span> Cómo se rompe el alfa</a>
+  <li><a href="#cómo-se-arruina-un-alfa" id="toc-cómo-se-arruina-un-alfa" class="nav-link" data-scroll-target="#cómo-se-arruina-un-alfa"><span class="header-section-number">2.4</span> Cómo se arruina un alfa</a>
   <ul class="collapse">
   <li><a href="#mezclar-constructos" id="toc-mezclar-constructos" class="nav-link" data-scroll-target="#mezclar-constructos"><span class="header-section-number">2.4.1</span> Mezclar constructos</a></li>
   <li><a href="#olvidar-invertir" id="toc-olvidar-invertir" class="nav-link" data-scroll-target="#olvidar-invertir"><span class="header-section-number">2.4.2</span> Olvidar invertir</a></li>
@@ -431,7 +431,6 @@ window.Quarto = {
   <li><a href="#no-dice-que-mida-lo-que-crees" id="toc-no-dice-que-mida-lo-que-crees" class="nav-link" data-scroll-target="#no-dice-que-mida-lo-que-crees"><span class="header-section-number">2.6.3</span> No dice que mida lo que crees</a></li>
   <li><a href="#es-de-tu-muestra-no-del-instrumento" id="toc-es-de-tu-muestra-no-del-instrumento" class="nav-link" data-scroll-target="#es-de-tu-muestra-no-del-instrumento"><span class="header-section-number">2.6.4</span> Es de tu muestra, no del instrumento</a></li>
   </ul></li>
-  <li><a href="#en-tu-encuesta" id="toc-en-tu-encuesta" class="nav-link" data-scroll-target="#en-tu-encuesta"><span class="header-section-number">2.7</span> En tu encuesta</a></li>
   </ul>
 </nav>
     </div>
@@ -480,7 +479,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>¿Mis preguntas miden lo mismo?</strong> El alfa de Cronbach responde una parte de esa pregunta: si los ítems <strong>covarían en la misma dirección</strong>. Lo calcularemos a mano, lo romperemos a propósito de tres formas y lo usaremos para encontrar los ítems que sobran o que faltó invertir.</p>
+<p><strong>¿Mis preguntas miden <em>“lo mismo”</em>?</strong> El alfa de Cronbach responde si los ítems <strong>covarían en la misma dirección</strong>. Lo usaremos para encontrar los ítems que sobran o que faltó invertir.</p>
 </div>
 </div>
 <table class="caption-top table">
@@ -498,7 +497,7 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td>1. Los datos</td>
+<td>1. Datos simulados</td>
 <td>Siete ítems fabricados, con su verdad conocida</td>
 <td>Simulación</td>
 </tr>
@@ -527,23 +526,25 @@ window.Quarto = {
 <td>Unidimensionalidad, número de ítems, validez, muestra</td>
 <td>Simulación</td>
 </tr>
-<tr class="odd">
-<td>7. En tu encuesta</td>
-<td>De <code>nodos.csv</code> al alfa, en R y en Python</td>
-<td>Exportación</td>
-</tr>
 </tbody>
 </table>
+<p>Usaremos el paquete <code>psych</code> de R, que incluye la función <code>alpha()</code> y <code>corPlot()</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)     <span class="co"># alpha() y corPlot()</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="los-datos" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="los-datos"><span class="header-section-number">2.1</span> Los datos</h2>
-<p>Fabricamos 300 estudiantes. A diferencia de una encuesta real, aquí <strong>sabemos cómo se generaron</strong>: tres constructos latentes (ansiedad ante los exámenes, estrategias de estudio y percepción de la docencia), levemente correlacionados, y siete ítems Likert construidos con el modelo del capítulo 1, <span class="math inline">\(X_j = \lambda_j\theta + \varepsilon_j\)</span>, cortado en cinco categorías.</p>
+<section id="datos-simulados" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="datos-simulados"><span class="header-section-number">2.1</span> Datos simulados</h2>
+<p>Fabricamos 300 estudiantes. A diferencia de una encuesta real, aquí <strong>sabemos qué es lo que genera esas respuestas</strong>; los constructos latentes:</p>
+<ol type="1">
+<li>ansiedad ante los exámenes,</li>
+<li>estrategias de estudio, y</li>
+<li>percepción de la docencia</li>
+</ol>
+<p>Ellos estarán <em>levemente correlacionados</em>. En total, usaremos siete ítems.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 22%">
+<col style="width: 44%">
 <col style="width: 33%">
 </colgroup>
 <thead>
@@ -591,6 +592,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+<p>Simulamos los datos:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">300</span>                                               <span class="co"># estudiantes</span></span>
@@ -615,7 +617,7 @@ window.Quarto = {
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">ans_estomago =</span> <span class="fu">item</span>(verdad<span class="sc">$</span>ansiedad, <span class="fl">0.72</span>),</span>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">est_resumen  =</span> <span class="fu">item</span>(verdad<span class="sc">$</span>estudio,  <span class="fl">0.80</span>),</span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">doc_rapido   =</span> <span class="fu">item</span>(verdad<span class="sc">$</span>docencia, <span class="fl">0.80</span>),</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">ans_disfruto =</span> <span class="fu">item</span>(<span class="sc">-</span>verdad<span class="sc">$</span>ansiedad, <span class="fl">0.75</span>)          <span class="co"># invertido: depende de −ansiedad</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">ans_disfruto =</span> <span class="fu">item</span>(<span class="sc">-</span>verdad<span class="sc">$</span>ansiedad, <span class="fl">0.75</span>) <span class="co"># invertido: depende de −ansiedad</span></span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(d, <span class="st">"datos/ansiedad_examenes.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d, <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
@@ -630,21 +632,23 @@ window.Quarto = {
 3            4</code></pre>
 </div>
 </div>
-<p><code>d</code> es lo que tendríamos en una encuesta real. <code>verdad</code> es lo que nunca tenemos: el nivel verdadero de cada constructo en cada persona.</p>
+<p>Aquí, <code>d</code> es lo que tendríamos en una encuesta, pero <code>verdad</code> nivel <em>verdadero</em> de cada constructo en cada persona.</p>
 </section>
 <section id="confiabilidad" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="confiabilidad"><span class="header-section-number">2.2</span> Confiabilidad</h2>
 <section id="puntaje-observado-verdadero-error" class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="puntaje-observado-verdadero-error"><span class="header-section-number">2.2.1</span> Puntaje observado = verdadero + error</h3>
-<p>La <strong>teoría clásica de los tests</strong> parte de una idea simple: el puntaje que observamos (<span class="math inline">\(X\)</span>) es la suma de un puntaje verdadero (<span class="math inline">\(T\)</span>) y un error (<span class="math inline">\(E\)</span>) que no tiene que ver con el constructo,</p>
+<p>En la <strong>teoría clásica de los tests</strong>, el puntaje que observamos (<span class="math inline">\(X\)</span>) es la suma de un puntaje verdadero (<span class="math inline">\(T\)</span>) y un error (<span class="math inline">\(E\)</span>) sin relación con el constructo,</p>
 <p><span class="math display">\[
 X = T + E.
 \]</span></p>
-<p>La <strong>confiabilidad</strong> es qué fracción de la varianza observada es varianza verdadera:</p>
+<p>La <strong>confiabilidad</strong> (<span class="math inline">\(\rho\)</span>) es la fracción de la varianza observada que es varianza verdadera:</p>
 <p><span class="math display">\[
 \rho = \frac{\operatorname{Var}(T)}{\operatorname{Var}(X)}.
 \]</span></p>
-<p>Vale 1 si no hay error y 0 si el puntaje es puro ruido. En los datos reales <span class="math inline">\(T\)</span> no se conoce, así que la confiabilidad se <em>estima</em>. En los nuestros sí lo conocemos, y podemos ver directamente qué pasa al agregar ítems.</p>
+<p>Vale 1 si no hay error y 0 si el puntaje es puro ruido. Pero hay un problema: <strong><span class="math inline">\(T\)</span> no se observa</strong>, así que <span class="math inline">\(\rho\)</span> no se puede calcular, solo <em>estimar</em>.</p>
+<p>Eso es lo que hace el alfa de Cronbach: <strong>es una estimación de <span class="math inline">\(\rho\)</span></strong>.</p>
+<p>En nuestros datos simulados sí conocemos <span class="math inline">\(T\)</span>, así que podemos comparar la estimación con la verdad.</p>
 </section>
 <section id="por-qué-promediar-ayuda" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="por-qué-promediar-ayuda"><span class="header-section-number">2.2.2</span> Por qué promediar ayuda</h3>
@@ -659,8 +663,35 @@ X = T + E.
      0.78      0.85      0.91 </code></pre>
 </div>
 </div>
-<p>Un ítem solo correlaciona 0.78 con la ansiedad verdadera; el promedio de cuatro, 0.91. Son los cuatro termómetros del capítulo 1: los errores de cada ítem se compensan en parte y el promedio queda más cerca de lo que se quiere medir.</p>
-<p>El problema es que en una encuesta real no existe la tabla <code>verdad</code>. Solo tenemos los ítems. La idea de Cronbach (1951) es usar lo único disponible: si los ítems miden lo mismo, tienen que <strong>moverse juntos</strong>, y cuánto se mueven juntos dice cuánto del puntaje es constructo compartido.</p>
+<p>Un ítem solo correlaciona 0.78 con la ansiedad verdadera; el promedio de cuatro, 0.91.</p>
+<p>La correlación con <code>verdad</code> es una medida de confiabilidad: a más ítems, más cerca de 1. Pero en una encuesta real no existe la tabla <code>verdad</code>, así que no podemos calcular <span class="math inline">\(\rho\)</span>.</p>
+<p>La idea de Cronbach (1951) es usar los ítems y ver si se <strong>mueven juntos</strong>. Si lo hacen, el puntaje total varía más que la suma de sus partes, y eso es lo que mide el alfa.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(\rho\)</span> (confiabilidad)</th>
+<th><span class="math inline">\(\alpha\)</span> (alfa de Cronbach)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Qué es</td>
+<td>Fracción de la varianza que es constructo</td>
+<td>Estimación de <span class="math inline">\(\rho\)</span> a partir de los ítems</td>
+</tr>
+<tr class="even">
+<td>Necesita</td>
+<td><span class="math inline">\(T\)</span>, que no se observa</td>
+<td>Solo las respuestas</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <section id="alfa-de-cronbach" class="level2" data-number="2.3">
@@ -685,7 +716,7 @@ s_X^2 = \sum_{j} s_j^2 + 2\sum_{j&lt;l} s_{jl}.
 </section>
 <section id="a-mano" class="level3" data-number="2.3.2">
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="a-mano"><span class="header-section-number">2.3.2</span> A mano</h3>
-<p>El set bueno: los cuatro ítems de ansiedad.</p>
+<p>Con los cuatro ítems de ansiedad.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> d[, <span class="fu">c</span>(<span class="st">"ans_palpita"</span>, <span class="st">"ans_noche"</span>, <span class="st">"ans_blanco"</span>, <span class="st">"ans_estomago"</span>)]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(A), <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
@@ -697,7 +728,7 @@ ans_blanco          0.61      0.53       1.00         0.61
 ans_estomago        0.58      0.57       0.61         1.00</code></pre>
 </div>
 </div>
-<p>Todas las correlaciones son positivas y parecidas. Ahora la fórmula, término a término:</p>
+<p>La fórmula término a término:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>k         <span class="ot">&lt;-</span> <span class="fu">ncol</span>(A)                     <span class="co"># número de ítems</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>var_items <span class="ot">&lt;-</span> <span class="fu">apply</span>(A, <span class="dv">2</span>, var)            <span class="co"># varianza de cada ítem</span></span>
@@ -748,21 +779,21 @@ ans_blanco   0.08 0.29 0.29 0.23 0.11    0
 ans_estomago 0.10 0.27 0.34 0.22 0.07    0</code></pre>
 </div>
 </div>
-<p>La salida es larga, y es la misma que verás con tus datos. Cuatro cosas importan:</p>
+<p>Cuatro cosas importan:</p>
 <ol type="1">
-<li><strong><code>raw_alpha</code></strong>: el alfa que calculamos a mano, 0.85. <code>std.alpha</code> es la misma idea con correlaciones en vez de covarianzas; casi siempre da parecido.</li>
+<li><strong><code>raw_alpha</code></strong>: el alfa que calculamos a mano, 0.85.</li>
 <li><strong><code>average_r</code></strong>: la correlación promedio entre ítems, 0.58.</li>
 <li><strong>Reliability if an item is dropped</strong>: el alfa que quedaría si se saca cada ítem. Aquí todos bajan, o sea, todos aportan.</li>
 <li><strong>Item statistics, columna <code>r.drop</code></strong>: la correlación de cada ítem con la suma de los <em>demás</em>. La veremos en la sección de diagnóstico.</li>
 </ol>
 <p>Un alfa de 0.85 es alto: los cuatro ítems covarían fuerte y en la misma dirección.</p>
 </section>
-<section id="cuánto-es-suficiente" class="level3" data-number="2.3.4">
-<h3 data-number="2.3.4" class="anchored" data-anchor-id="cuánto-es-suficiente"><span class="header-section-number">2.3.4</span> ¿Cuánto es suficiente?</h3>
+<section id="thumb-rule" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="thumb-rule"><span class="header-section-number">2.3.4</span> Thumb rule</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 33%">
+<col style="width: 66%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -793,12 +824,12 @@ ans_estomago 0.10 0.27 0.34 0.22 0.07    0</code></pre>
 </tr>
 </tbody>
 </table>
-<p>Estos cortes son convenciones, no leyes. El famoso 0.70 viene de Nunnally (1978), que lo consideraba suficiente para las etapas tempranas de una investigación y pedía bastante más (0.90 o más) cuando la escala se usa para tomar decisiones sobre personas. Muchos lo citan sin esa distinción (Lance, Butts &amp; Michels 2006).</p>
+<p>Estos cortes son solo convenciones. El famoso 0.70 viene de Nunnally (1978), que lo consideraba suficiente para las etapas tempranas de una investigación, pero pedía 0.90 o más para tomar decisiones sobre personas. Muchos usan 0.70 como criterio general (Lance, Butts &amp; Michels 2006).</p>
 <p><em>Pregunta 4. El paper de validación de una escala reporta α = 0.82. ¿Significa eso que en tu encuesta la escala tendrá α = 0.82?</em></p>
 </section>
 </section>
-<section id="cómo-se-rompe-el-alfa" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="cómo-se-rompe-el-alfa"><span class="header-section-number">2.4</span> Cómo se rompe el alfa</h2>
+<section id="cómo-se-arruina-un-alfa" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="cómo-se-arruina-un-alfa"><span class="header-section-number">2.4</span> Cómo se arruina un alfa</h2>
 <section id="mezclar-constructos" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="mezclar-constructos"><span class="header-section-number">2.4.1</span> Mezclar constructos</h3>
 <p>Tomamos dos ítems de ansiedad y les agregamos uno de estrategias de estudio y uno de percepción de la docencia:</p>
@@ -864,7 +895,7 @@ To do this, run the function again with the 'check.keys=TRUE' option</code></pre
 <pre><code>[1] -0.3157077</code></pre>
 </div>
 </div>
-<p>El alfa es <strong>negativo</strong>: -0.32. Un alfa negativo no se puede leer como confiabilidad; es una alarma de que las covarianzas entre ítems suman menos que cero. Casi siempre significa un ítem invertido sin recodificar. <code>psych</code> lo detecta y avisa (<em>“Some items ( ans_disfruto ) were negatively correlated… and probably should be reversed”</em>), y conviene leer ese aviso en vez de ignorarlo.</p>
+<p>El alfa es <strong>negativo</strong>: -0.32. Casi siempre significa un ítem invertido sin recodificar. <code>psych</code> lo detecta y avisa (<em>“Some items ( ans_disfruto ) were negatively correlated… and probably should be reversed”</em>), y conviene leer ese aviso en vez de ignorarlo.</p>
 </section>
 </section>
 <section id="diagnóstico-ítem-por-ítem" class="level2" data-number="2.5">
@@ -894,84 +925,6 @@ Figura&nbsp;2.1: Correlaciones entre los siete ítems. Azul = positiva, rojo = n
 <section id="alfa-si-se-elimina" class="level3" data-number="2.5.2">
 <h3 data-number="2.5.2" class="anchored" data-anchor-id="alfa-si-se-elimina"><span class="header-section-number">2.5.2</span> Alfa si se elimina</h3>
 <p>El <strong>alfa si se elimina</strong> el ítem es el alfa recalculado sin él. Si sube claramente sobre el alfa actual, el ítem le hace daño a la escala; si baja, el ítem aporta.</p>
-<p>Juntamos las dos columnas en una tabla, con una lectura automática según la regla de arriba:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>diagnostico <span class="ot">&lt;-</span> <span class="cf">function</span>(a) {</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> a<span class="sc">$</span>item.stats<span class="sc">$</span>r.drop</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">r.drop               =</span> <span class="fu">round</span>(r, <span class="dv">2</span>),</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">alfa si se elimina</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(a<span class="sc">$</span>alpha.drop<span class="sc">$</span>raw_alpha, <span class="dv">2</span>),</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lectura              =</span> <span class="fu">ifelse</span>(r <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">"negativa: ¿falta invertir?"</span>,</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">ifelse</span>(r <span class="sc">&lt;</span> <span class="fl">0.30</span>, <span class="st">"baja: ¿otro constructo?"</span>, <span class="st">"aporta"</span>)),</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">row.names =</span> <span class="fu">rownames</span>(a<span class="sc">$</span>item.stats), <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>alfa_7 <span class="ot">&lt;-</span> <span class="fu">alpha</span>(d, <span class="at">warnings =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>alfa_7<span class="sc">$</span>total<span class="sc">$</span>raw_alpha</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4205494</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostico</span>(alfa_7)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>             r.drop alfa si se elimina                    lectura
-ans_palpita    0.52               0.20                     aporta
-ans_noche      0.45               0.24                     aporta
-ans_blanco     0.55               0.18                     aporta
-ans_estomago   0.52               0.20                     aporta
-est_resumen    0.13               0.42    baja: ¿otro constructo?
-doc_rapido     0.18               0.39    baja: ¿otro constructo?
-ans_disfruto  -0.61               0.71 negativa: ¿falta invertir?</code></pre>
-</div>
-</div>
-<p>El alfa de los siete es 0.42. La tabla señala a <code>ans_disfruto</code> (correlación negativa) y a <code>est_resumen</code> y <code>doc_rapido</code> (correlaciones cercanas a cero). Pero mira la columna de alfa si se elimina: sacar <code>est_resumen</code> deja el alfa en 0.42, casi igual. Mientras haya un ítem sin invertir, ese ítem domina el diagnóstico y tapa los demás problemas.</p>
-<p><strong>Por eso el orden importa: primero se invierte, después se diagnostica.</strong> Y qué ítems invertir no se decide mirando los datos, sino la redacción (o la columna <code>invertido</code> del codebook).</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>d_rec <span class="ot">&lt;-</span> d</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>d_rec<span class="sc">$</span>ans_disfruto <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="sc">-</span> d_rec<span class="sc">$</span>ans_disfruto</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>alfa_7r <span class="ot">&lt;-</span> <span class="fu">alpha</span>(d_rec)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>alfa_7r<span class="sc">$</span>total<span class="sc">$</span>raw_alpha</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.7698935</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostico</span>(alfa_7r)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>             r.drop alfa si se elimina                 lectura
-ans_palpita    0.67               0.70                  aporta
-ans_noche      0.60               0.72                  aporta
-ans_blanco     0.68               0.70                  aporta
-ans_estomago   0.67               0.70                  aporta
-est_resumen    0.12               0.82 baja: ¿otro constructo?
-doc_rapido     0.18               0.80 baja: ¿otro constructo?
-ans_disfruto   0.61               0.71                  aporta</code></pre>
-</div>
-</div>
-<p>Con <code>ans_disfruto</code> recodificado, el alfa sube a 0.77 y la tabla queda limpia. Los cinco ítems de ansiedad aportan (<code>r.drop</code> entre 0.60 y 0.68). Los dos ajenos tienen correlaciones bajas, y sin cada uno el alfa sube (a 0.82 sin <code>est_resumen</code>). Sacando los dos queda la escala final de cinco ítems, con alfa 0.87.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Advertencia</span>No elimines ítems solo por el alfa
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>En el ejemplo, <code>est_resumen</code> y <code>doc_rapido</code> salen porque <strong>la definición del constructo</strong> dice que son otra cosa (capítulo 1, “qué no es”); los números solo lo confirman. En una escala validada no se sacan ítems para subir el alfa: el instrumento deja de ser el validado, el resultado ya no se puede comparar con otros estudios y se aprovecha el azar de <em>tu</em> muestra. El diagnóstico sirve para entender la escala, no para recortarla hasta que dé un número bonito.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>¿Y <code>check.keys = TRUE</code>?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><code>alpha(..., check.keys = TRUE)</code> invierte automáticamente los ítems que correlacionan en negativo con el total. Es cómodo, pero invierte cualquier cosa negativa, incluido un ítem mal redactado que habría que revisar. Mejor invertir según el codebook y usar la correlación negativa como <strong>control</strong>: si un ítem que no declaraste invertido sale negativo, algo pasa con ese ítem.</p>
-</div>
-</div>
 </section>
 </section>
 <section id="lo-que-alfa-no-dice" class="level2" data-number="2.6">
@@ -980,18 +933,18 @@ ans_disfruto   0.61               0.71                  aporta</code></pre>
 <h3 data-number="2.6.1" class="anchored" data-anchor-id="no-dice-que-la-escala-mida-un-solo-constructo"><span class="header-section-number">2.6.1</span> No dice que la escala mida un solo constructo</h3>
 <p>Es el malentendido más común. Si una escala mide un solo constructo (es <strong>unidimensional</strong>), sus ítems covarían y el alfa sale alto. Pero lo contrario no es cierto: dos constructos distintos que correlacionan entre sí también producen un alfa alto (Cortina 1993; Sijtsma 2009).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>m  <span class="ot">&lt;-</span> <span class="dv">300</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>f  <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(m, <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">Sigma =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="dv">2</span>))  <span class="co"># dos constructos, r = 0.5</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>X8 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="cf">function</span>(j) <span class="fl">0.75</span> <span class="sc">*</span> f[, <span class="dv">1</span>] <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.75</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(m)),   <span class="co"># 4 ítems del primero</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="cf">function</span>(j) <span class="fl">0.75</span> <span class="sc">*</span> f[, <span class="dv">2</span>] <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.75</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(m)))   <span class="co"># 4 ítems del segundo</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>a_dos <span class="ot">&lt;-</span> <span class="fu">alpha</span>(X8)<span class="sc">$</span>total<span class="sc">$</span>raw_alpha</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>a_dos</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>m  <span class="ot">&lt;-</span> <span class="dv">300</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>f  <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(m, <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">Sigma =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="dv">2</span>))  <span class="co"># dos constructos, r = 0.5</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>X8 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="cf">function</span>(j) <span class="fl">0.75</span> <span class="sc">*</span> f[, <span class="dv">1</span>] <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.75</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(m)),   <span class="co"># 4 ítems del primero</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="cf">function</span>(j) <span class="fl">0.75</span> <span class="sc">*</span> f[, <span class="dv">2</span>] <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.75</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(m)))   <span class="co"># 4 ítems del segundo</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>a_dos <span class="ot">&lt;-</span> <span class="fu">alpha</span>(X8)<span class="sc">$</span>total<span class="sc">$</span>raw_alpha</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>a_dos</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8439382</code></pre>
 </div>
 </div>
-<p>Ocho ítems, dos constructos, y un alfa de 0.84, que se leería como “bueno”. Para saber cuántos constructos hay detrás de una escala se necesita otra herramienta: el análisis factorial.</p>
+<p>Ocho ítems, dos constructos, y un alfa de 0.84, que se leería como “bueno”. Para saber cuántos constructos hay detrás de una escala se necesita realizar un <strong>análisis factorial</strong>.</p>
 </section>
 <section id="sube-con-el-número-de-ítems" class="level3" data-number="2.6.2">
 <h3 data-number="2.6.2" class="anchored" data-anchor-id="sube-con-el-número-de-ítems"><span class="header-section-number">2.6.2</span> Sube con el número de ítems</h3>
@@ -1000,8 +953,8 @@ ans_disfruto   0.61               0.71                  aporta</code></pre>
 \alpha_{\text{std}} = \frac{k\,\bar r}{1 + (k-1)\,\bar r}.
 \]</span></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>alfa_std <span class="ot">&lt;-</span> <span class="cf">function</span>(k, r) k <span class="sc">*</span> r <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> (k <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> r)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">k4 =</span> <span class="fu">alfa_std</span>(<span class="dv">4</span>, <span class="fl">0.3</span>), <span class="at">k12 =</span> <span class="fu">alfa_std</span>(<span class="dv">12</span>, <span class="fl">0.3</span>)), <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>alfa_std <span class="ot">&lt;-</span> <span class="cf">function</span>(k, r) k <span class="sc">*</span> r <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> (k <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> r)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">k4 =</span> <span class="fu">alfa_std</span>(<span class="dv">4</span>, <span class="fl">0.3</span>), <span class="at">k12 =</span> <span class="fu">alfa_std</span>(<span class="dv">12</span>, <span class="fl">0.3</span>)), <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  k4  k12 
 0.63 0.84 </code></pre>
@@ -1030,106 +983,9 @@ Figura&nbsp;2.2: Alfa estandarizado según el número de ítems, para tres corre
 <section id="es-de-tu-muestra-no-del-instrumento" class="level3" data-number="2.6.4">
 <h3 data-number="2.6.4" class="anchored" data-anchor-id="es-de-tu-muestra-no-del-instrumento"><span class="header-section-number">2.6.4</span> Es de tu muestra, no del instrumento</h3>
 <p>El alfa depende de las personas que respondieron. En una muestra donde casi todas tienen niveles parecidos del constructo, la varianza verdadera es chica y el alfa baja, aunque los ítems sean los mismos. Por eso <strong>se reporta el alfa calculado en tus datos</strong>, además de citar el de la validación.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>¿Y omega?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>El alfa supone que todos los ítems dependen del constructo con la misma fuerza (la misma carga <span class="math inline">\(\lambda\)</span>). Cuando eso no se cumple, subestima la confiabilidad. El <strong>omega de McDonald</strong> no tiene ese supuesto, y hoy se recomienda reportarlo junto al alfa (McNeish 2018); en <code>psych</code> está en la función <code>omega()</code>. Para empezar, el alfa basta: quien entiende el alfa tiene el omega a un paso.</p>
-</div>
-</div>
-</section>
-</section>
-<section id="en-tu-encuesta" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="en-tu-encuesta"><span class="header-section-number">2.7</span> En tu encuesta</h2>
-<p>Cuando tengas la exportación (<code>python scripts/exportar.py --nomina …</code>, ver la sección 6 de <code>encuesta/README.md</code>), el alfa de un bloque sale así. El ejemplo usa el bloque de intención de abandono, que tiene un ítem invertido declarado:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>carpeta  <span class="ot">&lt;-</span> <span class="st">"encuesta/data/exportaciones/cfisicas-2026"</span>        <span class="co"># cambia por tu nómina</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>nodos    <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(carpeta, <span class="st">"nodos.csv"</span>),</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">"SIN_RESPUESTA"</span>, <span class="st">"OMITIDA"</span>, <span class="st">"NO_APLICA"</span>))</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>codebook <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(carpeta, <span class="st">"codebook.csv"</span>))</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>nodos <span class="ot">&lt;-</span> nodos[nodos<span class="sc">$</span>estado <span class="sc">==</span> <span class="st">"completa"</span>, ]                    <span class="co"># solo encuestas terminadas</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>filas <span class="ot">&lt;-</span> codebook[codebook<span class="sc">$</span>pregunta <span class="sc">==</span> <span class="st">"intencion"</span>, ]           <span class="co"># los ítems del bloque</span></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>X     <span class="ot">&lt;-</span> nodos[, filas<span class="sc">$</span>columna]</span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>inv   <span class="ot">&lt;-</span> filas<span class="sc">$</span>columna[filas<span class="sc">$</span>invertido <span class="sc">==</span> <span class="dv">1</span>]                    <span class="co"># los declarados en invertidos=</span></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>X[inv] <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="sc">-</span> X[inv]                                            <span class="co"># escala de 1 a 5</span></span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="fu">alpha</span>(X)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Tres detalles: <code>na.strings</code> convierte los códigos de respuesta faltante en <code>NA</code>; solo entran las encuestas terminadas; y qué invertir sale del codebook, no de la memoria.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Lo mismo en Python
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Si prefieres trabajar en el mismo entorno de la encuesta (<code>encuesta/.venv</code>, que ya trae <code>pandas</code>):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>carpeta <span class="op">=</span> <span class="st">"encuesta/data/exportaciones/cfisicas-2026"</span>            <span class="co"># cambia por tu nómina</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>faltantes <span class="op">=</span> [<span class="st">"SIN_RESPUESTA"</span>, <span class="st">"OMITIDA"</span>, <span class="st">"NO_APLICA"</span>]</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>nodos <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>carpeta<span class="sc">}</span><span class="ss">/nodos.csv"</span>, na_values<span class="op">=</span>faltantes)</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>codebook <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>carpeta<span class="sc">}</span><span class="ss">/codebook.csv"</span>)</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>nodos <span class="op">=</span> nodos[nodos[<span class="st">"estado"</span>] <span class="op">==</span> <span class="st">"completa"</span>]                      <span class="co"># solo encuestas terminadas</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>filas <span class="op">=</span> codebook[codebook[<span class="st">"pregunta"</span>] <span class="op">==</span> <span class="st">"intencion"</span>]             <span class="co"># los ítems del bloque</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> nodos[filas[<span class="st">"columna"</span>]].copy()</span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>inv <span class="op">=</span> filas.loc[filas[<span class="st">"invertido"</span>] <span class="op">==</span> <span class="dv">1</span>, <span class="st">"columna"</span>]               <span class="co"># los declarados en invertidos=</span></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>X[inv] <span class="op">=</span> <span class="dv">6</span> <span class="op">-</span> X[inv]                                               <span class="co"># escala de 1 a 5</span></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> X.dropna()                                                    <span class="co"># quienes respondieron todos los ítems</span></span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> X.shape[<span class="dv">1</span>]</span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>alfa <span class="op">=</span> k <span class="op">/</span> (k <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> X.var().<span class="bu">sum</span>() <span class="op">/</span> X.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>).var())</span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(alfa, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Es la fórmula de la sección 3, línea por línea. Con datos completos da lo mismo que <code>psych::alpha</code>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resumen
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>El alfa de Cronbach no evalúa si las preguntas son buenas, sino si <strong>covarían en la misma dirección</strong>. Un alfa bajo casi siempre se explica por una de tres cosas: ítems ambiguos, ítems que miden otro constructo o un ítem invertido sin recodificar. Un alfa alto no garantiza que la escala mida un solo constructo, ni que mida el que crees.</p>
-</div>
-</div>
-<p><em>Pregunta 5. En el bloque de intención de abandono, ¿qué <code>r.drop</code> esperarías para <code>int_seguir_udec</code> si nadie lo recodifica? ¿Qué harías con ese ítem antes de aplicar la encuesta?</em></p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Para jugar
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>En la simulación, baja a 0.5 las cargas de los cuatro ítems de ansiedad. ¿Cuánto cae el alfa del set bueno? ¿Y la correlación del promedio con <code>verdad$ansiedad</code>?</li>
-<li>Agrega cuatro ítems de ansiedad más (copia la línea de <code>ans_palpita</code> con otros nombres) y calcula el alfa de los ocho. ¿Se parece a lo que predice la <a href="#fig-alfa-k" class="quarto-xref">Figura&nbsp;<span>2.2</span></a>?</li>
-<li>Corre <code>alpha(malo, check.keys = TRUE)</code>. ¿Qué hizo con <code>ans_disfruto</code>? ¿Y con <code>est_resumen</code>?</li>
-<li>En el ejemplo de los dos constructos, cambia la correlación entre ellos de 0.5 a 0 y a 0.9. ¿Qué le pasa al alfa? ¿En cuál de los tres casos la escala es unidimensional?</li>
-<li>Fabrica un ítem pésimo, <code>d$ans_cansancio &lt;- item(verdad$ansiedad, 0.2)</code>, y vuelve a correr el diagnóstico. ¿Qué <code>r.drop</code> tiene? ¿El alfa si se elimina lo delata?</li>
-</ol>
-</div>
-</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
