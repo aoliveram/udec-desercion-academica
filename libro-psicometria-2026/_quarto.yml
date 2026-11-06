@@ -6,7 +6,7 @@ date-format: "MMMM YYYY"
 
 book:
   title: "Psicometría básica"
-  subtitle: "Libro de clases · Abandono académico en Ciencias Físicas, UdeC 2026"
+  subtitle: "Libro de clases · Abandono académico, UdeC 2026"
   author: "Aníbal Olivera Morales"
   date: today
   repo-url: https://github.com/aoliveram/udec-desercion-academica
