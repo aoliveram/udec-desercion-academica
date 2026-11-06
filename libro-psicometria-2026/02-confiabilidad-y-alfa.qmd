@@ -8,18 +8,19 @@ date: "2026-10-30"
 ::: {.callout-tip icon="false"}
 ## Qué haremos
 
-**¿Mis preguntas miden lo mismo?** El alfa de Cronbach responde una parte de esa pregunta: si los ítems **covarían en la misma dirección**. Lo calcularemos a mano, lo romperemos a propósito de tres formas y lo usaremos para encontrar los ítems que sobran o que faltó invertir.
+**¿Mis preguntas miden *"lo mismo"*?** El alfa de Cronbach responde si los ítems **covarían en la misma dirección**. Lo usaremos para encontrar los ítems que sobran o que faltó invertir.
 :::
 
 | Sección | Contenido | Datos |
 |---|---|---|
-| 1. Los datos | Siete ítems fabricados, con su verdad conocida | Simulación |
+| 1. Datos simulados | Siete ítems fabricados, con su verdad conocida | Simulación |
 | 2. Confiabilidad | Puntaje verdadero y error; por qué promediar ayuda | Simulación |
 | 3. Alfa de Cronbach | La fórmula, a mano y con `psych::alpha` | Set bueno |
 | 4. Cómo se rompe | Mezclar constructos, olvidar invertir, o las dos cosas | Sets malos |
 | 5. Diagnóstico ítem por ítem | Correlación ítem-total corregida y alfa si se elimina | Los siete ítems |
 | 6. Lo que alfa no dice | Unidimensionalidad, número de ítems, validez, muestra | Simulación |
-| 7. En tu encuesta | De `nodos.csv` al alfa, en R y en Python | Exportación |
+
+Usaremos el paquete `psych` de R, que incluye la función `alpha()` y `corPlot()`.
 
 ```{r}
 #| label: setup
@@ -33,12 +34,18 @@ library(psych)     # alpha() y corPlot()
 f2 <- function(x) formatC(x, format = "f", digits = 2)   # números con dos decimales en el texto
 ```
 
-## Los datos
+## Datos simulados
 
-Fabricamos 300 estudiantes. A diferencia de una encuesta real, aquí **sabemos cómo se generaron**: tres constructos latentes (ansiedad ante los exámenes, estrategias de estudio y percepción de la docencia), levemente correlacionados, y siete ítems Likert construidos con el modelo del capítulo 1, $X_j = \lambda_j\theta + \varepsilon_j$, cortado en cinco categorías.
+Fabricamos 300 estudiantes. A diferencia de una encuesta real, aquí **sabemos qué es lo que genera esas respuestas**; los constructos latentes:
+
+1. ansiedad ante los exámenes, 
+2. estrategias de estudio, y 
+3. percepción de la docencia
+
+Ellos estarán *levemente correlacionados*. En total, usaremos siete ítems.
 
 | Columna | Ítem | Mide |
-|---|---|---|
+|--|----|---|
 | `ans_palpita` | «Siento palpitaciones o tensión muscular minutos antes de iniciar un examen.» | Ansiedad |
 | `ans_noche` | «Me cuesta concentrarme la noche previa a una prueba por el temor a reprobar.» | Ansiedad |
 | `ans_blanco` | «Tengo la sensación constante de que me voy a quedar en blanco frente a la hoja.» | Ansiedad |
@@ -46,6 +53,8 @@ Fabricamos 300 estudiantes. A diferencia de una encuesta real, aquí **sabemos c
 | `est_resumen` | «Suelo preparar resúmenes y mapas conceptuales para estudiar.» | Estrategias de estudio |
 | `doc_rapido` | «El profesor explica la materia de forma muy rápida y confusa.» | Percepción de la docencia |
 | `ans_disfruto` | «Disfruto los días en que debo rendir evaluaciones.» | Ansiedad, **invertido** |
+
+Simulamos los datos:
 
 ```{r}
 #| label: fabricar
@@ -72,31 +81,35 @@ d <- data.frame(
   ans_estomago = item(verdad$ansiedad, 0.72),
   est_resumen  = item(verdad$estudio,  0.80),
   doc_rapido   = item(verdad$docencia, 0.80),
-  ans_disfruto = item(-verdad$ansiedad, 0.75)          # invertido: depende de −ansiedad
+  ans_disfruto = item(-verdad$ansiedad, 0.75) # invertido: depende de −ansiedad
 )
 write.csv(d, "datos/ansiedad_examenes.csv", row.names = FALSE)
 head(d, 3)
 ```
 
-`d` es lo que tendríamos en una encuesta real. `verdad` es lo que nunca tenemos: el nivel verdadero de cada constructo en cada persona.
+Aquí, `d` es lo que tendríamos en una encuesta, pero `verdad` nivel *verdadero* de cada constructo en cada persona.
 
 ## Confiabilidad
 
 ### Puntaje observado = verdadero + error
 
-La **teoría clásica de los tests** parte de una idea simple: el puntaje que observamos ($X$) es la suma de un puntaje verdadero ($T$) y un error ($E$) que no tiene que ver con el constructo,
+En la **teoría clásica de los tests**, el puntaje que observamos ($X$) es la suma de un puntaje verdadero ($T$) y un error ($E$) sin relación con el constructo,
 
 $$
 X = T + E.
 $$
 
-La **confiabilidad** es qué fracción de la varianza observada es varianza verdadera:
+La **confiabilidad** ($\rho$) es la fracción de la varianza observada que es varianza verdadera:
 
 $$
 \rho = \frac{\operatorname{Var}(T)}{\operatorname{Var}(X)}.
 $$
 
-Vale 1 si no hay error y 0 si el puntaje es puro ruido. En los datos reales $T$ no se conoce, así que la confiabilidad se *estima*. En los nuestros sí lo conocemos, y podemos ver directamente qué pasa al agregar ítems.
+Vale 1 si no hay error y 0 si el puntaje es puro ruido. Pero hay un problema: **$T$ no se observa**, así que $\rho$ no se puede calcular, solo *estimar*.
+
+Eso es lo que hace el alfa de Cronbach: **es una estimación de $\rho$**. 
+
+En nuestros datos simulados sí conocemos $T$, así que podemos comparar la estimación con la verdad.
 
 ### Por qué promediar ayuda
 
@@ -109,9 +122,16 @@ termometros <- c(
 round(termometros, 2)
 ```
 
-Un ítem solo correlaciona `r f2(termometros["un_item"])` con la ansiedad verdadera; el promedio de cuatro, `r f2(termometros["cuatro"])`. Son los cuatro termómetros del capítulo 1: los errores de cada ítem se compensan en parte y el promedio queda más cerca de lo que se quiere medir.
+Un ítem solo correlaciona `r f2(termometros["un_item"])` con la ansiedad verdadera; el promedio de cuatro, `r f2(termometros["cuatro"])`.
 
-El problema es que en una encuesta real no existe la tabla `verdad`. Solo tenemos los ítems. La idea de Cronbach (1951) es usar lo único disponible: si los ítems miden lo mismo, tienen que **moverse juntos**, y cuánto se mueven juntos dice cuánto del puntaje es constructo compartido.
+La correlación con `verdad` es una medida de confiabilidad: a más ítems, más cerca de 1. Pero en una encuesta real no existe la tabla `verdad`, así que no podemos calcular $\rho$. 
+
+La idea de Cronbach (1951) es usar los ítems y ver si se **mueven juntos**. Si lo hacen, el puntaje total varía más que la suma de sus partes, y eso es lo que mide el alfa.
+
+| | $\rho$ (confiabilidad) | $\alpha$ (alfa de Cronbach) |
+|---|---|---|
+| Qué es | Fracción de la varianza que es constructo | Estimación de $\rho$ a partir de los ítems |
+| Necesita | $T$, que no se observa | Solo las respuestas |
 
 ## Alfa de Cronbach
 
@@ -139,7 +159,7 @@ En palabras: **alfa mide qué parte de la varianza del puntaje total viene de lo
 
 ### A mano
 
-El set bueno: los cuatro ítems de ansiedad.
+Con los cuatro ítems de ansiedad.
 
 ```{r}
 #| label: set-bueno
@@ -147,7 +167,7 @@ A <- d[, c("ans_palpita", "ans_noche", "ans_blanco", "ans_estomago")]
 round(cor(A), 2)
 ```
 
-Todas las correlaciones son positivas y parecidas. Ahora la fórmula, término a término:
+La fórmula término a término:
 
 ```{r}
 #| label: alfa-a-mano
@@ -165,30 +185,30 @@ alfa_A <- alpha(A)
 alfa_A
 ```
 
-La salida es larga, y es la misma que verás con tus datos. Cuatro cosas importan:
+Cuatro cosas importan:
 
-1. **`raw_alpha`**: el alfa que calculamos a mano, `r f2(alfa_A$total$raw_alpha)`. `std.alpha` es la misma idea con correlaciones en vez de covarianzas; casi siempre da parecido.
+1. **`raw_alpha`**: el alfa que calculamos a mano, `r f2(alfa_A$total$raw_alpha)`.
 2. **`average_r`**: la correlación promedio entre ítems, `r f2(alfa_A$total$average_r)`.
 3. **Reliability if an item is dropped**: el alfa que quedaría si se saca cada ítem. Aquí todos bajan, o sea, todos aportan.
 4. **Item statistics, columna `r.drop`**: la correlación de cada ítem con la suma de los *demás*. La veremos en la sección de diagnóstico.
 
 Un alfa de `r f2(alfa_A$total$raw_alpha)` es alto: los cuatro ítems covarían fuerte y en la misma dirección.
 
-### ¿Cuánto es suficiente?
+### Thumb rule
 
 | Alfa | Lectura habitual |
-|---|---|
+|--|----|
 | menos de 0.60 | Problemático: los ítems no forman una escala |
 | 0.60 a 0.70 | Dudoso |
 | 0.70 a 0.80 | Aceptable para investigación |
 | 0.80 a 0.90 | Bueno |
 | más de 0.95 | Sospechoso: ítems que repiten lo mismo con otras palabras |
 
-Estos cortes son convenciones, no leyes. El famoso 0.70 viene de Nunnally (1978), que lo consideraba suficiente para las etapas tempranas de una investigación y pedía bastante más (0.90 o más) cuando la escala se usa para tomar decisiones sobre personas. Muchos lo citan sin esa distinción (Lance, Butts & Michels 2006).
+Estos cortes son solo convenciones. El famoso 0.70 viene de Nunnally (1978), que lo consideraba suficiente para las etapas tempranas de una investigación, pero pedía 0.90 o más para tomar decisiones sobre personas. Muchos usan 0.70 como criterio general (Lance, Butts & Michels 2006).
 
 *Pregunta 4. El paper de validación de una escala reporta α = 0.82. ¿Significa eso que en tu encuesta la escala tendrá α = 0.82?*
 
-## Cómo se rompe el alfa
+## Cómo se arruina un alfa
 
 ### Mezclar constructos
 
@@ -240,7 +260,7 @@ a_malo <- alpha(malo)$total$raw_alpha
 a_malo
 ```
 
-El alfa es **negativo**: `r f2(a_malo)`. Un alfa negativo no se puede leer como confiabilidad; es una alarma de que las covarianzas entre ítems suman menos que cero. Casi siempre significa un ítem invertido sin recodificar. `psych` lo detecta y avisa (*"Some items ( ans_disfruto ) were negatively correlated… and probably should be reversed"*), y conviene leer ese aviso en vez de ignorarlo.
+El alfa es **negativo**: `r f2(a_malo)`. Casi siempre significa un ítem invertido sin recodificar. `psych` lo detecta y avisa (*"Some items ( ans_disfruto ) were negatively correlated… and probably should be reversed"*), y conviene leer ese aviso en vez de ignorarlo.
 
 ## Diagnóstico ítem por ítem
 
@@ -265,59 +285,6 @@ La **correlación ítem-total corregida** (`r.drop` en `psych`) es la correlaci�
 
 El **alfa si se elimina** el ítem es el alfa recalculado sin él. Si sube claramente sobre el alfa actual, el ítem le hace daño a la escala; si baja, el ítem aporta.
 
-Juntamos las dos columnas en una tabla, con una lectura automática según la regla de arriba:
-
-```{r}
-#| label: diagnostico-crudo
-diagnostico <- function(a) {
-  r <- a$item.stats$r.drop
-  data.frame(
-    r.drop               = round(r, 2),
-    `alfa si se elimina` = round(a$alpha.drop$raw_alpha, 2),
-    lectura              = ifelse(r < 0, "negativa: ¿falta invertir?",
-                           ifelse(r < 0.30, "baja: ¿otro constructo?", "aporta")),
-    row.names = rownames(a$item.stats), check.names = FALSE)
-}
-
-alfa_7 <- alpha(d, warnings = FALSE)
-alfa_7$total$raw_alpha
-diagnostico(alfa_7)
-```
-
-El alfa de los siete es `r f2(alfa_7$total$raw_alpha)`. La tabla señala a `ans_disfruto` (correlación negativa) y a `est_resumen` y `doc_rapido` (correlaciones cercanas a cero). Pero mira la columna de alfa si se elimina: sacar `est_resumen` deja el alfa en `r f2(alfa_7$alpha.drop["est_resumen", "raw_alpha"])`, casi igual. Mientras haya un ítem sin invertir, ese ítem domina el diagnóstico y tapa los demás problemas.
-
-**Por eso el orden importa: primero se invierte, después se diagnostica.** Y qué ítems invertir no se decide mirando los datos, sino la redacción (o la columna `invertido` del codebook).
-
-```{r}
-#| label: diagnostico-recodificado
-d_rec <- d
-d_rec$ans_disfruto <- 6 - d_rec$ans_disfruto
-alfa_7r <- alpha(d_rec)
-alfa_7r$total$raw_alpha
-diagnostico(alfa_7r)
-```
-
-```{r}
-#| label: alfa-final
-#| include: false
-r_ans      <- alfa_7r$item.stats[c(names(A), "ans_disfruto"), "r.drop"]
-alfa_final <- alpha(d_rec[, c(names(A), "ans_disfruto")])$total$raw_alpha
-```
-
-Con `ans_disfruto` recodificado, el alfa sube a `r f2(alfa_7r$total$raw_alpha)` y la tabla queda limpia. Los cinco ítems de ansiedad aportan (`r.drop` entre `r f2(min(r_ans))` y `r f2(max(r_ans))`). Los dos ajenos tienen correlaciones bajas, y sin cada uno el alfa sube (a `r f2(alfa_7r$alpha.drop["est_resumen", "raw_alpha"])` sin `est_resumen`). Sacando los dos queda la escala final de cinco ítems, con alfa `r f2(alfa_final)`.
-
-::: callout-warning
-## No elimines ítems solo por el alfa
-
-En el ejemplo, `est_resumen` y `doc_rapido` salen porque **la definición del constructo** dice que son otra cosa (capítulo 1, "qué no es"); los números solo lo confirman. En una escala validada no se sacan ítems para subir el alfa: el instrumento deja de ser el validado, el resultado ya no se puede comparar con otros estudios y se aprovecha el azar de *tu* muestra. El diagnóstico sirve para entender la escala, no para recortarla hasta que dé un número bonito.
-:::
-
-::: callout-note
-## ¿Y `check.keys = TRUE`?
-
-`alpha(..., check.keys = TRUE)` invierte automáticamente los ítems que correlacionan en negativo con el total. Es cómodo, pero invierte cualquier cosa negativa, incluido un ítem mal redactado que habría que revisar. Mejor invertir según el codebook y usar la correlación negativa como **control**: si un ítem que no declaraste invertido sale negativo, algo pasa con ese ítem.
-:::
-
 ## Lo que alfa no dice
 
 ### No dice que la escala mida un solo constructo
@@ -336,7 +303,7 @@ a_dos <- alpha(X8)$total$raw_alpha
 a_dos
 ```
 
-Ocho ítems, dos constructos, y un alfa de `r f2(a_dos)`, que se leería como "bueno". Para saber cuántos constructos hay detrás de una escala se necesita otra herramienta: el análisis factorial.
+Ocho ítems, dos constructos, y un alfa de `r f2(a_dos)`, que se leería como "bueno". Para saber cuántos constructos hay detrás de una escala se necesita realizar un **análisis factorial**.
 
 ### Sube con el número de ítems
 
@@ -384,79 +351,3 @@ Alfa es **consistencia**, no **validez**. Una escala cuyos ítems fueran todos v
 ### Es de tu muestra, no del instrumento
 
 El alfa depende de las personas que respondieron. En una muestra donde casi todas tienen niveles parecidos del constructo, la varianza verdadera es chica y el alfa baja, aunque los ítems sean los mismos. Por eso **se reporta el alfa calculado en tus datos**, además de citar el de la validación.
-
-::: callout-note
-## ¿Y omega?
-
-El alfa supone que todos los ítems dependen del constructo con la misma fuerza (la misma carga $\lambda$). Cuando eso no se cumple, subestima la confiabilidad. El **omega de McDonald** no tiene ese supuesto, y hoy se recomienda reportarlo junto al alfa (McNeish 2018); en `psych` está en la función `omega()`. Para empezar, el alfa basta: quien entiende el alfa tiene el omega a un paso.
-:::
-
-## En tu encuesta
-
-Cuando tengas la exportación (`python scripts/exportar.py --nomina …`, ver la sección 6 de `encuesta/README.md`), el alfa de un bloque sale así. El ejemplo usa el bloque de intención de abandono, que tiene un ítem invertido declarado:
-
-```{r}
-#| label: alfa-encuesta
-#| eval: false
-carpeta  <- "encuesta/data/exportaciones/cfisicas-2026"        # cambia por tu nómina
-nodos    <- read.csv(file.path(carpeta, "nodos.csv"),
-                     na.strings = c("SIN_RESPUESTA", "OMITIDA", "NO_APLICA"))
-codebook <- read.csv(file.path(carpeta, "codebook.csv"))
-
-nodos <- nodos[nodos$estado == "completa", ]                    # solo encuestas terminadas
-
-filas <- codebook[codebook$pregunta == "intencion", ]           # los ítems del bloque
-X     <- nodos[, filas$columna]
-inv   <- filas$columna[filas$invertido == 1]                    # los declarados en invertidos=
-X[inv] <- 6 - X[inv]                                            # escala de 1 a 5
-
-alpha(X)
-```
-
-Tres detalles: `na.strings` convierte los códigos de respuesta faltante en `NA`; solo entran las encuestas terminadas; y qué invertir sale del codebook, no de la memoria.
-
-::: callout-note
-## Lo mismo en Python
-
-Si prefieres trabajar en el mismo entorno de la encuesta (`encuesta/.venv`, que ya trae `pandas`):
-
-```python
-import pandas as pd
-
-carpeta = "encuesta/data/exportaciones/cfisicas-2026"            # cambia por tu nómina
-faltantes = ["SIN_RESPUESTA", "OMITIDA", "NO_APLICA"]
-nodos = pd.read_csv(f"{carpeta}/nodos.csv", na_values=faltantes)
-codebook = pd.read_csv(f"{carpeta}/codebook.csv")
-
-nodos = nodos[nodos["estado"] == "completa"]                      # solo encuestas terminadas
-filas = codebook[codebook["pregunta"] == "intencion"]             # los ítems del bloque
-X = nodos[filas["columna"]].copy()
-inv = filas.loc[filas["invertido"] == 1, "columna"]               # los declarados en invertidos=
-X[inv] = 6 - X[inv]                                               # escala de 1 a 5
-
-X = X.dropna()                                                    # quienes respondieron todos los ítems
-k = X.shape[1]
-alfa = k / (k - 1) * (1 - X.var().sum() / X.sum(axis=1).var())
-print(round(alfa, 3))
-```
-
-Es la fórmula de la sección 3, línea por línea. Con datos completos da lo mismo que `psych::alpha`.
-:::
-
-::: callout-tip
-## Resumen
-
-El alfa de Cronbach no evalúa si las preguntas son buenas, sino si **covarían en la misma dirección**. Un alfa bajo casi siempre se explica por una de tres cosas: ítems ambiguos, ítems que miden otro constructo o un ítem invertido sin recodificar. Un alfa alto no garantiza que la escala mida un solo constructo, ni que mida el que crees.
-:::
-
-*Pregunta 5. En el bloque de intención de abandono, ¿qué `r.drop` esperarías para `int_seguir_udec` si nadie lo recodifica? ¿Qué harías con ese ítem antes de aplicar la encuesta?*
-
-::: {.callout-note}
-## Para jugar
-
-1. En la simulación, baja a 0.5 las cargas de los cuatro ítems de ansiedad. ¿Cuánto cae el alfa del set bueno? ¿Y la correlación del promedio con `verdad$ansiedad`?
-2. Agrega cuatro ítems de ansiedad más (copia la línea de `ans_palpita` con otros nombres) y calcula el alfa de los ocho. ¿Se parece a lo que predice la @fig-alfa-k?
-3. Corre `alpha(malo, check.keys = TRUE)`. ¿Qué hizo con `ans_disfruto`? ¿Y con `est_resumen`?
-4. En el ejemplo de los dos constructos, cambia la correlación entre ellos de 0.5 a 0 y a 0.9. ¿Qué le pasa al alfa? ¿En cuál de los tres casos la escala es unidimensional?
-5. Fabrica un ítem pésimo, `d$ans_cansancio <- item(verdad$ansiedad, 0.2)`, y vuelve a correr el diagnóstico. ¿Qué `r.drop` tiene? ¿El alfa si se elimina lo delata?
-:::
