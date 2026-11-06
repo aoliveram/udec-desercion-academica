@@ -298,6 +298,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./03-analisis-factorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis factorial: las dimensiones de un constructo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./referencias.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Referencias</span></a>
   </div>
@@ -377,10 +383,11 @@ ul.task-list li input[type="checkbox"] {
 <section id="bienvenida" class="level1 unnumbered">
 <h1 class="unnumbered">Bienvenida</h1>
 <p>En este libro encontrarás el material de la clase de psicometría básica del curso guiado sobre abandono académico en Ciencias Físicas (Universidad de Concepción, 2026).</p>
-<p>La encuesta del proyecto va a medir cosas que no se ven: autoeficacia, pertenencia, soledad, intención de abandono. Antes de elegir escalas y cargarlas en <code>instrumento.py</code>, conviene saber cómo se construye una escala y cómo se juzga si funciona. Eso es lo que cubre este libro, en dos capítulos:</p>
+<p>La encuesta del proyecto va a medir cosas que no se ven: autoeficacia, pertenencia, soledad, intención de abandono. Antes de elegir escalas y cargarlas en <code>instrumento.py</code>, conviene saber cómo se construye una escala y cómo se juzga si funciona. Eso es lo que cubre este libro, en tres capítulos:</p>
 <ol type="1">
 <li><strong>Del constructo a los ítems</strong>: qué se está midiendo y cómo se escriben las preguntas.</li>
 <li><strong>Confiabilidad y alfa de Cronbach</strong>: cómo saber si esas preguntas miden lo mismo, con código reproducible en R.</li>
+<li><strong>Análisis factorial</strong>: cuántas dimensiones tiene un constructo, cómo se confirma que la escala las captura y cuándo se puede usar una sola.</li>
 </ol>
 <section id="para-quién-es-este-libro" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="para-quién-es-este-libro">¿Para quién es este libro?</h2>
@@ -404,17 +411,21 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="./02-confiabilidad-y-alfa.html">Confiabilidad y alfa de Cronbach</a></td>
 <td>Puntaje verdadero y error, la fórmula de alfa, cómo se rompe, el diagnóstico ítem por ítem y lo que alfa no dice. Cómo calcularlo con la exportación de la encuesta.</td>
 </tr>
+<tr class="odd">
+<td><a href="./03-analisis-factorial.html">Análisis factorial</a></td>
+<td>Constructo, dimensión y factor. Análisis paralelo, AFE y AFC; confiabilidad por dimensión; cuándo hay puntaje total; cuándo usar una subescala sola. Cuánta muestra tendrá la facultad. Un adelanto de la psicometría de redes.</td>
+</tr>
 </tbody>
 </table>
 <p>Al final hay un <a href="./vocabulario.html">vocabulario</a> con los términos del libro y sus otros nombres (en psicometría casi todo tiene dos o tres).</p>
-<p>Los dos capítulos usan el mismo ejemplo: <strong>ansiedad ante los exámenes</strong>, un constructo que todos conocemos de primera mano. No está en la encuesta del proyecto, a propósito: así el ejemplo no decide por ti qué escalas usar.</p>
+<p>Los dos primeros capítulos usan el mismo ejemplo: <strong>ansiedad ante los exámenes</strong>, un constructo que todos conocemos de primera mano. El tercero necesita un constructo con más dimensiones y usa uno inventado, <strong>sentido de pertenencia a la carrera</strong>. Ninguno de los dos está en la encuesta del proyecto, a propósito: así el ejemplo no decide por ti qué escalas usar.</p>
 <p>Cada capítulo trae <strong>preguntas</strong> para conversar en la clase y recuadros <strong>Para jugar</strong>: variaciones que conviene hacer por cuenta propia. Ahí es donde se aprende.</p>
 </section>
 <section id="materiales" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="materiales">Materiales</h2>
 <ul>
 <li>Repositorio del proyecto: <a href="https://github.com/aoliveram/udec-desercion-academica" class="uri">https://github.com/aoliveram/udec-desercion-academica</a></li>
-<li>Datos del capítulo 2: <a href="https://github.com/aoliveram/udec-desercion-academica/tree/main/libro-psicometria-2026/datos"><code>libro-psicometria-2026/datos/ansiedad_examenes.csv</code></a> (simulados; ninguna persona real)</li>
+<li>Datos de los capítulos 2 y 3: <a href="https://github.com/aoliveram/udec-desercion-academica/tree/main/libro-psicometria-2026/datos"><code>libro-psicometria-2026/datos/</code></a> (simulados; ninguna persona real)</li>
 <li>Referencias citadas: <a href="./referencias.html">capítulo de referencias</a></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -427,7 +438,7 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>El código está en R, con el paquete <code>psych</code>. El capítulo 2 incluye también la versión en Python del cálculo de alfa, para usarla con la misma instalación de la encuesta.</p>
+<p>El código está en R, con el paquete <code>psych</code>; el capítulo 3 usa además <code>lavaan</code>, <code>semTools</code>, <code>qgraph</code> y <code>EGAnet</code>. El capítulo 2 incluye también la versión en Python del cálculo de alfa, para usarla con la misma instalación de la encuesta.</p>
 </div>
 </div>
 

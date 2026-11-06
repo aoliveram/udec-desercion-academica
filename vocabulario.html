@@ -326,6 +326,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./03-analisis-factorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis factorial: las dimensiones de un constructo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./referencias.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Referencias</span></a>
   </div>
@@ -359,6 +365,7 @@ window.Quarto = {
   <ul>
   <li><a href="#medir" id="toc-medir" class="nav-link active" data-scroll-target="#medir">Medir</a></li>
   <li><a href="#evaluar" id="toc-evaluar" class="nav-link" data-scroll-target="#evaluar">Evaluar</a></li>
+  <li><a href="#estructura" id="toc-estructura" class="nav-link" data-scroll-target="#estructura">Estructura</a></li>
   </ul>
 </nav>
     </div>
@@ -428,9 +435,9 @@ window.Quarto = {
 <td>Qué es y qué no es el constructo, escrito de modo que guíe la redacción de los ítems.</td>
 </tr>
 <tr class="even">
-<td><strong>Faceta</strong></td>
-<td>dimensión, componente, subescala</td>
-<td>Parte del constructo que conviene cubrir con ítems propios (preocupación y emocionalidad, en la ansiedad ante los exámenes).</td>
+<td><strong>Dimensión</strong></td>
+<td>faceta, componente</td>
+<td>Parte del constructo que la teoría distingue y que se cubre con ítems propios (preocupación y emocionalidad, en la ansiedad ante los exámenes).</td>
 </tr>
 <tr class="odd">
 <td><strong>Escala Likert</strong></td>
@@ -545,6 +552,105 @@ window.Quarto = {
 <td><strong>Test-retest</strong></td>
 <td>estabilidad temporal</td>
 <td>Confiabilidad estimada como la correlación entre dos aplicaciones a las mismas personas.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="estructura" class="level2">
+<h2 class="anchored" data-anchor-id="estructura">Estructura</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Concepto</th>
+<th>También llamado</th>
+<th>En una frase</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Factor</strong></td>
+<td>variable latente, <span class="math inline">\(\theta\)</span>, <em>factor</em></td>
+<td>Una dimensión convertida en variable dentro del modelo estadístico.</td>
+</tr>
+<tr class="even">
+<td><strong>Subescala</strong></td>
+<td><em>subscale</em></td>
+<td>Los ítems de una dimensión, y su puntaje.</td>
+</tr>
+<tr class="odd">
+<td><strong>Carga cruzada</strong></td>
+<td><em>cross-loading</em></td>
+<td>Carga importante de un ítem en un factor que no es el suyo.</td>
+</tr>
+<tr class="even">
+<td><strong>Estructura simple</strong></td>
+<td><em>simple structure</em></td>
+<td>Cada ítem carga en un solo factor. Lo que se espera de una escala bien construida.</td>
+</tr>
+<tr class="odd">
+<td><strong>Análisis paralelo</strong></td>
+<td><em>parallel analysis</em>, <code>fa.parallel</code></td>
+<td>Cuenta los factores que explican más que datos al azar.</td>
+</tr>
+<tr class="even">
+<td><strong>Análisis factorial exploratorio</strong></td>
+<td>AFE, <em>EFA</em></td>
+<td>Estima todas las cargas sin decirle al modelo qué ítem va con qué factor.</td>
+</tr>
+<tr class="odd">
+<td><strong>Análisis factorial confirmatorio</strong></td>
+<td>AFC, <em>CFA</em></td>
+<td>Prueba si una estructura declarada de antemano es compatible con los datos.</td>
+</tr>
+<tr class="even">
+<td><strong>Rotación oblicua</strong></td>
+<td>oblimin, promax</td>
+<td>Permite que los factores correlacionen. La ortogonal (varimax) lo prohíbe.</td>
+</tr>
+<tr class="odd">
+<td><strong>Correlación policórica</strong></td>
+<td><em>polychoric</em>, <code>cor = "poly"</code></td>
+<td>Correlación para ítems ordinales, como si se respondieran en una escala continua.</td>
+</tr>
+<tr class="even">
+<td><strong>Índices de ajuste</strong></td>
+<td>CFI, TLI, RMSEA, SRMR</td>
+<td>Cuánto se parecen las correlaciones predichas por el modelo a las observadas.</td>
+</tr>
+<tr class="odd">
+<td><strong>Factor general</strong></td>
+<td>factor de segundo orden, <em>g</em></td>
+<td>El constructo completo en el modelo: explica por qué correlacionan los factores.</td>
+</tr>
+<tr class="even">
+<td><strong>Modelo bifactor</strong></td>
+<td><em>bifactor</em></td>
+<td>Cada ítem depende del factor general y de un factor específico de su dimensión.</td>
+</tr>
+<tr class="odd">
+<td><strong>Invarianza de medición</strong></td>
+<td><em>measurement invariance</em> (configural, métrica, escalar)</td>
+<td>Que la escala mida lo mismo en distintos grupos. Necesaria para comparar promedios.</td>
+</tr>
+<tr class="even">
+<td><strong>Forma corta</strong></td>
+<td>versión abreviada, <em>short form</em></td>
+<td>Subconjunto de ítems validado como escala propia, como la LCQ-5.</td>
+</tr>
+<tr class="odd">
+<td><strong>Psicometría de redes</strong></td>
+<td><em>network psychometrics</em></td>
+<td>Los ítems se influyen entre sí; no se supone un constructo que los cause.</td>
+</tr>
+<tr class="even">
+<td><strong>EGA</strong></td>
+<td><em>exploratory graph analysis</em></td>
+<td>Cuenta dimensiones como comunidades de una red de ítems.</td>
 </tr>
 </tbody>
 </table>
