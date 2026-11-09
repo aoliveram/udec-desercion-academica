@@ -8,7 +8,9 @@ Every page stores one value under its question id. What the value means:
 - anything else   the answer: an option label, a number, a text, a list
                   of roster codes ([] = "No hay nadie"), {item_id: option}
                   for a likert_block, {node_id: option} for a branching_tree,
-                  {member_id: member value} for a group
+                  {member_id: member value} for a group, and
+                  {"decision": option, member_id: option} for a consent page
+                  with extra questions
 """
 
 from motor.preguntas import OMIT
@@ -39,7 +41,22 @@ def is_answered(question, value):
         return all(value.get(item["id"]) is not None for item in question["items"])
     if question["type"] == "group":
         return all(is_answered(m, value.get(m["id"])) for m in answerable_members(question))
+    if question["type"] == "consent" and question.get("members"):
+        decision = consent_decision(question, value)
+        if decision is None:
+            return False
+        if decision == question["decline"]:
+            return True  # declining needs nothing else
+        return all(isinstance(value, dict) and value.get(m["id"]) is not None for m in question["members"])
     return True
+
+
+def consent_decision(question, value):
+    """The accept/decline choice in a consent page's value: the value itself
+    for a plain consent page, value["decision"] for one with extra questions."""
+    if isinstance(value, dict):
+        return value.get("decision")
+    return value
 
 
 def answerable_members(group):

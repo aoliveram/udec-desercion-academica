@@ -47,7 +47,17 @@ def info(id, texto):
     return {"id": id, "type": "info", "label": texto}
 
 
-def consentimiento(id, texto, *, acepto="Acepto participar", rechazo="No acepto"):
+def consentimiento(
+    id, texto, *, acepto="Acepto participar", rechazo="No acepto", documento=None, documento_pdf=None,
+    adicionales=(),
+):
+    """`documento`: texto completo del consentimiento (Markdown), que se
+    muestra en un desplegable «Leer el documento completo»; `documento_pdf`:
+    ruta (relativa a la carpeta encuesta/) de un PDF que se ofrece para
+    descargar. `adicionales`: preguntas de opción única que van en la misma
+    página, debajo de la decisión (p. ej. autorizar el registro académico);
+    cada una conserva su id y su columna, y hay que responderlas para seguir
+    (salvo si la persona no acepta participar)."""
     return {
         "id": id,
         "type": "consent",
@@ -55,6 +65,9 @@ def consentimiento(id, texto, *, acepto="Acepto participar", rechazo="No acepto"
         "options": [acepto, rechazo],
         "accept": acepto,
         "decline": rechazo,
+        "document": documento,
+        "document_pdf": documento_pdf,
+        "members": list(adicionales),
     }
 
 
@@ -203,6 +216,12 @@ def validar(preguntas):
                 problemas.append(f"{donde}: invertidos que no son ítems del bloque: {sorted(sobrantes)}")
             if p.get("option_help") is not None and len(p["option_help"]) != len(p["options"]):
                 problemas.append(f"{donde}: `ayudas` debe tener una entrada por opción")
+        if p["type"] == "consent":
+            for m in p.get("members", []):
+                if m["type"] != "radio":
+                    problemas.append(f"{donde}: el consentimiento solo admite preguntas de opción única adicionales")
+                    continue
+                revisar_pagina(m, f"{donde}, pregunta {m.get('id')}")
         if p["type"] == "group":
             miembros = p["members"]
             if len([m for m in miembros if m["type"] != "info"]) < 1:

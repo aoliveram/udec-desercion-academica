@@ -52,9 +52,14 @@ def _options_text(options, helps=None):
 
 def _pages_flat(questions):
     """(page number, question) for every answerable question, with a group's
-    members listed under the group's page number."""
+    members listed under the group's page number (and a consent page's extra
+    questions under the consent's)."""
     for page, q in enumerate(questions, start=1):
         if q["type"] == "group":
+            for m in q["members"]:
+                yield page, m
+        elif q["type"] == "consent" and q.get("members"):
+            yield page, q
             for m in q["members"]:
                 yield page, m
         else:
@@ -65,10 +70,13 @@ def _values_flat(questions, data):
     """The saved data with each group's member values lifted to the top level."""
     flat = dict(data)
     for q in questions:
-        if q["type"] == "group":
+        if q["type"] == "group" or (q["type"] == "consent" and q.get("members")):
             value = data.get(q["id"], {}).get("value")
             for m in q["members"]:
-                member_value = value.get(m["id"]) if isinstance(value, dict) else value
+                if isinstance(value, dict):
+                    member_value = value.get(m["id"])
+                else:  # a whole group omitted, or a consent saved before it had extra questions
+                    member_value = value if q["type"] == "group" else None
                 flat[m["id"]] = {"value": member_value}
     return flat
 
