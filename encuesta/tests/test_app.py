@@ -221,20 +221,22 @@ def test_name_filter_keeps_hidden_selections(env):
 
 
 def test_partially_answered_block_omits_only_the_missing_items(env):
+    block_id = next(q["id"] for q in QUESTIONS if q["type"] == "likert_block")
     at = start()
-    while page(at)["id"] != "intencion":
+    while page(at)["id"] != block_id:
         at = answer_current_page(at)
     q = page(at)
+    n = len(q["items"])
     first = q["items"][0]["id"]
     at.radio(key=key(q, first)).set_value(q["options"][0]).run()
     at = click_next(at)
-    assert any("Te falta responder 3 de 4" in m.value for m in at.markdown)
-    at = at.button(key=f"_omit_btn_{INDEX['intencion']}").click().run()
+    assert any(f"Te falta responder {n - 1} de {n}" in m.value for m in at.markdown)
+    at = at.button(key=f"_omit_btn_{INDEX[block_id]}").click().run()
 
     _, _, data = respondent(env)
-    value = data["intencion"]["value"]
+    value = data[block_id]["value"]
     assert value[first] == q["options"][0]
-    assert [value[item["id"]] for item in q["items"][1:]] == [OMIT] * 3
+    assert [value[item["id"]] for item in q["items"][1:]] == [OMIT] * (n - 1)
 
 
 def test_resume_link_lands_on_the_first_unanswered_page(env):

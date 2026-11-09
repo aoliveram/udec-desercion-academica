@@ -12,9 +12,10 @@ con "[POR COMPLETAR: ...]" (en el texto que ve quien responde) o con
 
 Reglas para editar:
 
-1. Escalas validadas (ASES, ESA, UWES-9S, ESPU, MSPSS, UCLA-3, LCQ-5):
+1. Escalas validadas (UWES-9S, ASES, ESPU, UCLA-3, MSPSS-Familia):
    copiar el texto de cada ítem y su formato de respuesta TAL CUAL aparecen
-   en el artículo de validación citado. No reescribirlos.
+   en el artículo de validación citado. No reescribirlos. Las decisiones
+   sobre qué escalas entran están en instrumento/decisiones.md.
 2. Ítems nuevos (sin escala validada): marcarlos con `fuente=NUEVO`. Pasan
    por jueces expertos y entrevistas cognitivas antes de aplicarse.
 3. Cada `id` es el nombre de la columna en la exportación: corto, en
@@ -40,14 +41,37 @@ from motor.preguntas import (
 )
 
 TITULO = "Encuesta de Ciencias Físicas"
-VERSION = "0.1-borrador"
+VERSION = "0.2-borrador"
 
 NUEVO = "Ítem nuevo (reporte semestre 2026, §2.4)"
 
 # --- Escalas de respuesta -----------------------------------------------------
+# Cada escala validada usa el formato de su validación (no se cambia). Si el
+# artículo solo da las etiquetas de los extremos, los puntos del medio van
+# con su número.
 
-ACUERDO_5 = ["Muy en desacuerdo", "En desacuerdo", "Ni de acuerdo ni en desacuerdo", "De acuerdo", "Muy de acuerdo"]
 SI_NO = ["Sí", "No"]
+
+# ESPU (Alonso García y González Ortiz de Zárate, 2024). También para la ASES:
+# su validación no publica las etiquetas (decisión en instrumento/decisiones.md).
+ACUERDO_7_NADA_TOTAL = ["1 · Nada de acuerdo", "2", "3", "4", "5", "6", "7 · Totalmente de acuerdo"]
+
+# MSPSS (López-Angulo et al., 2021).
+ACUERDO_7_MUY = ["1 · Muy en desacuerdo", "2", "3", "4", "5", "6", "7 · Muy de acuerdo"]
+
+# UWES-9S: frecuencia de 0 a 6, del manual (Schaufeli y Bakker, 2003, p. 49).
+FRECUENCIA_UWES = [
+    "0 · Nunca (ninguna vez)",
+    "1 · Casi nunca (pocas veces al año)",
+    "2 · Algunas veces (una vez al mes o menos)",
+    "3 · Regularmente (pocas veces al mes)",
+    "4 · Bastantes veces (una vez por semana)",
+    "5 · Casi siempre (pocas veces por semana)",
+    "6 · Siempre (todos los días)",
+]
+
+# UCLA-3 (Hughes et al., 2004): hardly ever / some of the time / often.
+FRECUENCIA_UCLA = ["Casi nunca", "Algunas veces", "A menudo"]
 
 
 # --- Módulo 0: bienvenida, consentimiento e identificación --------------------
@@ -144,85 +168,120 @@ LAZOS_FUERA = numero(
 )
 
 
-# --- Módulo 2: intención de abandono (resultado proximal, ítems nuevos) ------
+# --- Módulo 2: intención de abandono (POR COMPLETAR) ----------------------------
+# Placeholder hasta tener los ítems de López-Angulo, Muñoz-Inostroza,
+# Sáez-Delgado, Chandia, Mella-Norambuena y Brito-Álvarez (2025), Journal of
+# College Student Retention (escalas de intención de abandono y de cambio de
+# carrera, validadas en Chile).
 
-INTENCION = bloque(
-    "intencion",
-    "¿Qué tan de acuerdo estás con cada afirmación?",
+INTENCION = info(
+    "intencion_pendiente",
+    "**[POR COMPLETAR: preguntas de intención de abandono]**\n\n"
+    "Aquí irán los ítems de las escalas de intención de abandono y de cambio de carrera de "
+    "López-Angulo et al. (2025), cuando tengamos el artículo.",
+)
+
+
+# --- Módulos 3 y 4: escalas validadas ---------------------------------------
+# Elegidas en noviembre de 2026; el porqué de cada una (y de las que quedaron
+# fuera: ESA, LCQ-5, incivilidad, MSPSS completa) está en
+# instrumento/decisiones.md. Ítems copiados textuales del artículo citado.
+
+# Módulo 3: integración académica
+
+UWES = bloque(
+    "uwes",
+    "Las siguientes preguntas se refieren a los sentimientos de las personas en sus estudios. "
+    "Por favor, lea cuidadosamente cada pregunta y decida si se ha sentido de esta forma. "
+    "Si nunca se ha sentido así, marque «Nunca»; en caso contrario, indique cuántas veces se ha "
+    "sentido así.",
     items=[
-        ("int_dejar_carrera", "Durante este semestre he pensado seriamente en dejar la carrera de Ciencias Físicas."),
-        ("int_cambiar_carrera", "Si pudiera, el próximo año me cambiaría a otra carrera."),
-        ("int_terminar", "Estoy decidido/a a terminar esta carrera."),
-        ("int_seguir_udec", "El próximo año pienso seguir estudiando en la Universidad de Concepción."),
+        ("uwes_vi1", "Mis tareas como estudiante me hacen sentir lleno de energía"),
+        ("uwes_vi2", "Me siento fuerte y vigoroso cuando estoy estudiando o voy a las clases"),
+        ("uwes_de2", "Estoy entusiasmado con mi carrera"),
+        ("uwes_de3", "Mis estudios me inspiran cosas nuevas"),
+        ("uwes_vi3", "Cuando me levanto por la mañana me apetece ir a clase o estudiar"),
+        ("uwes_ab3", "Soy feliz cuando estoy haciendo tareas relacionadas con mis estudios"),
+        ("uwes_de4", "Estoy orgulloso de hacer esta carrera"),
+        ("uwes_ab4", "Estoy inmerso en mis estudios"),
+        ("uwes_ab5", "Me “dejo llevar” cuando realizo mis tareas como estudiante"),
     ],
-    opciones=ACUERDO_5,
-    constructo="Intención de abandono",
-    fuente=NUEVO,
-    invertidos=["int_terminar"],
+    opciones=FRECUENCIA_UWES,
+    constructo="Compromiso académico (UWES-9S): vigor (vi), dedicación (de), absorción (ab)",
+    fuente="Schaufeli y Bakker (2003), manual en español, p. 49; validación chilena: Carmona-Halty et al. (2019)",
 )
 
-INTENCION_DESTINO = opcion_unica(
-    "int_destino",
-    "Si dejaras Ciencias Físicas, ¿qué harías con mayor probabilidad?",
-    [
-        "Me cambiaría a otra carrera en la UdeC",
-        "Me iría a otra universidad o instituto",
-        "Dejaría de estudiar por un tiempo",
-        "No lo he pensado",
+ASES = bloque(
+    "ases",
+    "Indica qué tan de acuerdo estás con cada afirmación.",
+    items=[
+        ("ases_01", "Sé cómo organizar mi tiempo para cumplir con una tarea académica."),
+        ("ases_02", "Sé cómo tomar apuntes."),
+        ("ases_03", "Sé cómo estudiar para que me vaya bien en una prueba."),
+        ("ases_04", "Soy bueno haciendo trabajos escritos y de investigación"),
+        ("ases_05", "Soy un muy buen estudiante."),
+        ("ases_06", "Normalmente obtengo muy buenas notas de mis trabajos académicos."),
+        ("ases_07", "Encuentro que mis actividades académicas son interesantes y apasionantes."),
+        (
+            "ases_08",
+            "Me siento seguro(a) de que podré enfrentar con éxito todas las exigencias que se me "
+            "presenten en la universidad.",
+        ),
     ],
-    constructo="Intención de abandono",
-    fuente=NUEVO,
+    opciones=ACUERDO_7_NADA_TOTAL,
+    constructo="Autoeficacia académica (ASES): factor 1 = ítems 1-4, factor 2 = ítems 5-8",
+    fuente="Chemers et al. (2001); validación chilena: Calderón Carvajal et al. (2019)",
 )
 
-INTENCION_CONDUCTA = opcion_unica(
-    "int_averiguo_cambio",
-    "En los últimos tres meses, ¿has averiguado formalmente sobre un cambio de carrera o un traslado?",
-    SI_NO,
-    constructo="Intención de abandono",
-    fuente=NUEVO,
+# Módulo 4: integración social
+
+ESPU = bloque(
+    "espu",
+    "Indica qué tan de acuerdo estás con cada afirmación.",
+    items=[
+        ("espu_int_01", "Interactúo socialmente con compañeros de clase dentro y fuera de la Universidad"),
+        ("espu_int_02", "Me siento integrado dentro de clase"),
+        ("espu_int_03", "Tengo afecto por mis compañeros"),
+        ("espu_int_04", "Tengo muchos amigos estudiando en esta Universidad"),
+        ("espu_int_05", "En la universidad me siento aceptado por los demás"),
+        ("espu_org_06", "Estaría orgulloso de apoyar a mi universidad en lo que pueda en el futuro"),
+        ("espu_org_07", "Creo que hay suficientes recursos para los estudiantes en el campus"),
+        ("espu_org_08", "Me gusta que otros sepan que estudio en esta universidad"),
+        ("espu_org_09", "Los profesores muestran interés y compromiso en el aprendizaje de los estudiantes"),
+        ("espu_org_10", "Me siento a gusto en las instalaciones de la universidad: aulas, biblioteca, cafetería"),
+    ],
+    opciones=ACUERDO_7_NADA_TOTAL,
+    constructo="Sentido de pertenencia (ESPU): integración social (int) y orgullo (org)",
+    fuente="Alonso García y González Ortiz de Zárate (2024), Tabla 2",
 )
 
+UCLA3 = bloque(
+    "ucla3",
+    "Las siguientes preguntas son sobre cómo te sientes respecto de distintos aspectos de tu vida. "
+    "Para cada una, indica con qué frecuencia te sientes así.",
+    items=[
+        ("ucla_01", "¿Con qué frecuencia sientes que te falta compañía?"),
+        ("ucla_02", "¿Con qué frecuencia te sientes excluido?"),
+        ("ucla_03", "¿Con qué frecuencia te sientes aislado de los demás?"),
+    ],
+    opciones=FRECUENCIA_UCLA,
+    constructo="Soledad (UCLA-3)",
+    fuente="Hughes et al. (2004); versión española: Trucharte et al. (2023)",
+)
 
-# --- Módulos 3 a 6: escalas validadas (POR COMPLETAR) ------------------------
-#
-# Cada escala es un bloque(). Plantilla (descomentar, pegar el texto textual
-# de cada ítem y agregar la variable a PREGUNTAS más abajo):
-#
-# ESA = bloque(
-#     "esa",
-#     "<enunciado de la escala, tal como en la validación>",
-#     items=[
-#         ("esa_01", "<ítem 1, textual>"),
-#         ("esa_02", "<ítem 2, textual>"),
-#         # ... hasta esa_07
-#     ],
-#     opciones=ACUERDO_5,  # verificar el formato de respuesta en la validación
-#     constructo="Satisfacción académica (ESA)",
-#     fuente="Lent et al. (2007); validación chilena: Vergara-Morales et al. (2018)",
-#     invertidos=[],  # ids de los ítems que se puntúan al revés, si los hay
-# )
-#
-# Escalas previstas (reporte, secciones 2.4 y 2.7):
-#
-#   Módulo 3, integración académica
-#     ASES     8 ítems   Chemers et al. (2001); Calderón Carvajal et al. (2019)
-#     ESA      7 ítems   Lent et al. (2007); Vergara-Morales et al. (2018)
-#     UWES-9S  9 ítems   Schaufeli et al. (2002); Carmona-Halty et al. (2019)
-#   Módulo 4, integración social
-#     ESPU    10 ítems   Alonso García y González Ortiz de Zárate (2024)
-#     UCLA-3   3 ítems   Hughes et al. (2004)
-#     MSPSS   12 ítems   Zimet et al. (1988); López-Angulo et al. (2021)
-#   Módulo 5, docentes
-#     LCQ-5    5 ítems   Núñez et al. (2012)
-#     Incivilidad docente, 5-7 ítems nuevos (adaptar Cortina et al., 2001).
-#       Frecuencia en un ítem, impacto en la motivación en otro; nunca
-#       nombrar docentes ni asignaturas.
-#   Módulo 6, disciplina
-#     Identidad física 5-6 ítems (Hazari et al., 2010; traducir con TRAPD)
-#     Costo percibido 4 ítems, uno por factor (Flake et al., 2015)
-#
-# Núcleo que no se recorta: redes, intención, ASES, ESA y ESPU. Si el piloto
-# pasa de 25 minutos, recortar primero MSPSS y después UWES-9S.
+MSPSS_FAMILIA = bloque(
+    "mspss_familia",
+    "Indica qué tan de acuerdo estás con cada afirmación.",
+    items=[
+        ("mspss_a3", "Mi familia me da la ayuda y apoyo emocional que requiero"),
+        ("mspss_a4", "Tengo la seguridad que mi familia trata de apoyarme"),
+        ("mspss_a8", "Mi familia me ayuda a tomar decisiones"),
+        ("mspss_a11", "Puedo conversar de mis problemas con mi familia"),
+    ],
+    opciones=ACUERDO_7_MUY,
+    constructo="Apoyo social percibido de la familia (MSPSS, subescala Familia)",
+    fuente="Zimet et al. (1988); López-Angulo et al. (2021), Tabla 5",
+)
 
 
 # --- Módulo 7: ficha de contexto (ítems nuevos) ------------------------------
@@ -318,11 +377,15 @@ PREGUNTAS = [
     G3_ESTUDIO,
     METAPERCEPCION,
     LAZOS_FUERA,
-    # Módulo 2: intención de abandono
+    # Módulo 2: intención de abandono (placeholder)
     INTENCION,
-    INTENCION_DESTINO,
-    INTENCION_CONDUCTA,
-    # Módulos 3 a 6: escalas validadas (agregar aquí, p. ej. ESA, ASES, ESPU...)
+    # Módulo 3: integración académica
+    UWES,
+    ASES,
+    # Módulo 4: integración social
+    ESPU,
+    UCLA3,
+    MSPSS_FAMILIA,
     # Módulo 7: contexto
     CTX_PRIMERA_GENERACION,
     CTX_TRABAJO,
