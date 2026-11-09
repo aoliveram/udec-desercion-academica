@@ -54,9 +54,18 @@ def click_next(at):
 
 
 def answer_current_page(at, self_code=SELF):
-    q = page(at)
+    fill(at, page(at), self_code)
+    at.run()
+    assert not at.exception, at.exception
+    return click_next(at)
+
+
+def fill(at, q, self_code=SELF):
     t = q["type"]
-    if t == "consent":
+    if t == "group":
+        for member in q["members"]:
+            fill(at, member, self_code)
+    elif t == "consent":
         at.radio(key=key(q)).set_value(q["accept"])
     elif t == "self_id":
         at.selectbox(key=key(q)).set_value(self_code)
@@ -78,9 +87,6 @@ def answer_current_page(at, self_code=SELF):
             option = q["tree"][node_id]["options"][0]
             at.radio(key=key(q, node_id)).set_value(option).run()
             node_id = q["tree"][node_id]["branches"].get(option)
-    at.run()
-    assert not at.exception, at.exception
-    return click_next(at)
 
 
 def respondent(env_path):
@@ -101,7 +107,9 @@ def test_full_run_completes_with_timing_and_intact_audit_chain(env):
     assert row["instrument_version"] == instrumento.VERSION
     assert data["identificacion"]["value"] == SELF
     assert data["g1_afinidad"]["value"] == NOMINATED  # stored in display order: cohort, then name
-    assert data["ctx_trabajo"]["value"] == {"trabaja": "Sí", "horas": "Menos de 10"}
+    # ctx_trabajo is a tree inside a group: its answers live under the group's page.
+    assert data["ctx_familia_trabajo"]["value"]["ctx_trabajo"] == {"trabaja": "Sí", "horas": "Menos de 10"}
+    assert data["cierre"]["value"] == {"comentarios": "Todo bien"}
     times = db.get_answer_times(conn, row["id"])
     assert set(times) == {q["id"] for q in QUESTIONS}
     assert all(t is not None for t in times.values())
@@ -304,3 +312,66 @@ def test_export_produces_pseudonymized_tables(env, monkeypatch):
         assert person.name not in everything
     assert "Todo bien" in (out / "textos_abiertos.csv").read_text(encoding="utf-8")
     assert "Completas:     1" in (out / "resumen.txt").read_text(encoding="utf-8")
+
+
+def test_partially_answered_group_omits_only_the_missing_questions(env):
+    group = next(q for q in QUESTIONS if q["type"] == "group")
+    first, *rest = [m for m in group["members"] if m["type"] != "info"]
+    at = start()
+    while page(at)["id"] != group["id"]:
+        at = answer_current_page(at)
+    fill(at, first)
+    at = click_next(at.run())
+    assert any(f"Te falta responder {len(rest)} de {len(rest) + 1} preguntas" in m.value for m in at.markdown)
+    at = at.button(key=f"_omit_btn_{INDEX[group['id']]}").click().run()
+    assert page(at)["id"] != group["id"]
+
+    _, _, data = respondent(env)
+    value = data[group["id"]]["value"]
+    assert value[first["id"]] is not None and value[first["id"]] != OMIT
+    assert all(value[m["id"]] not in (None, {}) for m in rest)
+
+
+def test_block_with_option_help_injects_hover_css(env):
+    block = next(q for q in QUESTIONS if q["type"] == "likert_block" and q.get("option_help"))
+    at = start()
+    while page(at)["id"] != block["id"]:
+        at = answer_current_page(at)
+    css = " ".join(h.proto.body for h in at.get("html"))
+    assert f'st-key-w__{block["id"]}__' in css
+    assert block["option_help"][3] in css
+
+
+def _go_to_first_number_page(at):
+    q = next(q for q in QUESTIONS if q["type"] == "number")
+    while page(at)["id"] != q["id"]:
+        at = answer_current_page(at)
+    return at, q
+
+
+def test_plus_on_an_empty_number_gives_one_and_keeps_counting(env):
+    at, q = _go_to_first_number_page(start())
+    assert at.number_input(key=key(q)).value is None  # no default
+    at = at.button(key=key(q) + "__mas").click().run()
+    assert at.number_input(key=key(q)).value == 1
+    at = at.button(key=key(q) + "__mas").click().run()
+    assert at.number_input(key=key(q)).value == 2
+    at = click_next(at)
+    _, _, data = respondent(env)
+    assert data[q["id"]]["value"] == 2
+
+
+def test_minus_on_an_empty_number_stays_at_zero(env):
+    at, q = _go_to_first_number_page(start())
+    at = at.button(key=key(q) + "__menos").click().run()
+    assert at.number_input(key=key(q)).value == 0
+    at = at.button(key=key(q) + "__menos").click().run()
+    assert at.number_input(key=key(q)).value == 0
+
+
+def test_each_page_gets_a_fresh_scroll_to_top_script(env):
+    at = start()
+    first = [h.proto.body for h in at.get("html") if "stMain" in h.proto.body]
+    at = answer_current_page(at)
+    second = [h.proto.body for h in at.get("html") if "stMain" in h.proto.body]
+    assert first and second and first != second  # identical HTML wouldn't run again

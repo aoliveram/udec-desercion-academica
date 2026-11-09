@@ -59,6 +59,30 @@ def widget_key(question, *parts):
     return "__".join(["w", question["id"], *map(str, parts)])
 
 
+def scroll_to_top_script():
+    """Script that brings a newly opened page back to the top.
+
+    No native Streamlit API resets the scroll position on navigation. Three
+    details, each checked in a browser:
+    - What scrolls is Streamlit's main container (data-testid="stMain"),
+      not the window, so window.scrollTo alone does nothing.
+    - Streamlit doesn't re-run a script whose HTML is identical to the one
+      already on the page, so each visit gets its own number.
+    - Wrapped in a function so re-running it doesn't redeclare a variable.
+    Two nested requestAnimationFrame calls wait for the new page's layout to
+    settle before scrolling."""
+    visit = st.session_state["_scroll_visit"] = st.session_state.get("_scroll_visit", 0) + 1
+    return (
+        f'<script data-visita="{visit}">(() => {{'
+        "const top = () => {"
+        "document.querySelectorAll('[data-testid=\"stMain\"]').forEach((e) => e.scrollTo(0, 0));"
+        "window.scrollTo(0, 0);"
+        "};"
+        "requestAnimationFrame(() => requestAnimationFrame(top));"
+        "})();</script>"
+    )
+
+
 def show_omitted_note():
     st.caption(f"Marcaste «{OMIT}» en esta pregunta.")
 
@@ -215,15 +239,46 @@ def render_radio(question, saved, context):
     return None
 
 
+def option_tooltips_css(question):
+    """CSS that shows each option's `ayudas` text in a bubble on hover.
+
+    Streamlit radios have no per-option tooltip, so this styles the option
+    labels of every item in the block (their widget keys share a prefix and
+    Streamlit puts `st-key-<key>` on each widget's container). On a phone
+    the bubble shows on tap, where the browser supports sticky hover."""
+    scope = f'[class*="st-key-{widget_key(question)}__"] div[role="radiogroup"] > label'
+    rules = [f"{scope} {{ position: relative; }}"]
+    for n, text in enumerate(question["option_help"], start=1):
+        if not text:
+            continue
+        content = json.dumps(text)  # a valid CSS string literal, quotes escaped
+        rules.append(
+            f"{scope}:nth-of-type({n}):hover::after {{ content: {content}; position: absolute; "
+            "bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); white-space: nowrap; "
+            "background: #31333F; color: #FFFFFF; font-size: 0.8rem; line-height: 1.3; "
+            "padding: 4px 8px; border-radius: 6px; z-index: 1000; pointer-events: none; }"
+        )
+    return "<style>\n" + "\n".join(rules) + "\n</style>"
+
+
+def italic(text):
+    """Markdown italics for each paragraph (a single *...* can't span a blank line)."""
+    return "\n\n".join(f"*{para.strip()}*" for para in text.split("\n\n") if para.strip())
+
+
 def render_likert_block(question, saved, context):
-    st.markdown(f"**{question['label']}**")
+    # The block's instruction in italics and each statement in bold, so the
+    # eye lands on what has to be answered.
+    st.markdown(italic(question["label"]))
+    if question.get("option_help"):
+        st.html(option_tooltips_css(question))
     options = question["options"]
     saved = flow.clean_block_answers(question, saved if isinstance(saved, dict) else {})
     answers = {}
-    for n, item in enumerate(question["items"], start=1):
+    for item in question["items"]:
         prior = saved.get(item["id"])
         choice = st.radio(
-            f"{n}. {item['label']}",
+            f"**{item['label']}**",
             options,
             index=options.index(prior) if prior in options else None,
             key=widget_key(question, item["id"]),
@@ -237,24 +292,57 @@ def render_likert_block(question, saved, context):
     return answers or None
 
 
+def step_number(key, delta, minimum, maximum):
+    """«−»/«+» callback. From an empty field «+» gives minimum + 1 and «−»
+    gives the minimum, so the whole question can be answered without typing
+    (no phone keyboard)."""
+    current = st.session_state.get(key)
+    new = (minimum + 1 if delta > 0 else minimum) if current is None else current + delta
+    new = max(minimum, new)
+    if maximum is not None:
+        new = min(maximum, new)
+    st.session_state[key] = new
+
+
 def render_number(question, saved, context):
     max_value = question["max_value"]
     if max_value == "nomina":
         max_value = len(context["roster_excl_self"])
+    min_value = question["min_value"]
     prior = saved if isinstance(saved, int) and not isinstance(saved, bool) else None
-    if prior is not None and (prior < question["min_value"] or (max_value is not None and prior > max_value)):
+    if prior is not None and (prior < min_value or (max_value is not None and prior > max_value)):
         prior = None
+    key = widget_key(question)
+    # The value lives in session_state (not value=) so the buttons below can
+    # change it; restore it from the database when the widget is new.
+    if key not in st.session_state:
+        st.session_state[key] = prior
     st.markdown(f"**{question['label']}**")
-    number = st.number_input(
-        question["label"],
-        min_value=question["min_value"],
-        max_value=max_value,
-        value=prior,
-        step=1,
-        placeholder="Escribe un número",
-        key=widget_key(question),
-        label_visibility="collapsed",
+    # Streamlit disables its own +/- while the field is empty, so they're
+    # hidden and replaced by buttons that also work from empty.
+    st.html(
+        f"<style>.st-key-{key} [data-testid='stNumberInputStepUp'], "
+        f".st-key-{key} [data-testid='stNumberInputStepDown'] {{ display: none; }}</style>"
     )
+    with st.container(horizontal=True, vertical_alignment="center", gap="small"):
+        number = st.number_input(
+            question["label"],
+            min_value=min_value,
+            max_value=max_value,
+            value=None,
+            step=1,
+            placeholder="Escribe un número",
+            key=key,
+            label_visibility="collapsed",
+        )
+        st.button(
+            "", icon=":material/remove:", key=f"{key}__menos", help="Restar uno",
+            on_click=step_number, args=(key, -1, min_value, max_value),
+        )
+        st.button(
+            "", icon=":material/add:", key=f"{key}__mas", help="Sumar uno",
+            on_click=step_number, args=(key, 1, min_value, max_value),
+        )
     if number is not None:
         return int(number)
     if saved == OMIT:
@@ -289,7 +377,7 @@ def render_branching_tree(question, saved, context):
         node = tree[node_id]
         prior = existing.get(node_id)
         answer = st.radio(
-            node["label"],
+            f"**{node['label']}**",  # bold like every other question
             node["options"],
             index=node["options"].index(prior) if prior in node["options"] else None,
             key=widget_key(question, node_id),
@@ -304,6 +392,21 @@ def render_branching_tree(question, saved, context):
     return answers or None
 
 
+def render_group(question, saved, context):
+    # Each member is drawn by its own renderer, with its own widget keys
+    # (member ids are unique across the instrument), so it behaves exactly
+    # as it would on a page of its own.
+    saved = saved if isinstance(saved, dict) else {}
+    answers = {}
+    for n, member in enumerate(question["members"]):
+        if n:
+            st.divider()
+        value = RENDERERS[member["type"]](member, saved.get(member["id"]), context)
+        if member["type"] != "info" and value is not None:
+            answers[member["id"]] = value
+    return answers or None
+
+
 RENDERERS = {
     "info": render_info,
     "consent": render_consent,
@@ -314,6 +417,7 @@ RENDERERS = {
     "number": render_number,
     "text": render_text,
     "branching_tree": render_branching_tree,
+    "group": render_group,
 }
 
 
@@ -323,6 +427,10 @@ def omit_prompt_message(question, value):
     if question["type"] == "likert_block":
         missing = sum(1 for item in question["items"] if (value or {}).get(item["id"]) is None)
         return f"Te falta responder {missing} de {len(question['items'])} afirmaciones."
+    if question["type"] == "group":
+        members = flow.answerable_members(question)
+        missing = sum(1 for m in members if not flow.is_answered(m, (value or {}).get(m["id"])))
+        return f"Te falta responder {missing} de {len(members)} preguntas."
     return "No has seleccionado una respuesta."
 
 
@@ -365,6 +473,19 @@ def decline(consent_value):
 # --- resolve the respondent: resume via token, or start a new one -------------
 
 conn = get_db()
+
+# Text a bit larger than Streamlit's 16 px so questions and options read
+# easily, also on a phone. Done in CSS rather than with the theme's
+# baseFontSize: setting any [theme] option swaps Streamlit's default colors.
+# Widget labels and options (radios, checkboxes) are a size smaller than body
+# text by default; they're brought up to it.
+st.html(
+    "<style>"
+    f"html {{ font-size: {settings.BASE_FONT_SIZE_PX}px; }}"
+    '[data-testid="stWidgetLabel"] p, div[role="radiogroup"] label p, '
+    '[data-testid="stCheckbox"] label p { font-size: 1rem; }'
+    "</style>"
+)
 
 st.title(instrumento.TITULO)
 
@@ -453,14 +574,7 @@ if st.session_state.get("_visit_page_index") != idx:
     st.session_state.pop("_omit_prompt", None)
     audit.append_event(conn, respondent_id, "page_entered", {"question_id": question["id"]})
 
-    # No native Streamlit API resets scroll position on navigation; without
-    # this a long page (a roster checklist) leaves the next one scrolled to
-    # wherever it ended. Two nested requestAnimationFrame calls wait for the
-    # new page's layout to settle before scrolling.
-    st.html(
-        "<script>requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, 0)));</script>",
-        unsafe_allow_javascript=True,
-    )
+    st.html(scroll_to_top_script(), unsafe_allow_javascript=True)
 
 # --- the page itself -------------------------------------------------------------
 
@@ -487,7 +601,7 @@ answered = flow.is_answered(question, value)
 if not answered and st.session_state.get("_omit_prompt") == question["id"]:
     with st.container(border=True):
         st.markdown(omit_prompt_message(question, value))
-        omit_label = "Prefiero no contestar las que faltan" if question["type"] == "likert_block" else OMIT
+        omit_label = "Prefiero no contestar las que faltan" if question["type"] in ("likert_block", "group") else OMIT
         if st.button(omit_label, type="primary", key=f"_omit_btn_{idx}"):
             persist(flow.omit_value(question, value))
             if is_last:
