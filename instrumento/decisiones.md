@@ -53,13 +53,13 @@ Este documento registra las decisiones sobre el instrumento a medida que las tom
 
 **Qué queda fuera:** satisfacción académica (ESA), apoyo a la autonomía docente (LCQ-5), incivilidad docente y las subescalas Amigos y Otros significativos de la MSPSS.
 
-**Tiempo estimado:** las escalas toman unos 4 minutos (a ~7 segundos por ítem). Con las redes, el contexto y la intención, la encuesta debería quedar en 10–13 minutos.
+**Tiempo estimado:** las escalas toman unos 4 minutos (a ~7 segundos por ítem). Con las redes, el contexto y la intención, la encuesta toma entre 10 y 15 minutos, y así lo dice la bienvenida.
 
 # Decisiones
 
 ## Diseño general
 
-**D1. Encuesta por correo a toda la FCFM, buscando la menor atrición posible** (firme). Por eso el criterio para cada escala es que aporte algo que ninguna otra pregunta capta, y que no se pise con otra.
+**D1. Encuesta por correo a toda la Facultad de Ciencias Físicas y Matemáticas (CFM), buscando la menor atrición posible** (firme). La encuesta se llama «Encuesta CFM» y ya no menciona solo a Ciencias Físicas. Por eso el criterio para cada escala es que aporte algo que ninguna otra pregunta capta, y que no se pise con otra.
 
 **D2. Tres olas, una por semestre: 2026-II, 2027-I y 2027-II** (firme). La deserción observada sale del registro académico (por eso la encuesta pide autorización para consultarlo), no de quién deja de responder: alguien que no contesta la ola 2 puede haber desertado o solo no haber respondido.
 
@@ -99,6 +99,7 @@ Adaptaciones al UWES, todas menores:
 - La instrucción del manual dice «en el trabajo» (error de copia de la versión para empleados): la cambiamos a «en sus estudios».
 - La instrucción explicaba cómo escribir un número en papel; la cambiamos a «marque «Nunca»; en caso contrario, indique cuántas veces…».
 - «Bastante veces» (errata del manual) pasa a «Bastantes veces».
+- **En pantalla, las opciones van como números** (0 · Nunca, 1, 2, 3, 4, 5, 6 · Siempre), igual que las escalas de acuerdo. La etiqueta completa de cada punto («Regularmente (pocas veces al mes)», etc.) aparece en una burbuja al pasar el cursor; en el celular, al tocar la opción, si el navegador lo permite. Las etiquetas completas con su frecuencia se veían demasiado cargadas. La escala y su significado no cambian.
 
 **D8. Autoeficacia académica con la ASES completa, 8 ítems** (firme). Es de los mejores predictores individuales de permanencia, y su validación chilena tiene N = 4.950. El ítem 7 («Encuentro que mis actividades académicas son interesantes y apasionantes») se parece más a compromiso que a autoeficacia: lo dejamos, para no romper la validación, y lo revisaremos en el piloto.
 
@@ -122,10 +123,15 @@ Adaptaciones al UWES, todas menores:
 - **LCQ-5:** pertinencia baja, y en la versión española pregunta por un profesor en particular. El ítem 9 de la ESPU («Los profesores muestran interés y compromiso…») ya da una mirada a los docentes.
 - **Incivilidad:** no hay escala validada para universitarios en español; habría que redactar ítems nuevos y validarlos, y además obligaría a incluir la LCQ (9 ítems en total).
 
+## Presentación
+
+**D14. Las preguntas de contexto van de a dos por pantalla** (firme). Primera generación con trabajo remunerado, vivienda con traslado, y primera opción con otra carrera. La pregunta abierta de comentarios va en la misma pantalla que el cierre. Así la encuesta pasa de 24 a 20 pantallas. Cada pregunta conserva su propia columna en la exportación.
+
 # Pendientes
 
 1. Conseguir López-Angulo et al. (2025) y cargar la intención de abandono (D3).
 2. Confirmar las etiquetas de la ASES con Calderón (D8).
 3. Pedir a Medrano la ESA referida a la carrera, si queremos reabrir D6.
-4. Revisar el resto de `instrumento.py`, que todavía es borrador: los textos de bienvenida, redes y contexto hablan de «Ciencias Físicas» y de «1.º y 2.º año», pero la encuesta irá a toda la FCFM (D1). La bienvenida dice «25 minutos».
-5. Piloto: revisar el ítem 7 de la ASES, la estructura de cada escala y las correlaciones entre constructos (AFC con todos, HTMT, EGA).
+4. Revisar el consentimiento informado: pasar a una sola pantalla, con la autorización del registro académico dentro (propuesta en discusión).
+5. Decidir si se agrega una pregunta de metapercepción para las redes de ayuda y de estudio (hoy solo existe para la de afinidad).
+6. Piloto: revisar el ítem 7 de la ASES, la estructura de cada escala y las correlaciones entre constructos (AFC con todos, HTMT, EGA).

@@ -29,7 +29,7 @@ artículo. Si se cambia la redacción, deja de ser la escala validada.
 | Relación con docentes | LCQ-5 + incivilidad | — | Fuera |
 
 Presupuesto: 34 ítems de escalas (~4 min). Con redes, contexto e intención,
-la encuesta debería quedar en 10–13 minutos. El detalle está en
+la encuesta toma entre 10 y 15 minutos. El detalle está en
 [`decisiones.pdf`](decisiones.pdf).
 
 Las fichas de abajo son de la etapa de búsqueda de escalas (octubre de 2026).
