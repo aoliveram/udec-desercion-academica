@@ -7,7 +7,8 @@ Every page stores one value under its question id. What the value means:
 - OMIT            the respondent chose «Prefiero no contestar»
 - anything else   the answer: an option label, a number, a text, a list
                   of roster codes ([] = "No hay nadie"), {item_id: option}
-                  for a likert_block, {node_id: option} for a branching_tree
+                  for a likert_block, {node_id: option} for a branching_tree,
+                  {member_id: member value} for a group
 """
 
 from motor.preguntas import OMIT
@@ -36,7 +37,14 @@ def is_answered(question, value):
         return next_tree_node(question["tree"], question["root"], value) is None
     if question["type"] == "likert_block":
         return all(value.get(item["id"]) is not None for item in question["items"])
+    if question["type"] == "group":
+        return all(is_answered(m, value.get(m["id"])) for m in answerable_members(question))
     return True
+
+
+def answerable_members(group):
+    """A group's members that take an answer (its info texts don't)."""
+    return [m for m in group["members"] if m["type"] != "info"]
 
 
 def is_question_answered(question, saved_data):
@@ -68,6 +76,12 @@ def omit_value(question, value):
         pending = next_tree_node(question["tree"], question["root"], answers)
         if pending is not None:
             answers[pending] = OMIT
+        return answers
+    if question["type"] == "group":
+        answers = dict(value or {})
+        for m in answerable_members(question):
+            if not is_answered(m, answers.get(m["id"])):
+                answers[m["id"]] = omit_value(m, answers.get(m["id"]))
         return answers
     return OMIT
 

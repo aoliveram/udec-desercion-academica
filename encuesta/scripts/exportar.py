@@ -121,10 +121,8 @@ def main():
             if q["id"] in page_times and page_times[q["id"]] is not None:
                 times.append({"id": ids[person.code], "pagina": page, "pregunta": q["id"],
                               "segundos": round(page_times[q["id"]], 2)})
-            if q["type"] == "text":
-                text = data.get(q["id"], {}).get("value")
-                if text:
-                    texts.append({"id": ids[person.code], "pregunta": q["id"], "texto": text})
+        for qid, text in export.open_texts(questions, data):
+            texts.append({"id": ids[person.code], "pregunta": qid, "texto": text})
 
     nodes.sort(key=lambda row: row["id"])  # never in the roster's (alphabetical) order
     write_csv(out_dir / "nodos.csv", node_fields, nodes)

@@ -133,3 +133,28 @@ def test_omitting_a_tree_node_is_valid_and_ends_the_tree():
     assert answers == {"root": "B", "mid": OMIT}
     assert flow.clean_tree_answers(TREE, "root", answers) == answers
     assert flow.next_tree_node(TREE, "root", answers) is None
+
+
+def _group():
+    from motor.preguntas import arbol, grupo, info
+
+    tree = arbol("t", "trabaja", {
+        "trabaja": {"texto": "¿Trabajas?", "opciones": ["Sí", "No"], "siguiente": {"Sí": "horas"}},
+        "horas": {"texto": "¿Horas?", "opciones": ["<10", "10+"]},
+    })
+    return grupo("g", [opcion_unica("a", "¿?", ["Sí", "No"]), tree, info("x", "texto")])
+
+
+def test_group_is_answered_only_when_every_question_is():
+    g = _group()
+    assert not flow.is_answered(g, None)
+    assert not flow.is_answered(g, {"a": "Sí"})
+    assert not flow.is_answered(g, {"a": "Sí", "t": {"trabaja": "Sí"}})
+    assert flow.is_answered(g, {"a": "Sí", "t": {"trabaja": "No"}})
+
+
+def test_omitting_a_group_fills_only_what_is_missing():
+    g = _group()
+    assert flow.omit_value(g, {"a": "No"}) == {"a": "No", "t": {"trabaja": OMIT}}
+    assert flow.omit_value(g, {"t": {"trabaja": "Sí"}}) == {"a": OMIT, "t": {"trabaja": "Sí", "horas": OMIT}}
+    assert flow.is_answered(g, flow.omit_value(g, None))

@@ -73,3 +73,23 @@ def test_tree_branches_must_point_to_existing_nodes():
 def test_block_items_carry_reverse_flag():
     b = bloque("b", "¿?", [("i1", "x"), ("i2", "y")], ["A", "B"], invertidos=["i2"])
     assert [item["reverse_scored"] for item in b["items"]] == [False, True]
+
+
+def test_group_members_are_validated_and_their_ids_must_be_unique():
+    from motor.preguntas import grupo
+
+    ok = MINIMO + [grupo("g", [opcion_unica("a", "¿?", ["Sí", "No"]), numero("b", "¿?"), info("t", "hola")])]
+    assert validar(ok) == []
+    repeated = MINIMO + [opcion_unica("a", "¿?", ["Sí", "No"]), grupo("g", [opcion_unica("a", "¿?", ["Sí", "No"])])]
+    assert any("repetido" in p for p in validar(repeated))
+    wrong_type = MINIMO + [grupo("g", [bloque("b", "¿?", [("i1", "x")], ["A", "B"])])]
+    assert any("un grupo solo admite" in p for p in validar(wrong_type))
+    only_text = MINIMO + [grupo("g", [info("t", "hola")])]
+    assert any("no tiene preguntas" in p for p in validar(only_text))
+
+
+def test_block_option_help_needs_one_entry_per_option():
+    good = MINIMO + [bloque("b", "¿?", [("i1", "x")], ["0", "1"], ayudas=["nunca", None])]
+    assert validar(good) == []
+    bad = MINIMO + [bloque("b", "¿?", [("i1", "x")], ["0", "1"], ayudas=["nunca"])]
+    assert any("ayudas" in p for p in validar(bad))

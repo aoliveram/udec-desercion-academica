@@ -102,3 +102,26 @@ def test_pick_respondents_prefers_completed_and_counts_the_rest():
     by_code, report = export.pick_respondents(rows, {"1", "2"}, "yo")
     assert by_code["1"]["id"] == "a"
     assert report == {"rechazos": 1, "sin_identificacion": 1, "fuera_de_nomina": 1, "duplicados": 1}
+
+
+def test_group_members_export_as_their_own_columns():
+    from motor.preguntas import abierta, grupo, info
+
+    questions = [
+        identificacion("yo"),
+        grupo("g", [opcion_unica("a", "¿?", ["Sí", "No"]), abierta("com", "¿Algo más?"), info("x", "Gracias")]),
+    ]
+    cells = export.encode_answers(questions, {"g": v({"a": "No", "com": "hola"})})
+    assert cells == {"a": 2}
+    assert export.encode_answers(questions, {}) == {"a": export.NO_ANSWER}
+    assert export.encode_answers(questions, {"g": v({"a": OMIT})}) == {"a": export.OMITTED}
+    assert export.open_texts(questions, {"g": v({"a": "No", "com": "hola"})}) == [("com", "hola")]
+    columns = {row["columna"]: row for row in export.codebook(questions)}
+    assert set(columns) == {"a", "com"}
+    assert columns["a"]["pagina"] == 2
+
+
+def test_codebook_includes_option_help():
+    questions = [identificacion("yo"), bloque("b", "¿?", [("i1", "x")], ["0", "1"], ayudas=["Nunca", None])]
+    (row,) = export.codebook(questions)
+    assert row["opciones"] == "1=0 (Nunca); 2=1"

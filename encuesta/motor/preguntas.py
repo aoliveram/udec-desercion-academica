@@ -21,6 +21,9 @@ Tipos de página:
 - `abierta`         texto libre (opcional por diseño).
 - `arbol`           preguntas encadenadas: cuál viene después depende de la
                     respuesta anterior (p. ej. "¿Trabajas?" -> "¿Cuántas horas?").
+- `grupo`           dos o más preguntas cortas en una misma página
+                    (`opcion_unica`, `numero`, `abierta`, `arbol` o un texto
+                    `info`). Cada una conserva su id y su columna.
 
 Omitir: si alguien aprieta "Siguiente" sin responder, la app le ofrece
 «Prefiero no contestar» y lo registra como tal (no como una respuesta).
@@ -83,15 +86,21 @@ def opcion_unica(id, texto, opciones, *, constructo=None, fuente=None, invertido
     }
 
 
-def bloque(id, texto, items, opciones, *, constructo=None, fuente=None, invertidos=()):
+def bloque(id, texto, items, opciones, *, ayudas=None, constructo=None, fuente=None, invertidos=()):
     """`items`: lista de pares (id_del_item, texto). `invertidos`: ids de los
-    ítems que se puntúan al revés (solo documentación)."""
+    ítems que se puntúan al revés (solo documentación).
+
+    `ayudas`: opcional, una lista del mismo largo que `opciones` con el texto
+    que aparece en una burbuja al pasar el cursor sobre cada opción (None en
+    una posición = sin burbuja). Sirve para mostrar opciones cortas ("0" a
+    "6") sin perder el significado de cada una."""
     invertidos = set(invertidos)
     return {
         "id": id,
         "type": "likert_block",
         "label": texto,
         "options": list(opciones),
+        "option_help": list(ayudas) if ayudas is not None else None,
         "items": [
             {"id": item_id, "label": item_texto, "reverse_scored": item_id in invertidos}
             for item_id, item_texto in items
@@ -140,6 +149,17 @@ def arbol(id, raiz, nodos, *, constructo=None, fuente=None):
     }
 
 
+GROUP_MEMBER_TYPES = {"radio", "number", "text", "branching_tree", "info"}
+
+
+def grupo(id, preguntas):
+    """Varias preguntas en una misma página, una debajo de otra. `preguntas`:
+    páginas hechas con opcion_unica, numero, abierta, arbol o info (un texto
+    sin respuesta). La página se da por respondida cuando todas sus
+    preguntas lo están; «Prefiero no contestar» omite solo las que faltan."""
+    return {"id": id, "type": "group", "members": list(preguntas)}
+
+
 def validar(preguntas):
     """Revisa el instrumento antes de mostrarlo. Devuelve una lista de
     problemas en castellano (vacía si todo está bien)."""
@@ -169,8 +189,7 @@ def validar(preguntas):
     if not preguntas:
         return ["el instrumento no tiene preguntas"]
 
-    for i, p in enumerate(preguntas, start=1):
-        donde = f"página {i} ({p.get('id')})"
+    def revisar_pagina(p, donde):
         registrar_id(p.get("id"), donde)
         if p["type"] in ("radio", "consent", "likert_block"):
             revisar_opciones(p["options"], donde)
@@ -182,6 +201,19 @@ def validar(preguntas):
             sobrantes = p["_reverse_ids"] - {item["id"] for item in p["items"]}
             if sobrantes:
                 problemas.append(f"{donde}: invertidos que no son ítems del bloque: {sorted(sobrantes)}")
+            if p.get("option_help") is not None and len(p["option_help"]) != len(p["options"]):
+                problemas.append(f"{donde}: `ayudas` debe tener una entrada por opción")
+        if p["type"] == "group":
+            miembros = p["members"]
+            if len([m for m in miembros if m["type"] != "info"]) < 1:
+                problemas.append(f"{donde}: el grupo no tiene preguntas")
+            for m in miembros:
+                if m["type"] not in GROUP_MEMBER_TYPES:
+                    problemas.append(
+                        f"{donde}: un grupo solo admite {sorted(GROUP_MEMBER_TYPES)}, no {m['type']!r} ({m.get('id')})"
+                    )
+                    continue
+                revisar_pagina(m, f"{donde}, pregunta {m.get('id')}")
         if p["type"] == "branching_tree":
             if p["root"] not in p["tree"]:
                 problemas.append(f"{donde}: la raíz {p['root']!r} no es un nodo del árbol")
@@ -194,6 +226,9 @@ def validar(preguntas):
                         problemas.append(f"{donde}, nodo {node_id}: {siguiente!r} no es un nodo del árbol")
         if p["type"] == "roster_checklist" and p["max_selections"] < 1:
             problemas.append(f"{donde}: el máximo de nominaciones debe ser al menos 1")
+
+    for i, p in enumerate(preguntas, start=1):
+        revisar_pagina(p, f"página {i} ({p.get('id')})")
 
     if tipos.count("self_id") != 1:
         problemas.append("debe haber exactamente una página de identificacion()")
