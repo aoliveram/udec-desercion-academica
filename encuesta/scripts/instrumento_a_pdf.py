@@ -42,6 +42,7 @@ PREAMBLE = r"""
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{4pt}
 \setlist{itemsep=1pt,topsep=2pt}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 % Paleta de Streamlit (tema claro)
 \definecolor{stText}{HTML}{31333F}
@@ -220,14 +221,32 @@ class Doc:
         return markdown(q["label"])
 
     def consent(self, q):
-        radios = "\n".join(rf"\radio{{{esc(o)}}}" for o in q["options"])
-        return (
-            markdown(q["label"])
-            + "\n\\vspace{4pt}\n\\qlabel{Tu decisión}\n"
-            + radios
-            + rf"\note{{Si se marca «{esc(q['decline'])}», el botón de avanzar dice \emph{{Terminar}}: "
-            r"la encuesta se cierra y se borra lo que se haya respondido.}"
+        parts = [markdown(q["label"])]
+        if q.get("document"):
+            parts.append(
+                r"\vspace{4pt}\begin{tcolorbox}[enhanced,colback=white,colframe=stBorder,boxrule=0.6pt,arc=5pt,"
+                r"left=10pt,right=10pt,top=6pt,bottom=6pt,width=\linewidth]"
+                r"{\small$\rangle$\ \ Leer el documento completo}\end{tcolorbox}\vspace{-4pt}"
+                r"\note{Desplegable: al abrirlo muestra el documento completo, que va como anexo al final de este PDF.}"
+            )
+        if q.get("document_pdf"):
+            parts.append(
+                r"\vspace{2pt}\noindent\tcbox[on line,colback=white,colframe=stBorder,boxrule=0.6pt,arc=5pt,"
+                r"left=8pt,right=8pt,top=4pt,bottom=4pt]{\small $\downarrow$\ Descargar el documento (PDF)}\par"
+            )
+        members = q.get("members") or []
+        parts.append(r"\vspace{6pt}")
+        parts.append(r"\qlabelbf{¿Aceptas participar?}" if members else r"\qlabel{Tu decisión}")
+        parts.extend(rf"\radio{{{esc(o)}}}" for o in q["options"])
+        for m in members:
+            parts.append(r"\nextitem")
+            parts.append(rf"\qlabelbf{{{inline(m['label'])}}}")
+            parts.extend(rf"\radio{{{esc(o)}}}" for o in m["options"])
+        parts.append(
+            rf"\note{{Hay que responder todo para seguir. Si se marca «{esc(q['decline'])}», el botón de avanzar "
+            r"dice \emph{Terminar}: la encuesta se cierra y se borra lo que se haya respondido.}"
         )
+        return "\n".join(parts)
 
     def self_id(self, q):
         names = [f"{name} · {cohort}" for cohort, people in self.roster.items() for name in people]
@@ -455,9 +474,27 @@ agradecimiento.
 \end{screen}
 """
 
+    def annex(self):
+        """The full consent document, if there is one, converted with pandoc."""
+        doc = next((q.get("document") for q in self.questions if q["type"] == "consent" and q.get("document")), None)
+        if not doc or shutil.which("pandoc") is None:
+            return ""
+        body = subprocess.run(
+            ["pandoc", "-f", "markdown", "-t", "latex"], input=doc, capture_output=True, text=True, check=True
+        ).stdout
+        body = re.sub(r"\\(sub)*section\{", lambda m: m.group(0)[:-1] + "*{", body)  # unnumbered headings
+        return (
+            "\n\\newpage\n{\\fontsize{18}{22}\\selectfont\\bfseries Anexo: consentimiento informado completo}\\par"
+            "\\vspace{2pt}{\\small\\color{stMuted} El texto del desplegable «Leer el documento completo».}\\par"
+            "\\vspace{10pt}\n" + body
+        )
+
     def latex(self):
         screens = "\n".join(self.screen(n, q) for n, q in enumerate(self.questions, start=1))
-        return PREAMBLE + "\n\\begin{document}\n" + self.intro() + screens + self.final() + "\n\\end{document}\n"
+        return (
+            PREAMBLE + "\n\\begin{document}\n" + self.intro() + screens + self.final() + self.annex()
+            + "\n\\end{document}\n"
+        )
 
 
 def main():

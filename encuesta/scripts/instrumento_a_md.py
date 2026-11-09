@@ -62,7 +62,12 @@ def body(q):
         out.append(quote(q["label"]))
     elif t == "consent":
         out.append(quote(q["label"]))
-        out.append("\n\n" + " · ".join(f"( ) {o}" for o in q["options"]))
+        if q.get("document"):
+            out.append("\n\n*(desplegable «Leer el documento completo», con el texto de "
+                       f"`{q.get('document_pdf') or 'el documento'}`)*")
+        out.append("\n\n**¿Aceptas participar?** " + " · ".join(f"( ) {o}" for o in q["options"]))
+        for m in q.get("members") or []:
+            out.append(f"\n\n**{m['label']}** `{m['id']}`\n\n" + "\n".join(f"- ( ) {o}" for o in m["options"]))
     elif t == "self_id":
         out.append(quote(f"**{q['label']}**"))
         out.append("\n\n*(lista desplegable con buscador: todas las personas de la nómina)*")
