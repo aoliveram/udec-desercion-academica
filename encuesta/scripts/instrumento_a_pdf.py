@@ -116,6 +116,7 @@ TYPE_NAMES = {
     "number": "número",
     "text": "texto libre",
     "branching_tree": "preguntas encadenadas",
+    "group": "varias preguntas",
 }
 
 _SPECIAL = {
@@ -205,6 +206,9 @@ class Doc:
             lines.append(rf"\tooltip{{{esc(tooltip)}}}")
         lines.append(r"\end{screen}")
         meta = [m for m in (q.get("construct"), q.get("source")) if m]
+        if q["type"] == "group":
+            meta = list(dict.fromkeys(m["construct"] for m in q["members"] if m.get("construct")))
+            meta += list(dict.fromkeys(m["source"] for m in q["members"] if m.get("source")))
         if meta:
             lines.append(rf"\meta{{{esc(' · '.join(meta))}}}")
         lines.append(r"\newpage")
@@ -276,18 +280,33 @@ class Doc:
         return "\n".join(parts)
 
     def likert_block(self, q):
-        parts = [rf"\qlabelbf{{{inline(q['label'])}}}", r"\vspace{2pt}"]
+        # Instruction in italics, each statement in bold and without a number, as in the app.
+        parts = [rf"\qlabel{{\itshape {inline(q['label'])}}}", r"\vspace{2pt}"]
         example = not self.shown_block_omit  # el primer bloque muestra el aviso de omisión
+        helps = q.get("option_help")
         for i, item in enumerate(q["items"], start=1):
             if i > 1:
                 parts.append(r"\nextitem")
-            parts.append(rf"\qlabel{{{i}. {inline(item['label'])}}}")
+            parts.append(rf"\qlabelbf{{{inline(item['label'])}}}")
             # En el ejemplo, la primera afirmación aparece respondida (primera opción).
             options = "".join(
                 rf"\hradiofilled{{{esc(o)}}}" if example and i == 1 and j == 0 else rf"\hradio{{{esc(o)}}}"
                 for j, o in enumerate(q["options"])
             )
             parts.append(r"{\raggedright " + options + r"\par}")
+            if helps and i == 1:
+                k = min(3, len(q["options"]) - 1)
+                parts.append(
+                    r"\par\vspace{2pt}{\footnotesize\color{stMuted}\textit{Al pasar el cursor sobre "
+                    rf"«{esc(q['options'][k])}»:}}}}\ "
+                    r"\tcbox[on line,colback=stText,colframe=stText,boxrule=0pt,arc=3pt,left=5pt,right=5pt,"
+                    rf"top=2pt,bottom=2pt]{{\footnotesize\color{{white}}{esc(helps[k])}}}\par"
+                )
+        if helps:
+            legend = "; ".join(
+                f"«{esc(o)}» = {esc(h)}" for o, h in zip(q["options"], helps) if h
+            )
+            parts.append(rf"\note{{Burbuja de cada opción: {legend}. En el celular aparece al tocar la opción.}}")
         if example:
             self.shown_block_omit = True
             n = len(q["items"])
@@ -309,19 +328,30 @@ class Doc:
             rango = f"Va desde {q['min_value']} hasta {q['max_value']}."
         else:
             rango = f"Desde {q['min_value']}, sin tope."
-        stepper = (
-            r"\tcbox[on line,colback=white,colframe=stBorder,boxrule=0.6pt,arc=3pt,size=small,left=6pt,right=6pt]{$-$}\,"
-            r"\tcbox[on line,colback=white,colframe=stBorder,boxrule=0.6pt,arc=3pt,size=small,left=6pt,right=6pt]{$+$}"
+        button = (
+            r"\tcbox[on line,colback=white,colframe=stBorder,boxrule=0.6pt,arc=4pt,left=8pt,right=8pt,"
+            r"top=5pt,bottom=5pt]{$%s$}"
         )
         return (
             rf"\qlabelbf{{{inline(q['label'])}}}"
             + "\n"
-            + rf"\field{{Escribe un número}}{{{stepper}}}"
-            + rf"\note{{{esc(rango)} Se puede escribir o usar los botones + y -.}}"
+            + r"\noindent\begin{minipage}[c]{0.84\linewidth}\field{Escribe un número}{}\end{minipage}\hfill"
+            + (button % "-") + r"\," + (button % "+") + r"\par"
+            + rf"\note{{Parte vacío. Desde vacío, «+» marca 1 y sigue sumando de a uno, y «−» marca 0 y no baja "
+            rf"de ahí: se responde solo con el mouse o el dedo, sin abrir el teclado. También se puede escribir "
+            rf"el número. {esc(rango)}}}"
         )
 
     def text(self, q):
         return rf"\qlabelbf{{{inline(q['label'])}}}" + "\n" + r"\textareabox"
+
+    def group(self, q):
+        parts = []
+        for n, m in enumerate(q["members"]):
+            if n:
+                parts.append(r"\nextitem")
+            parts.append(getattr(self, m["type"])(m))
+        return "\n".join(parts)
 
     def branching_tree(self, q):
         parts = [
@@ -331,7 +361,7 @@ class Doc:
         ]
         for node_id, node in q["tree"].items():
             parts.append(rf"{{\footnotesize\color{{stMuted}}Nodo \texttt{{{esc(node_id)}}}}}\par")
-            parts.append(rf"\qlabel{{{inline(node['label'])}}}")
+            parts.append(rf"\qlabelbf{{{inline(node['label'])}}}")
             for option in node["options"]:
                 nxt = node["branches"].get(option)
                 arrow = (
@@ -361,6 +391,8 @@ class Doc:
         rows = []
         for n, q in enumerate(self.questions, start=1):
             what = q.get("construct") or TYPE_NAMES[q["type"]]
+            if q["type"] == "group":
+                what = " + ".join(m.get("construct") or TYPE_NAMES[m["type"]] for m in q["members"])
             if q["type"] == "likert_block":
                 what += f" ({len(q['items'])} ítems)"
             rows.append(rf"{n} & \texttt{{{esc(q['id'])}}} & {esc(what)} \\")
@@ -372,7 +404,14 @@ class Doc:
         )
 
     def intro(self):
-        n_items = sum(len(q["items"]) if q["type"] == "likert_block" else 1 for q in self.questions if q["type"] != "info")
+        def count(q):
+            if q["type"] == "likert_block":
+                return len(q["items"])
+            if q["type"] == "group":
+                return sum(count(m) for m in q["members"])
+            return 0 if q["type"] == "info" else 1
+
+        n_items = sum(count(q) for q in self.questions)
         cohorts = " y ".join(self.roster)
         return rf"""
 \vspace*{{1.5cm}}
