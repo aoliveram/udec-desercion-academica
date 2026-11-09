@@ -98,7 +98,10 @@ archivo. Para revisar que el instrumento esté bien armado:
 ```bash
 pytest                                       # incluye la validación del instrumento
 python scripts/instrumento_a_md.py > instrumento.md   # documento para jueces y CEBB
+python scripts/instrumento_a_pdf.py          # PDF con cada pantalla, en ../instrumento/preguntas-encuesta.pdf
 ```
+
+El PDF necesita XeLaTeX (p. ej. MacTeX) y la fuente Helvetica Neue.
 
 ## 4. La nómina
 
@@ -222,7 +225,7 @@ encuesta/
 ├── instrumento.py        ← la encuesta (lo único que se edita)
 ├── app.py                la app de Streamlit
 ├── motor/                persistencia, nóminas, flujo, seguridad, exportación
-├── scripts/              demo, servir, respaldar, verificar, exportar, instrumento_a_md
+├── scripts/              demo, servir, respaldar, verificar, exportar, instrumento_a_md, instrumento_a_pdf
 ├── ejemplos/ejemplo.csv  nómina ficticia para la demo
 ├── tests/                pruebas (pytest), incluida la app de punta a punta
 └── data/                 base, nóminas reales y exportaciones (fuera de git)
