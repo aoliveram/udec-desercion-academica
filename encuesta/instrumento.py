@@ -28,6 +28,8 @@ Para revisar el instrumento completo como documento (jueces, CEBB):
     python scripts/instrumento_a_md.py > instrumento.md
 """
 
+from pathlib import Path
+
 from motor.preguntas import (
     abierta,
     arbol,
@@ -42,7 +44,7 @@ from motor.preguntas import (
 )
 
 TITULO = "Encuesta CFM"
-VERSION = "0.3-borrador"
+VERSION = "0.4-borrador"
 
 NUEVO = "Ítem nuevo (reporte semestre 2026, §2.4)"
 
@@ -89,31 +91,45 @@ BIENVENIDA = info(
     "corta la conexión puedes retomar desde el mismo enlace.",
 )
 
-# POR COMPLETAR: reemplazar por el texto aprobado por el CEBB. Este borrador
-# solo recoge los puntos que el reporte (sección 4) recomienda incluir.
-CONSENTIMIENTO = consentimiento(
-    "consentimiento",
-    "**Consentimiento informado (BORRADOR — reemplazar por el texto aprobado por el CEBB)**\n\n"
-    "- **Objetivo.** Conocer cómo se relacionan las redes de compañerismo, la experiencia "
-    "académica y la intención de continuar en la carrera.\n"
-    "- **Voluntariedad.** Participar es voluntario. Puedes no contestar cualquier pregunta y "
-    "dejar la encuesta cuando quieras, sin ninguna consecuencia.\n"
-    "- **Compañeros y compañeras.** Algunas preguntas te piden marcar nombres de la lista del "
-    "curso. Esas personas aparecerán en los datos aunque no participen, siempre con un código "
-    "en lugar de su nombre.\n"
-    "- **Confidencialidad.** Nadie del curso, ningún docente ni la jefatura de carrera verá tus "
-    "respuestas. Los resultados se publican solo de forma agregada.\n"
-    "- **Sin consecuencias académicas.** Nadie recibirá un puntaje de riesgo individual.\n"
-    "- **Contacto.** [POR COMPLETAR: nombre y correo del profesor/a responsable y del CEBB-UdeC].",
-)
+# Consentimiento en una sola pantalla: un resumen, el documento completo en un
+# desplegable (y en PDF para descargar), la decisión y la autorización del
+# registro académico. POR COMPLETAR: es la versión 2.0 en borrador; reemplazar
+# por la versión que apruebe el CEBB (documentos/consentimiento-informado.md).
 
 AUTORIZA_REGISTROS = opcion_unica(
     "autoriza_registros",
-    "¿Autorizas al equipo a consultar tu registro académico (estado de matrícula en 2027, "
-    "puntajes de admisión y créditos aprobados), solo para este estudio?",
+    "¿Autorizas que el equipo consulte tu registro académico (matrícula en 2027 y 2028, puntajes "
+    "de admisión y créditos aprobados), solo para este estudio? Puedes participar aunque "
+    "respondas que no.",
     SI_NO,
-    constructo="Consentimiento",
-    fuente="Reporte semestre 2026, §2.5",
+    constructo="Consentimiento: registro académico",
+    fuente="Consentimiento informado v2.0",
+)
+
+CONSENTIMIENTO = consentimiento(
+    "consentimiento",
+    "**Consentimiento informado**\n\n"
+    "Te invitamos a participar en el estudio *Topología de redes de afinidad como predictor de "
+    "abandono académico* (Departamento de Física, UdeC), para estudiantes de la Facultad de "
+    "Ciencias Físicas y Matemáticas.\n\n"
+    "- **Qué harás:** responder esta encuesta (10 a 15 minutos) en tres momentos: este "
+    "semestre, el primero y el segundo de 2027. Preguntamos por tus compañeros y compañeras, tu "
+    "experiencia de estudiar y algunos datos de contexto.\n"
+    "- **Es voluntario:** puedes omitir cualquier pregunta, dejar la encuesta o retirarte del "
+    "estudio cuando quieras, sin consecuencias. Si te retiras, borramos tus datos.\n"
+    "- **Tus compañeros:** algunas preguntas piden marcar nombres de una lista. Esas personas "
+    "aparecen en los datos con un código, nunca con su nombre, aunque no participen.\n"
+    "- **Confidencialidad:** solo el equipo investigador ve los datos. Tu nombre se reemplaza por "
+    "un código para unir tus respuestas de las tres encuestas. Ningún docente ni la jefatura verá "
+    "respuestas individuales, y nadie recibirá un puntaje de riesgo. Los resultados se publican "
+    "solo agregados.\n"
+    "- **Riesgos:** algunas preguntas tocan temas como la soledad. Si algo te incomoda, puedes "
+    "escribir a la DISE [POR COMPLETAR: contacto] o al investigador responsable.\n"
+    "- **Contacto:** Dr. Hernán Astudillo (hastudil@udec.cl). Por tus derechos como participante: "
+    "CEBB-UdeC (cebb@udec.cl).",
+    documento=(Path(__file__).parent / "documentos" / "consentimiento-informado.md").read_text(encoding="utf-8"),
+    documento_pdf="documentos/consentimiento-informado.pdf",
+    adicionales=[AUTORIZA_REGISTROS],
 )
 
 IDENTIFICACION = identificacion("identificacion")
@@ -155,13 +171,41 @@ G3_ESTUDIO = nominacion(
     fuente="Reporte semestre 2026, §2.6 (G3)",
 )
 
-METAPERCEPCION = numero(
-    "meta_afinidad",
-    "¿Cuántas personas de la lista crees que te marcaron a ti en la primera pregunta "
-    "(con quiénes pasan tiempo o conversan)?",
-    maximo="nomina",
-    constructo="Metapercepción",
-    fuente="Reporte semestre 2026, §2.6",
+# Metapercepción: cuántas personas cree cada quien que lo marcaron, una por
+# red, en una sola pantalla. Se compara con lo que dice la red (nadie recibe
+# nunca cuántas personas lo marcaron de verdad).
+METAPERCEPCION = grupo(
+    "metapercepcion",
+    [
+        info(
+            "metapercepcion_intro",
+            "Ahora al revés: piensa en cuántas personas de la lista te marcaron **a ti** en cada "
+            "una de las preguntas anteriores. No tienes que estar seguro/a; responde lo que creas.",
+        ),
+        numero(
+            "meta_afinidad",
+            "¿Cuántas personas crees que te marcaron como alguien con quien pasan tiempo o conversan?",
+            maximo="nomina",
+            constructo="Metapercepción (red de afinidad)",
+            fuente="Reporte semestre 2026, §2.6",
+        ),
+        numero(
+            "meta_ayuda",
+            "¿Cuántas personas crees que te marcaron como alguien a quien le piden ayuda o con quien "
+            "comparan resultados?",
+            maximo="nomina",
+            constructo="Metapercepción (red de ayuda)",
+            fuente="Reporte semestre 2026, §2.6",
+        ),
+        numero(
+            "meta_estudio",
+            "¿Cuántas personas crees que te marcaron como alguien con quien estudian o resuelven "
+            "guías y tareas?",
+            maximo="nomina",
+            constructo="Metapercepción (red de estudio)",
+            fuente="Reporte semestre 2026, §2.6",
+        ),
+    ],
 )
 
 LAZOS_FUERA = numero(
@@ -296,7 +340,7 @@ MSPSS_FAMILIA = bloque(
 
 CTX_PRIMERA_GENERACION = opcion_unica(
     "ctx_padres_educacion_superior",
-    "¿Alguno de tus padres o tutores estudió en la educación superior (universidad, instituto o CFT)?",
+    "¿Alguno de tus padres estudió en la educación superior (universidad, instituto o CFT)?",
     ["Sí", "No", "No lo sé"],
     constructo="Contexto: primera generación",
     fuente=NUEVO,
@@ -373,8 +417,7 @@ CIERRE = info(
 PREGUNTAS = [
     # Módulo 0
     BIENVENIDA,
-    CONSENTIMIENTO,
-    AUTORIZA_REGISTROS,
+    CONSENTIMIENTO,  # incluye la autorización del registro académico
     IDENTIFICACION,
     # Módulo 1: redes
     INSTRUCCIONES_REDES,
