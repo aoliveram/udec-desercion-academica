@@ -101,14 +101,36 @@ def render_info(question, saved, context):
 
 def render_consent(question, saved, context):
     st.markdown(question["label"])
+    if question.get("document"):
+        with st.expander("Leer el documento completo"):
+            st.markdown(question["document"])
+    if question.get("document_pdf"):
+        pdf = settings.BASE_DIR / question["document_pdf"]
+        if pdf.exists():
+            st.download_button(
+                "Descargar el documento (PDF)", pdf.read_bytes(), file_name=pdf.name,
+                mime="application/pdf", icon=":material/download:", key=f"{widget_key(question)}__pdf",
+            )
     options = question["options"]
+    prior = flow.consent_decision(question, saved)
     choice = st.radio(
-        "Tu decisión",
+        "**¿Aceptas participar?**" if question.get("members") else "Tu decisión",
         options,
-        index=options.index(saved) if saved in options else None,
+        index=options.index(prior) if prior in options else None,
         key=widget_key(question),
     )
-    return choice if choice in options else None
+    decision = choice if choice in options else None
+    if not question.get("members"):
+        return decision
+    # Extra questions on the same page (e.g. the academic-record
+    # authorization), each stored under its own id.
+    saved_members = saved if isinstance(saved, dict) else {}
+    answers = {"decision": decision} if decision is not None else {}
+    for member in question["members"]:
+        value = render_radio(member, saved_members.get(member["id"]), context)
+        if value is not None:
+            answers[member["id"]] = value
+    return answers or None
 
 
 def render_self_id(question, saved, context):
@@ -608,7 +630,7 @@ if not answered and st.session_state.get("_omit_prompt") == question["id"]:
                 finalize()
             go_to(idx + 1)
 
-declining = question["type"] == "consent" and value == question["decline"]
+declining = question["type"] == "consent" and flow.consent_decision(question, value) == question["decline"]
 if declining:
     next_label = "Terminar"
 elif is_last:
@@ -620,7 +642,10 @@ else:
 
 blocked_help = None
 if not answered and question["type"] == "consent":
-    blocked_help = "Debes indicar si aceptas participar para continuar."
+    if flow.consent_decision(question, value) is None:
+        blocked_help = "Debes indicar si aceptas participar para continuar."
+    else:
+        blocked_help = "Responde también las preguntas de esta página para continuar."
 elif not answered and question["type"] == "self_id":
     blocked_help = "Debes seleccionar tu nombre para continuar."
 
@@ -644,7 +669,7 @@ if prev_clicked:
     go_to(idx - 1)
 if next_clicked:
     if declining:
-        decline(value)
+        decline(flow.consent_decision(question, value))
     elif answered:
         if is_last:
             finalize()

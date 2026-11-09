@@ -67,6 +67,8 @@ def fill(at, q, self_code=SELF):
             fill(at, member, self_code)
     elif t == "consent":
         at.radio(key=key(q)).set_value(q["accept"])
+        for member in q.get("members", []):
+            fill(at, member, self_code)
     elif t == "self_id":
         at.selectbox(key=key(q)).set_value(self_code)
     elif t == "roster_checklist":
@@ -162,23 +164,39 @@ def test_identity_and_consent_cannot_be_skipped(env):
     at = click_next(start())
     assert at.button(key="_next_1").disabled
     at.radio(key="w__consentimiento").set_value("Acepto participar").run()
+    # The academic-record authorization is on the same page and also required.
+    assert at.button(key="_next_1").disabled
+    at.radio(key="w__autoriza_registros").set_value("No").run()
     at = click_next(at)
-    at = answer_current_page(at)  # autoriza_registros
     assert page(at)["type"] == "self_id"
     assert at.button(key=f"_next_{INDEX['identificacion']}").disabled
 
 
 def test_unanswered_page_offers_to_omit_and_records_it(env):
+    q = next(q for q in QUESTIONS if q["type"] == "number")
     at = start()
-    while page(at)["id"] != "autoriza_registros":
+    while page(at)["id"] != q["id"]:
         at = answer_current_page(at)
     at = click_next(at)
-    assert page(at)["id"] == "autoriza_registros"  # didn't advance
-    at = at.button(key=f"_omit_btn_{INDEX['autoriza_registros']}").click().run()
-    assert page(at)["id"] == "identificacion"
+    assert page(at)["id"] == q["id"]  # didn't advance
+    at = at.button(key=f"_omit_btn_{INDEX[q['id']]}").click().run()
+    assert page(at)["id"] == QUESTIONS[INDEX[q["id"]] + 1]["id"]
 
     _, _, data = respondent(env)
-    assert data["autoriza_registros"]["value"] == OMIT
+    assert data[q["id"]]["value"] == OMIT
+
+
+def test_consent_page_stores_the_authorization_under_its_own_column(env):
+    from motor import export
+
+    at = start()
+    while page(at)["type"] != "self_id":
+        at = answer_current_page(at)
+    _, _, data = respondent(env)
+    consent = QUESTIONS[INDEX["consentimiento"]]
+    assert data["consentimiento"]["value"]["decision"] == consent["accept"]
+    cells = export.encode_answers(QUESTIONS, data)
+    assert cells["autoriza_registros"] == 1  # «Sí», first option
 
 
 def test_nobody_is_recorded_as_an_empty_list_not_as_missing(env):
