@@ -1,4 +1,4 @@
-"""Instrumento: encuesta para estudiantes de 1.º y 2.º año de Ciencias Físicas (FCFM, UdeC).
+"""Instrumento: encuesta para estudiantes de la Facultad de Ciencias Físicas y Matemáticas (CFM, UdeC).
 
 ESTE ES EL ÚNICO ARCHIVO QUE HAY QUE EDITAR PARA CAMBIAR LA ENCUESTA.
 Cada elemento de PREGUNTAS es una página. Los tipos de página y sus
@@ -32,6 +32,7 @@ from motor.preguntas import (
     abierta,
     arbol,
     bloque,
+    grupo,
     consentimiento,
     identificacion,
     info,
@@ -40,8 +41,8 @@ from motor.preguntas import (
     opcion_unica,
 )
 
-TITULO = "Encuesta de Ciencias Físicas"
-VERSION = "0.2-borrador"
+TITULO = "Encuesta CFM"
+VERSION = "0.3-borrador"
 
 NUEVO = "Ítem nuevo (reporte semestre 2026, §2.4)"
 
@@ -60,14 +61,17 @@ ACUERDO_7_NADA_TOTAL = ["1 · Nada de acuerdo", "2", "3", "4", "5", "6", "7 · T
 ACUERDO_7_MUY = ["1 · Muy en desacuerdo", "2", "3", "4", "5", "6", "7 · Muy de acuerdo"]
 
 # UWES-9S: frecuencia de 0 a 6, del manual (Schaufeli y Bakker, 2003, p. 49).
-FRECUENCIA_UWES = [
-    "0 · Nunca (ninguna vez)",
-    "1 · Casi nunca (pocas veces al año)",
-    "2 · Algunas veces (una vez al mes o menos)",
-    "3 · Regularmente (pocas veces al mes)",
-    "4 · Bastantes veces (una vez por semana)",
-    "5 · Casi siempre (pocas veces por semana)",
-    "6 · Siempre (todos los días)",
+# En pantalla van solo los números (con «Nunca» y «Siempre» en los extremos);
+# la etiqueta completa de cada punto aparece en una burbuja al pasar el cursor.
+FRECUENCIA_UWES = ["0 · Nunca", "1", "2", "3", "4", "5", "6 · Siempre"]
+FRECUENCIA_UWES_AYUDAS = [
+    "Nunca (ninguna vez)",
+    "Casi nunca (pocas veces al año)",
+    "Algunas veces (una vez al mes o menos)",
+    "Regularmente (pocas veces al mes)",
+    "Bastantes veces (una vez por semana)",
+    "Casi siempre (pocas veces por semana)",
+    "Siempre (todos los días)",
 ]
 
 # UCLA-3 (Hughes et al., 2004): hardly ever / some of the time / often.
@@ -78,9 +82,10 @@ FRECUENCIA_UCLA = ["Casi nunca", "Algunas veces", "A menudo"]
 
 BIENVENIDA = info(
     "bienvenida",
-    "Esta encuesta es parte de un estudio sobre la experiencia de estudiar Ciencias Físicas "
-    "en la Universidad de Concepción. No es una prueba: no hay respuestas buenas ni malas.\n\n"
-    "Toma alrededor de 25 minutos. Tus respuestas se guardan a medida que avanzas, y si se "
+    "Esta encuesta es parte de un estudio sobre la experiencia de estudiar en la Facultad de "
+    "Ciencias Físicas y Matemáticas (CFM) de la Universidad de Concepción. No es una prueba: no "
+    "hay respuestas buenas ni malas.\n\n"
+    "Toma entre 10 y 15 minutos. Tus respuestas se guardan a medida que avanzas, y si se "
     "corta la conexión puedes retomar desde el mismo enlace.",
 )
 
@@ -118,8 +123,8 @@ IDENTIFICACION = identificacion("identificacion")
 
 INSTRUCCIONES_REDES = info(
     "instrucciones_redes",
-    "En las próximas preguntas verás la lista de estudiantes de 1.º y 2.º año de Ciencias "
-    "Físicas, agrupada por año de ingreso. Puedes buscar por nombre.\n\n"
+    "En las próximas preguntas verás una lista de estudiantes de la CFM, agrupada por año de "
+    "ingreso. Puedes buscar por nombre.\n\n"
     "Marca a quienes correspondan. **No hay un número correcto**: puedes marcar a varias "
     "personas, a una o a nadie (en ese caso, marca «No hay nadie»).",
 )
@@ -207,6 +212,7 @@ UWES = bloque(
         ("uwes_ab5", "Me “dejo llevar” cuando realizo mis tareas como estudiante"),
     ],
     opciones=FRECUENCIA_UWES,
+    ayudas=FRECUENCIA_UWES_AYUDAS,
     constructo="Compromiso académico (UWES-9S): vigor (vi), dedicación (de), absorción (ab)",
     fuente="Schaufeli y Bakker (2003), manual en español, p. 49; validación chilena: Carmona-Halty et al. (2019)",
 )
@@ -332,7 +338,7 @@ CTX_TRASLADO = opcion_unica(
 
 CTX_PRIMERA_OPCION = opcion_unica(
     "ctx_primera_opcion",
-    "¿Ciencias Físicas fue tu primera opción al postular?",
+    "¿Tu carrera actual fue tu primera opción al postular?",
     SI_NO,
     constructo="Contexto: preferencia",
     fuente=NUEVO,
@@ -340,7 +346,7 @@ CTX_PRIMERA_OPCION = opcion_unica(
 
 CTX_OTRA_CARRERA = opcion_unica(
     "ctx_otra_carrera",
-    "¿Estudiaste otra carrera antes de entrar a Ciencias Físicas?",
+    "¿Estudiaste otra carrera antes de entrar a tu carrera actual?",
     SI_NO,
     constructo="Contexto: trayectoria",
     fuente=NUEVO,
@@ -355,7 +361,7 @@ COMENTARIOS = abierta(
 )
 
 CIERRE = info(
-    "cierre",
+    "cierre_texto",
     "Llegaste al final. Presiona **Enviar** para terminar.\n\n"
     "¡Gracias por participar! Si alguna pregunta te removió algo y quieres conversarlo, puedes "
     "escribir a [POR COMPLETAR: contacto de apoyo estudiantil de la UdeC].",
@@ -386,14 +392,10 @@ PREGUNTAS = [
     ESPU,
     UCLA3,
     MSPSS_FAMILIA,
-    # Módulo 7: contexto
-    CTX_PRIMERA_GENERACION,
-    CTX_TRABAJO,
-    CTX_VIVIENDA,
-    CTX_TRASLADO,
-    CTX_PRIMERA_OPCION,
-    CTX_OTRA_CARRERA,
-    # Cierre
-    COMENTARIOS,
-    CIERRE,
+    # Módulo 7: contexto, de a dos preguntas por página
+    grupo("ctx_familia_trabajo", [CTX_PRIMERA_GENERACION, CTX_TRABAJO]),
+    grupo("ctx_vivienda_traslado", [CTX_VIVIENDA, CTX_TRASLADO]),
+    grupo("ctx_trayectoria", [CTX_PRIMERA_OPCION, CTX_OTRA_CARRERA]),
+    # Cierre: comentarios y despedida en la última página
+    grupo("cierre", [COMENTARIOS, CIERRE]),
 ]

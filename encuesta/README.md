@@ -1,8 +1,9 @@
 # Encuesta (reemplazo del Google Forms)
 
-Herramienta para aplicar la encuesta del proyecto a estudiantes de 1.º y 2.º
-año de Ciencias Físicas: una página por pregunta, nominación de compañeros y
-compañeras desde la nómina, escalas tipo Likert y exportación seudonimizada
+Herramienta para aplicar la encuesta del proyecto a estudiantes de la Facultad
+de Ciencias Físicas y Matemáticas (CFM): una página por pregunta (o un grupo
+corto de preguntas), nominación de compañeros y compañeras desde la nómina,
+escalas tipo Likert y exportación seudonimizada
 para analizar las redes en R (`igraph`) o Python (`networkx`).
 
 Es una versión limpia de `survey-app`, la herramienta que se desarrolló para
@@ -54,10 +55,11 @@ página se crea con una función de [`motor/preguntas.py`](motor/preguntas.py):
 | `identificacion(id)` | «¿Quién eres tú?»: la persona elige su nombre de la nómina |
 | `nominacion(id, texto, maximo=15)` | Casillas con la nómina, por cohorte y con buscador, más «No hay nadie» |
 | `opcion_unica(id, texto, opciones)` | Una pregunta, una respuesta |
-| `bloque(id, texto, items, opciones)` | Varias afirmaciones con la misma escala en una página (escalas validadas) |
+| `bloque(id, texto, items, opciones)` | Varias afirmaciones con la misma escala en una página (escalas validadas). Con `ayudas=[...]`, cada opción muestra una burbuja al pasar el cursor |
 | `numero(id, texto, minimo=0, maximo=None)` | Un número entero; `maximo="nomina"` usa el tamaño de la nómina |
 | `abierta(id, texto)` | Texto libre (opcional) |
 | `arbol(id, raiz, nodos)` | Preguntas encadenadas: «¿Trabajas?» → si dice Sí, «¿Cuántas horas?» |
+| `grupo(id, [preguntas])` | Dos o más preguntas cortas en una misma página (`opcion_unica`, `numero`, `abierta`, `arbol` o un texto `info`); cada una conserva su columna |
 
 Ejemplo de una escala validada como bloque:
 
