@@ -125,13 +125,18 @@ Adaptaciones al UWES, todas menores:
 
 ## Presentación
 
-**D14. Las preguntas de contexto van de a dos por pantalla** (firme). Primera generación con trabajo remunerado, vivienda con traslado, y primera opción con otra carrera. La pregunta abierta de comentarios va en la misma pantalla que el cierre. Así la encuesta pasa de 24 a 20 pantallas. Cada pregunta conserva su propia columna en la exportación.
+**D14. Las preguntas de contexto van de a dos por pantalla** (firme). Primera generación con trabajo remunerado, vivienda con traslado, y primera opción con otra carrera. La pregunta abierta de comentarios va en la misma pantalla que el cierre. Así la encuesta pasa de 24 a 20 pantallas (19 desde D15). Cada pregunta conserva su propia columna en la exportación.
+
+**D15. Consentimiento informado en una sola pantalla, versión 2.0** (provisoria hasta que la apruebe el CEBB). La pantalla trae un resumen, el documento completo en un desplegable (y en PDF para descargar), «¿Aceptas participar?» y la autorización del registro académico. La autorización sigue siendo una pregunta aparte (la ley pide autorizar cada fin por separado), con su propia columna, y se puede responder que no y participar igual. El documento completo (`encuesta/documentos/consentimiento-informado.md`) actualiza la versión 1.0, que ya no describía el estudio: toda la CFM, la app propia en vez de Google Forms, 10–15 minutos en tres olas, el registro académico, los compañeros nombrados que no participan, la seudonimización en vez de «anonimización», y la descarga en vez de una «copia firmada». En la segunda y la tercera ola se recordarán las condiciones, con la opción de retirarse, en vez de repetir el consentimiento completo.
+
+**D16. Metapercepción para las tres redes, en una pantalla** (firme). Después de las tres preguntas de nombres, una pantalla pregunta cuántas personas cree cada quien que lo marcaron en cada red (afinidad, ayuda y estudio). Cada versión mide algo distinto: sentirse integrado, sentirse visto como competente y como compañero de estudio. No hay un problema ético nuevo: es una percepción sobre uno mismo, y nadie recibe nunca cuántas personas lo marcaron de verdad.
+
+**D17. «Padres», no «padres o tutores»** (firme). En la pregunta de primera generación: en la universidad no hay apoderados ni tutores.
 
 # Pendientes
 
 1. Conseguir López-Angulo et al. (2025) y cargar la intención de abandono (D3).
 2. Confirmar las etiquetas de la ASES con Calderón (D8).
 3. Pedir a Medrano la ESA referida a la carrera, si queremos reabrir D6.
-4. Revisar el consentimiento informado: pasar a una sola pantalla, con la autorización del registro académico dentro (propuesta en discusión).
-5. Decidir si se agrega una pregunta de metapercepción para las redes de ayuda y de estudio (hoy solo existe para la de afinidad).
-6. Piloto: revisar el ítem 7 de la ASES, la estructura de cada escala y las correlaciones entre constructos (AFC con todos, HTMT, EGA).
+4. Completar el consentimiento 2.0 (contacto de la DISE, dónde se guardan los datos y por cuánto tiempo, equipo completo) y enviarlo al CEBB.
+5. Piloto: revisar el ítem 7 de la ASES, la estructura de cada escala y las correlaciones entre constructos (AFC con todos, HTMT, EGA).
