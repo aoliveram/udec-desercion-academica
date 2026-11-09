@@ -4,29 +4,35 @@ Aquí se decide qué entra a la encuesta. Hay una ficha por constructo; cuando
 una escala queda elegida y sus ítems están copiados textuales del artículo de
 validación, se carga en [`encuesta/instrumento.py`](../encuesta/instrumento.py).
 
-Los ítems ya extraídos de cada paper están en
-[`items-extraidos.pdf`](items-extraidos.pdf) (fuente: `items-extraidos.md`).
-La misma información, en el formato del Google Docs de Yannely, está en
-[`escalas-items.docx`](escalas-items.docx).
+| Archivo | Qué es |
+|:--|:--|
+| [`decisiones.pdf`](decisiones.pdf) (fuente: `decisiones.md`) | **Las decisiones tomadas**: qué escalas entran, por qué, y qué queda pendiente |
+| [`preguntas-encuesta.pdf`](preguntas-encuesta.pdf) | La encuesta pantalla por pantalla, tal como la ve un estudiante. Se genera desde `instrumento.py` con `python scripts/instrumento_a_pdf.py` (en `encuesta/`) |
+| [`items-Informe.docx`](items-Informe.docx) | El Word con las escalas, revisado y comentado por Aníbal y Yannely |
+| [`items-extraidos.pdf`](items-extraidos.pdf) (fuente: `items-extraidos.md`) | Los ítems copiados de cada paper, incluidas las escalas que quedaron fuera |
+| [`escalas-items.docx`](escalas-items.docx) | La versión anterior del Word, sin comentarios |
 
 Regla de oro: los ítems de una escala validada se copian **textuales** del
 artículo. Si se cambia la redacción, deja de ser la escala validada.
 
 ## Estado
 
-| Constructo | Escala | Ítems | Paper conseguido | Ítems copiados | Decisión |
-|:--|:--|:-:|:-:|:-:|:--|
-| Intención de abandono | Bloque nuevo (ya en `instrumento.py`) | 6 | — | ✅ | Entra |
-| Autoeficacia académica | ASES | 8 | ✅ | ✅ | Núcleo |
-| Satisfacción académica | ESA | 7 | ✅ | Parcial (versión por asignatura) | Núcleo |
-| Sentido de pertenencia | ESPU | 10 | ✅ | ✅ | Núcleo |
-| Compromiso académico | UWES-9S | 9 | ✅ | Solo en inglés | Pendiente (2.º recorte) |
-| Apoyo social percibido | MSPSS | 12 | ✅ | 4 de 12 | Pendiente (1.er recorte) |
-| Soledad | UCLA-3 | 3 | ✅ | ✅ | Pendiente |
-| Relación con docentes | LCQ-5 + incivilidad (nuevos) | 5 + 5–7 | ✅ | ✅ (base de incivilidad) | Pendiente |
+| Constructo | Escala | Ítems | Decisión |
+|:--|:--|:-:|:--|
+| Intención de abandono | López-Angulo et al. (2025) | por definir | Entra; falta conseguir el artículo (placeholder en la encuesta) |
+| Compromiso académico | UWES-9S | 9 | Entra (provisoria, por sobre la ESA) |
+| Autoeficacia académica | ASES | 8 | Entra |
+| Sentido de pertenencia | ESPU | 10 | Entra |
+| Soledad | UCLA-3 | 3 | Entra |
+| Apoyo social percibido | MSPSS, solo subescala Familia | 4 | Entra |
+| Satisfacción académica | ESA | — | Fuera (se pisa con el UWES) |
+| Relación con docentes | LCQ-5 + incivilidad | — | Fuera |
 
-Presupuesto: la encuesta completa no debería pasar de unos 20 minutos. Las
-escalas de arriba suman unos 55 ítems (~10 min).
+Presupuesto: 34 ítems de escalas (~4 min). Con redes, contexto e intención,
+la encuesta debería quedar en 10–13 minutos. El detalle está en
+[`decisiones.pdf`](decisiones.pdf).
+
+Las fichas de abajo son de la etapa de búsqueda de escalas (octubre de 2026).
 
 ## Qué anotar en cada ficha
 
