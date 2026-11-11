@@ -44,7 +44,7 @@ Este documento registra las decisiones sobre el instrumento a medida que las tom
 
 | Constructo | Escala | Ítems | Formato | Texto tomado de |
 |:--|:--|:-:|:--|:--|
-| Intención de abandono | López-Angulo et al. (2025) | por definir | por definir | Falta conseguir el artículo |
+| Intención de abandono | López-Angulo et al. (2025) | por definir | Acuerdo, 1 a 7 | Apéndices 2 y 3 del artículo (figshare) |
 | Compromiso académico | UWES-9S, completa | 9 | Frecuencia, 0 a 6 | Manual en español (Schaufeli y Bakker, 2003), p. 49 |
 | Autoeficacia académica | ASES, completa | 8 | Acuerdo, 1 a 7 | Calderón Carvajal et al. (2019) |
 | Sentido de pertenencia | ESPU, completa | 10 | Acuerdo, 1 a 7 | Alonso García y González Ortiz de Zárate (2024), Tabla 2 |
@@ -69,7 +69,7 @@ Este documento registra las decisiones sobre el instrumento a medida que las tom
 - **Mecanismo.** Permite probar si las escalas actúan sobre la intención y esta sobre la deserción.
 - **Tipo de salida.** Distingue cambiarse de carrera dentro de la UdeC de irse de la universidad.
 
-Usaremos las escalas de intención de abandono y de cambio de carrera de López-Angulo, Muñoz-Inostroza, Sáez-Delgado, Chandia, Mella-Norambuena y Brito-Álvarez (2025), *Journal of College Student Retention*, validadas con 641 estudiantes chilenos de primer año, con cinco fases cada una (percepción de no encajar, pensamientos de dejar o cambiarse, deliberación, búsqueda de información, decisión final). **Mientras no tengamos el artículo, la encuesta tiene una pantalla de reemplazo.** Si las escalas resultan largas, se pueden usar solo algunas fases como subescalas.
+Usaremos las escalas de intención de abandono y de cambio de carrera de López-Angulo, Muñoz-Inostroza, Sáez-Delgado, Chandia, Mella-Norambuena y Brito-Álvarez (2025), *Journal of College Student Retention*, validadas con 641 estudiantes chilenos de primer año, con cinco fases cada una (percepción de no encajar, pensamientos de dejar o cambiarse, deliberación, búsqueda de información, decisión final). Ya tenemos el artículo y los ítems en español (apéndices 2 y 3, en figshare). **Falta decidir qué fases usar; mientras tanto, la encuesta tiene una pantalla de reemplazo.** Si las escalas resultan largas, se pueden usar solo algunas fases como subescalas.
 
 **D4. No se cambia el formato de respuesta de una escala validada** (firme). Se usa el número de puntos y las etiquetas de su validación, aunque eso signifique varios formatos en la encuesta (frecuencia 0–6, acuerdo 1–7, frecuencia de 3 puntos). Cada escala va en su propia pantalla, con su instrucción. Cuando el artículo solo da las etiquetas de los extremos, los puntos del medio van con su número.
 
@@ -135,8 +135,8 @@ Adaptaciones al UWES, todas menores:
 
 # Pendientes
 
-1. Conseguir López-Angulo et al. (2025) y cargar la intención de abandono (D3).
+1. Elegir qué fases de López-Angulo et al. (2025) usar y cargarlas en la encuesta (D3).
 2. Confirmar las etiquetas de la ASES con Calderón (D8).
 3. Pedir a Medrano la ESA referida a la carrera, si queremos reabrir D6.
-4. Completar el consentimiento 2.0 (contacto de la DISE, dónde se guardan los datos y por cuánto tiempo, equipo completo) y enviarlo al CEBB.
+4. Completar el consentimiento 2.0 (contacto de la DISE, dónde se guardan los datos y por cuánto tiempo) y enviarlo al CEBB.
 5. Piloto: revisar el ítem 7 de la ASES, la estructura de cada escala y las correlaciones entre constructos (AFC con todos, HTMT, EGA).
