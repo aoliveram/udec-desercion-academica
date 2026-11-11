@@ -4,7 +4,7 @@
 
 - **Proyecto:** Topología de redes de afinidad como predictor de abandono académico.
 - **Investigador responsable:** Dr. Hernán Astudillo.
-- **Equipo de investigación:** Dr. Hernán Astudillo, Claudio Faúndez y Yannely Salas. [POR CONFIRMAR: equipo completo]
+- **Equipo de investigación:** Dr. Hernán Astudillo, Claudio Faúndez, Yannely Salas y Aníbal Olivera.
 - **Institución:** Universidad de Concepción.
 - **Versión del documento:** 2.0 (borrador), noviembre de 2026.
 
