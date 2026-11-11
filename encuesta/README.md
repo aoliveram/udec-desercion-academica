@@ -31,6 +31,23 @@ source .venv/bin/activate          # en Windows: .venv\Scripts\activate
 pip install -r requirements-dev.txt
 ```
 
+### En el Mac de desarrollo (sin `.venv` propia)
+
+Esta carpeta no tiene `.venv`: se reutiliza la de `E - survey-app`, que trae
+las mismas versiones de Python, Streamlit y pytest. Desde la raíz del
+repositorio (`E - udec-desercion-academica`):
+
+```bash
+cd encuesta
+PY="../../E - survey-app/.venv/bin/python"
+"$PY" scripts/demo.py                  # demo
+"$PY" -m streamlit run app.py          # app
+"$PY" -m pytest                        # pruebas
+```
+
+No instalar paquetes en esa `.venv` desde aquí (podría cambiar versiones y
+afectar a `E - survey-app`).
+
 ## 2. Probar la demo
 
 ```bash
