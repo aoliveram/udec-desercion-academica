@@ -163,7 +163,7 @@ def test_withdrawing_consent_later_deletes_answers_and_frees_the_name(env):
 def test_identity_and_consent_cannot_be_skipped(env):
     at = click_next(start())
     assert at.button(key="_next_1").disabled
-    at.radio(key="w__consentimiento").set_value("Acepto participar").run()
+    at.radio(key="w__consentimiento").set_value(QUESTIONS[INDEX["consentimiento"]]["accept"]).run()
     # The academic-record authorization is on the same page and also required.
     assert at.button(key="_next_1").disabled
     at.radio(key="w__autoriza_registros").set_value("No").run()
@@ -173,7 +173,8 @@ def test_identity_and_consent_cannot_be_skipped(env):
 
 
 def test_unanswered_page_offers_to_omit_and_records_it(env):
-    q = next(q for q in QUESTIONS if q["type"] == "number")
+    # A single-question page (the omit button records OMIT for the whole page).
+    q = next(q for q in QUESTIONS if q["type"] == "radio")
     at = start()
     while page(at)["id"] != q["id"]:
         at = answer_current_page(at)
@@ -361,8 +362,11 @@ def test_block_with_option_help_injects_hover_css(env):
 
 
 def _go_to_first_number_page(at):
-    q = next(q for q in QUESTIONS if q["type"] == "number")
-    while page(at)["id"] != q["id"]:
+    # The number questions live inside a group page (metapercepción).
+    page_q, q = next(
+        (p, m) for p in QUESTIONS for m in ([p] if p["type"] == "number" else p.get("members", [])) if m["type"] == "number"
+    )
+    while page(at)["id"] != page_q["id"]:
         at = answer_current_page(at)
     return at, q
 
@@ -374,9 +378,8 @@ def test_plus_on_an_empty_number_gives_one_and_keeps_counting(env):
     assert at.number_input(key=key(q)).value == 1
     at = at.button(key=key(q) + "__mas").click().run()
     assert at.number_input(key=key(q)).value == 2
-    at = click_next(at)
-    _, _, data = respondent(env)
-    assert data[q["id"]]["value"] == 2
+    _, _, data = respondent(env)  # saved on every rerun, under the group's page
+    assert export._values_flat(QUESTIONS, data)[q["id"]]["value"] == 2
 
 
 def test_minus_on_an_empty_number_stays_at_zero(env):
@@ -393,3 +396,56 @@ def test_each_page_gets_a_fresh_scroll_to_top_script(env):
     at = answer_current_page(at)
     second = [h.proto.body for h in at.get("html") if "stMain" in h.proto.body]
     assert first and second and first != second  # identical HTML wouldn't run again
+
+
+def _go_to(at, page_id):
+    while page(at)["id"] != page_id:
+        at = answer_current_page(at)
+    return at
+
+
+def _answer_phase(at, option_index):
+    for block in page(at)["members"]:
+        for item in block["items"]:
+            at.radio(key=key(block, item["id"])).set_value(block["options"][option_index])
+    return click_next(at.run())
+
+
+def test_all_ones_in_phase_two_skips_phases_three_and_four(env):
+    at = _go_to(start(), "intencion_f2")
+    at = _answer_phase(at, 0)
+    assert page(at)["id"] == "uwes"
+    at = at.button(key=f"_prev_{INDEX['uwes']}").click().run()
+    assert page(at)["id"] == "intencion_f2"
+
+    _, _, data = respondent(env)
+    cells = export.encode_answers(QUESTIONS, data)
+    assert cells["int_ab05"] == 1
+    assert cells["int_ab08"] == cells["int_cc11"] == export.NOT_APPLICABLE
+
+
+def test_phase_four_shows_only_after_something_other_than_one_in_phase_three(env):
+    at = _go_to(start(), "intencion_f2")
+    at = _answer_phase(at, 1)
+    assert page(at)["id"] == "intencion_f3"
+    at = _answer_phase(at, 0)
+    assert page(at)["id"] == "uwes"
+
+
+def test_phase_page_counts_missing_statements(env):
+    at = _go_to(start(), "intencion_f2")
+    at = click_next(at)
+    total = sum(len(b["items"]) for b in page(at)["members"])
+    assert any(f"Te falta responder {total} de {total} afirmaciones" in m.value for m in at.markdown)
+
+
+def test_accepting_consent_is_logged_with_the_authorization(env):
+    at = start()
+    while page(at)["type"] != "self_id":
+        at = answer_current_page(at)
+    conn, row, _ = respondent(env)
+    events = conn.execute(
+        "SELECT payload_json FROM audit_log WHERE respondent_id = ? AND event_type = 'consent_accepted'", (row["id"],)
+    ).fetchall()
+    assert len(events) == 1
+    assert json.loads(events[0]["payload_json"]) == {"autoriza_registros": "Sí"}

@@ -179,6 +179,11 @@ class Doc:
         self.self_name = self.roster[first_cohort][0]
         self.shown_radio_omit = False
         self.shown_block_omit = False
+        # The «Te falta responder…» example goes on the shortest block that has
+        # its own page, so it doesn't lengthen an already long screen.
+        blocks = [q for q in questions if q["type"] == "likert_block"]
+        self.omit_example_block = min(blocks, key=lambda q: len(q["items"]))["id"] if blocks else None
+        self.skip_option_help = False  # set for a page's second block with the same bubbles
 
     # --- piezas comunes ---------------------------------------------------
 
@@ -265,7 +270,6 @@ class Doc:
     def roster_checklist(self, q):
         parts = [
             rf"\qlabelbf{{{inline(q['label'])}}}",
-            rf"\stcaption{{No hay un número correcto. Puedes marcar hasta {q['max_selections']}; llevas 0.}}",
             r"\field{Buscar por nombre}{}",
             r"\vspace{6pt}",
         ]
@@ -280,7 +284,8 @@ class Doc:
         parts.append(r"{\color{stBorderDis}\rule{\linewidth}{0.4pt}}\par\vspace{4pt}")
         parts.append(rf"\checkbox{{{esc(q['nobody_label'])}}}")
         parts.append(
-            rf"\note{{Al llegar a {q['max_selections']} marcados, las casillas restantes se desactivan. "
+            rf"\note{{Al llegar a {q['max_selections']} marcados, las casillas restantes se desactivan y aparece "
+            rf"«Llegaste al máximo de {q['max_selections']} personas». "
             rf"«{esc(q['nobody_label'])}» se desactiva si hay alguien marcado. La lista real tiene a toda "
             r"la nómina, menos a quien responde.}"
         )
@@ -301,8 +306,8 @@ class Doc:
     def likert_block(self, q):
         # Instruction in italics, each statement in bold and without a number, as in the app.
         parts = [rf"\qlabel{{\itshape {inline(q['label'])}}}", r"\vspace{2pt}"]
-        example = not self.shown_block_omit  # el primer bloque muestra el aviso de omisión
-        helps = q.get("option_help")
+        example = not self.shown_block_omit and q["id"] == self.omit_example_block
+        helps = None if self.skip_option_help else q.get("option_help")
         for i, item in enumerate(q["items"], start=1):
             if i > 1:
                 parts.append(r"\nextitem")
@@ -366,10 +371,19 @@ class Doc:
 
     def group(self, q):
         parts = []
+        # The omit example is shown on a block that stands alone on its page.
+        shown_block_omit, self.shown_block_omit = self.shown_block_omit, True
+        helps_shown = []
         for n, m in enumerate(q["members"]):
             if n:
                 parts.append(r"\nextitem")
+            # Explain the bubbles once per page, not once per block.
+            self.skip_option_help = m.get("option_help") is not None and m["option_help"] in helps_shown
             parts.append(getattr(self, m["type"])(m))
+            if m.get("option_help"):
+                helps_shown.append(m["option_help"])
+        self.skip_option_help = False
+        self.shown_block_omit = shown_block_omit
         return "\n".join(parts)
 
     def branching_tree(self, q):
@@ -394,8 +408,18 @@ class Doc:
 
     # --- documento ----------------------------------------------------------
 
+    def condition_note(self, q):
+        condition = q.get("show_if")
+        if not condition:
+            return ""
+        return (
+            rf"\note{{Pantalla condicional: aparece solo si en la pantalla \texttt{{{esc(condition['page'])}}} se "
+            rf"marcó al menos una opción distinta de «{esc(condition['other_than'])}». Si no, la encuesta la "
+            r"salta y sus ítems quedan como NO\_APLICA.}\vspace{4pt}"
+        )
+
     def screen(self, n, q):
-        body = getattr(self, q["type"])(q)
+        body = self.condition_note(q) + getattr(self, q["type"])(q)
         if q["type"] == "consent":
             return "\n".join(
                 [self.head(n, q), body, self.foot(n, q, next_active=False, tooltip="Debes indicar si aceptas participar para continuar.")]
@@ -414,6 +438,8 @@ class Doc:
                 what = " + ".join(m.get("construct") or TYPE_NAMES[m["type"]] for m in q["members"])
             if q["type"] == "likert_block":
                 what += f" ({len(q['items'])} ítems)"
+            if q.get("show_if"):
+                what += f" — condicional: solo si en {q['show_if']['page']} hay algo distinto de «{q['show_if']['other_than']}»"
             rows.append(rf"{n} & \texttt{{{esc(q['id'])}}} & {esc(what)} \\")
         return (
             r"{\small\begin{longtable}{@{}r>{\raggedright}p{5.6cm}>{\raggedright\arraybackslash}p{9.0cm}@{}}"
@@ -453,6 +479,9 @@ Ninguna opción viene marcada de antemano. Si se aprieta \emph{{Siguiente}} sin 
 no avanza: aparece un aviso con un botón rojo para omitir, que registra la omisión como
 «{esc(OMIT)}» (se ilustra una vez para una pregunta de opción única y una vez para un bloque de
 ítems). El consentimiento y la identificación no se pueden omitir.
+
+Algunas pantallas son \emph{{condicionales}}: aparecen solo según lo respondido en una pantalla
+anterior, y así se indica en cada una. Las demás las ve todo el mundo.
 
 Total: \textbf{{{self.total} pantallas}} y {n_items} preguntas o ítems, más la pantalla final de
 agradecimiento.

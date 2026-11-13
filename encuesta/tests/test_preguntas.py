@@ -82,7 +82,7 @@ def test_group_members_are_validated_and_their_ids_must_be_unique():
     assert validar(ok) == []
     repeated = MINIMO + [opcion_unica("a", "¿?", ["Sí", "No"]), grupo("g", [opcion_unica("a", "¿?", ["Sí", "No"])])]
     assert any("repetido" in p for p in validar(repeated))
-    wrong_type = MINIMO + [grupo("g", [bloque("b", "¿?", [("i1", "x")], ["A", "B"])])]
+    wrong_type = MINIMO + [grupo("g", [nominacion("n", "¿Con quiénes?")])]
     assert any("un grupo solo admite" in p for p in validar(wrong_type))
     only_text = MINIMO + [grupo("g", [info("t", "hola")])]
     assert any("no tiene preguntas" in p for p in validar(only_text))
@@ -93,3 +93,24 @@ def test_block_option_help_needs_one_entry_per_option():
     assert validar(good) == []
     bad = MINIMO + [bloque("b", "¿?", [("i1", "x")], ["0", "1"], ayudas=["nunca"])]
     assert any("ayudas" in p for p in validar(bad))
+
+
+def test_blocks_can_share_a_page_in_a_group():
+    from motor.preguntas import grupo
+
+    ok = MINIMO + [grupo("g", [bloque("b1", "¿?", [("i1", "x")], ["A", "B"]), bloque("b2", "¿?", [("i2", "y")], ["A", "B"])])]
+    assert validar(ok) == []
+
+
+def test_conditional_pages_must_point_back_to_an_existing_option():
+    from motor.preguntas import mostrar_si
+
+    first = bloque("b1", "¿?", [("i1", "x")], ["1", "2"])
+    later = bloque("b2", "¿?", [("i2", "y")], ["1", "2"])
+    assert validar(MINIMO + [first, mostrar_si(later, anterior="b1", distinta_de="1")]) == []
+    forward = MINIMO + [mostrar_si(later, anterior="b1", distinta_de="1"), first]
+    assert any("no es una página anterior" in p for p in validar(forward))
+    wrong_option = MINIMO + [first, mostrar_si(later, anterior="b1", distinta_de="7")]
+    assert any("no es una opción" in p for p in validar(wrong_option))
+    consent = [mostrar_si(consentimiento("c", "texto"), anterior="b1", distinta_de="1")]
+    assert any("no pueden ser condicionales" in p for p in validar([first] + consent + [identificacion("yo")]))

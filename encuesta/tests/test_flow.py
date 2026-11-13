@@ -158,3 +158,57 @@ def test_omitting_a_group_fills_only_what_is_missing():
     assert flow.omit_value(g, {"a": "No"}) == {"a": "No", "t": {"trabaja": OMIT}}
     assert flow.omit_value(g, {"t": {"trabaja": "Sí"}}) == {"a": OMIT, "t": {"trabaja": "Sí", "horas": OMIT}}
     assert flow.is_answered(g, flow.omit_value(g, None))
+
+
+# --- conditional pages (mostrar_si) ---------------------------------------------
+
+def _phases():
+    from motor.preguntas import grupo, mostrar_si
+
+    def phase(n):
+        return grupo(f"f{n}", [bloque(f"ab{n}", "¿?", [(f"ab{n}_1", "x")], ["1", "2"]),
+                               bloque(f"cc{n}", "¿?", [(f"cc{n}_1", "y")], ["1", "2"])])
+
+    return [
+        opcion_unica("antes", "¿?", ["A", "B"]),
+        phase(2),
+        mostrar_si(phase(3), anterior="f2", distinta_de="1"),
+        mostrar_si(phase(4), anterior="f3", distinta_de="1"),
+        opcion_unica("despues", "¿?", ["A", "B"]),
+    ]
+
+
+def _phase_value(n, ab, cc):
+    return {"value": {f"ab{n}": {f"ab{n}_1": ab}, f"cc{n}": {f"cc{n}_1": cc}}}
+
+
+def test_next_phase_shows_only_after_an_answer_other_than_one():
+    qs = _phases()
+    all_ones = {"f2": _phase_value(2, "1", "1")}
+    assert not flow.is_shown(qs[2], all_ones, qs)
+    assert flow.neighbor_index(qs, all_ones, 1, 1) == 4  # f2 -> despues
+    assert flow.neighbor_index(qs, all_ones, 4, -1) == 1  # and back
+    one_two = {"f2": _phase_value(2, "1", "2")}
+    assert flow.is_shown(qs[2], one_two, qs)
+    assert not flow.is_shown(qs[3], one_two, qs)  # f3 not answered yet
+    assert flow.neighbor_index(qs, one_two, 1, 1) == 2
+
+
+def test_omitting_does_not_open_the_next_phase():
+    qs = _phases()
+    assert not flow.is_shown(qs[2], {"f2": _phase_value(2, OMIT, "1")}, qs)
+
+
+def test_a_phase_closes_when_the_one_it_depends_on_closes():
+    qs = _phases()
+    # f3 had a 2 (so f4 was shown), then f2 was changed to all ones.
+    data = {"f2": _phase_value(2, "1", "1"), "f3": _phase_value(3, "2", "2")}
+    assert not flow.is_shown(qs[3], data, qs)
+    assert flow.skipped_by_path(qs[3], data, qs)
+
+
+def test_skipped_by_path_is_not_the_same_as_not_reached():
+    qs = _phases()
+    assert not flow.skipped_by_path(qs[2], {}, qs)  # f2 not answered: not reached
+    assert flow.skipped_by_path(qs[2], {"f2": _phase_value(2, "1", "1")}, qs)
+    assert not flow.skipped_by_path(qs[2], {"f2": _phase_value(2, "2", "1")}, qs)

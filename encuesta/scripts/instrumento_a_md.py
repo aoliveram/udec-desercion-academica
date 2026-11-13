@@ -47,6 +47,10 @@ def metadata(q):
 
 def page(n, q):
     out = [f"### Página {n}: `{q['id']}` ({TIPOS[q['type']]})\n", metadata(q)]
+    if q.get("show_if"):
+        c = q["show_if"]
+        out.append(f"*Condicional: aparece solo si en `{c['page']}` hay al menos una respuesta distinta de "
+                   f"«{c['other_than']}».*\n\n")
     out.append(body(q))
     return "".join(out) + "\n"
 

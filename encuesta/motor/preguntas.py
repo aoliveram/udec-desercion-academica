@@ -21,9 +21,14 @@ Tipos de página:
 - `abierta`         texto libre (opcional por diseño).
 - `arbol`           preguntas encadenadas: cuál viene después depende de la
                     respuesta anterior (p. ej. "¿Trabajas?" -> "¿Cuántas horas?").
-- `grupo`           dos o más preguntas cortas en una misma página
-                    (`opcion_unica`, `numero`, `abierta`, `arbol` o un texto
-                    `info`). Cada una conserva su id y su columna.
+- `grupo`           dos o más preguntas en una misma página (`opcion_unica`,
+                    `numero`, `abierta`, `arbol`, `bloque` o un texto `info`).
+                    Cada una conserva su id y su columna.
+
+Páginas condicionales: `mostrar_si(pagina, anterior=..., distinta_de=...)`
+hace que una página aparezca solo según lo respondido en una página
+anterior (p. ej. la fase 3 de intención de abandono, solo para quien no
+marcó «1» en toda la fase 2). Quien no la ve queda como NO_APLICA.
 
 Omitir: si alguien aprieta "Siguiente" sin responder, la app le ofrece
 «Prefiero no contestar» y lo registra como tal (no como una respuesta).
@@ -41,6 +46,8 @@ import re
 OMIT = "Prefiero no contestar"
 
 _ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
+
+NOT_CONDITIONAL = {"consent", "self_id"}
 
 
 def info(id, texto):
@@ -162,15 +169,34 @@ def arbol(id, raiz, nodos, *, constructo=None, fuente=None):
     }
 
 
-GROUP_MEMBER_TYPES = {"radio", "number", "text", "branching_tree", "info"}
+GROUP_MEMBER_TYPES = {"radio", "number", "text", "branching_tree", "likert_block", "info"}
 
 
 def grupo(id, preguntas):
     """Varias preguntas en una misma página, una debajo de otra. `preguntas`:
-    páginas hechas con opcion_unica, numero, abierta, arbol o info (un texto
-    sin respuesta). La página se da por respondida cuando todas sus
+    páginas hechas con opcion_unica, numero, abierta, arbol, bloque o info
+    (un texto sin respuesta). La página se da por respondida cuando todas sus
     preguntas lo están; «Prefiero no contestar» omite solo las que faltan."""
     return {"id": id, "type": "group", "members": list(preguntas)}
+
+
+def mostrar_si(pagina, *, anterior, distinta_de):
+    """La `pagina` aparece solo si en la página `anterior` (que va antes)
+    hay al menos una respuesta distinta de `distinta_de`. «Prefiero no
+    contestar» no cuenta como distinta. Si la página `anterior` tampoco
+    apareció, esta tampoco. Quien no la ve queda como NO_APLICA en la
+    exportación."""
+    return {**pagina, "show_if": {"page": anterior, "other_than": distinta_de}}
+
+
+def opciones_de(pagina):
+    """Todas las opciones de respuesta de una página (y de lo que tenga dentro)."""
+    out = list(pagina.get("options", []))
+    for m in pagina.get("members", []):
+        out += opciones_de(m)
+    for node in pagina.get("tree", {}).values():
+        out += node["options"]
+    return out
 
 
 def validar(preguntas):
@@ -248,6 +274,18 @@ def validar(preguntas):
 
     for i, p in enumerate(preguntas, start=1):
         revisar_pagina(p, f"página {i} ({p.get('id')})")
+        condicion = p.get("show_if")
+        if condicion:
+            donde = f"página {i} ({p.get('id')})"
+            previas = {q["id"]: q for q in preguntas[: i - 1]}
+            if p["type"] in NOT_CONDITIONAL:
+                problemas.append(f"{donde}: el consentimiento y la identificación no pueden ser condicionales")
+            if condicion["page"] not in previas:
+                problemas.append(f"{donde}: mostrar_si apunta a {condicion['page']!r}, que no es una página anterior")
+            elif condicion["other_than"] not in opciones_de(previas[condicion["page"]]):
+                problemas.append(
+                    f"{donde}: {condicion['other_than']!r} no es una opción de la página {condicion['page']!r}"
+                )
 
     if tipos.count("self_id") != 1:
         problemas.append("debe haber exactamente una página de identificacion()")

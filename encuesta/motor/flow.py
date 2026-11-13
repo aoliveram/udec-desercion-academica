@@ -68,6 +68,59 @@ def is_question_answered(question, saved_data):
     return is_answered(question, saved_data.get(question["id"], {}).get("value"))
 
 
+def _choices(value):
+    """Every option label in a page value (nested dicts included)."""
+    if isinstance(value, dict):
+        for v in value.values():
+            yield from _choices(v)
+    elif isinstance(value, str):
+        yield value
+
+
+def _page_by_id(questions, page_id):
+    return next(q for q in questions if q["id"] == page_id)
+
+
+def is_shown(question, saved_data, questions):
+    """Whether a page is part of this respondent's path. A page with a
+    `show_if` condition (mostrar_si) is, when the page it points to is
+    itself shown and holds at least one answer other than the excluded
+    one («Prefiero no contestar» doesn't count)."""
+    condition = question.get("show_if")
+    if not condition:
+        return True
+    ref = _page_by_id(questions, condition["page"])
+    if not is_shown(ref, saved_data, questions):
+        return False
+    value = saved_data.get(ref["id"], {}).get("value")
+    return any(c != condition["other_than"] and c != OMIT for c in _choices(value))
+
+
+def skipped_by_path(question, saved_data, questions):
+    """True when the respondent's answers ruled the page out (export:
+    NO_APLICA), as opposed to not having got that far yet (SIN_RESPUESTA)."""
+    condition = question.get("show_if")
+    if not condition:
+        return False
+    ref = _page_by_id(questions, condition["page"])
+    if skipped_by_path(ref, saved_data, questions):
+        return True
+    if not is_shown(ref, saved_data, questions) or not is_question_answered(ref, saved_data):
+        return False
+    return not is_shown(question, saved_data, questions)
+
+
+def neighbor_index(questions, saved_data, index, step):
+    """The next (step=1) or previous (step=-1) page on the respondent's
+    path, or None if there isn't one."""
+    i = index + step
+    while 0 <= i < len(questions):
+        if is_shown(questions[i], saved_data, questions):
+            return i
+        i += step
+    return None
+
+
 def compute_resume_index(questions, answered_ids):
     """Index of the first not-yet-answered question, or the last question
     if everything's already answered (so a respondent who answered

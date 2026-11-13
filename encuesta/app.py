@@ -189,7 +189,8 @@ def render_roster_checklist(question, saved, context):
     n_before = sum(checked_before.values())
 
     st.markdown(f"**{question['label']}**")
-    st.caption(f"No hay un número correcto. Puedes marcar hasta {max_sel}; llevas {n_before}.")
+    if n_before >= max_sel:
+        st.caption(f"Llegaste al máximo de {max_sel} personas.")
     query = st.text_input(
         "Buscar por nombre",
         key=f"_filter_{question['id']}",
@@ -451,6 +452,15 @@ def omit_prompt_message(question, value):
         return f"Te falta responder {missing} de {len(question['items'])} afirmaciones."
     if question["type"] == "group":
         members = flow.answerable_members(question)
+        if all(m["type"] == "likert_block" for m in members):
+            # Blocks only (e.g. one phase of the dropout-intention scales): count statements.
+            total = missing = 0
+            for m in members:
+                answers = (value or {}).get(m["id"])
+                answers = answers if isinstance(answers, dict) else {}
+                total += len(m["items"])
+                missing += sum(1 for item in m["items"] if answers.get(item["id"]) is None)
+            return f"Te falta responder {missing} de {total} afirmaciones."
         missing = sum(1 for m in members if not flow.is_answered(m, (value or {}).get(m["id"])))
         return f"Te falta responder {missing} de {len(members)} preguntas."
     return "No has seleccionado una respuesta."
@@ -506,6 +516,8 @@ st.html(
     f"html {{ font-size: {settings.BASE_FONT_SIZE_PX}px; }}"
     '[data-testid="stWidgetLabel"] p, div[role="radiogroup"] label p, '
     '[data-testid="stCheckbox"] label p { font-size: 1rem; }'
+    # On a phone, tighter spacing keeps a 1-to-7 row of numbers on one line.
+    '@media (max-width: 480px) { div[role="radiogroup"] { column-gap: 0.4rem; } }'
     "</style>"
 )
 
@@ -571,13 +583,21 @@ if self_code not in {p.code for p in roster}:
     self_code = None
 context = flow.build_context(roster, self_code)
 
-answered_ids = {q["id"] for q in QUESTIONS if flow.is_question_answered(q, saved_data)}
+# Pages off this respondent's path (mostrar_si) count as done for resuming.
+done_ids = {
+    q["id"]
+    for q in QUESTIONS
+    if flow.is_question_answered(q, saved_data) or not flow.is_shown(q, saved_data, QUESTIONS)
+}
 if "_page" not in st.session_state:
-    st.session_state["_page"] = flow.compute_resume_index(QUESTIONS, answered_ids)
+    st.session_state["_page"] = flow.compute_resume_index(QUESTIONS, done_ids)
 
 idx = min(max(st.session_state["_page"], 0), len(QUESTIONS) - 1)
+if not flow.is_shown(QUESTIONS[idx], saved_data, QUESTIONS):
+    forward = flow.neighbor_index(QUESTIONS, saved_data, idx, 1)
+    idx = forward if forward is not None else flow.neighbor_index(QUESTIONS, saved_data, idx, -1)
+    st.session_state["_page"] = idx
 question = QUESTIONS[idx]
-is_last = idx == len(QUESTIONS) - 1
 
 # --- landed on a new page: close the one we left, open a new visit window ------
 
@@ -617,6 +637,11 @@ def persist(page_value):
 
 persist(value)
 answered = flow.is_answered(question, value)
+# Where «Siguiente» leads depends on this page's answer when a later page is
+# conditional on it, so it's worked out after saving.
+next_idx = flow.neighbor_index(QUESTIONS, saved_data, idx, 1)
+prev_idx = flow.neighbor_index(QUESTIONS, saved_data, idx, -1)
+is_last = next_idx is None
 
 # Pressing Siguiente on an unanswered page doesn't advance: it shows this
 # prompt instead, so skipping is a deliberate act and is recorded as such.
@@ -626,9 +651,10 @@ if not answered and st.session_state.get("_omit_prompt") == question["id"]:
         omit_label = "Prefiero no contestar las que faltan" if question["type"] in ("likert_block", "group") else OMIT
         if st.button(omit_label, type="primary", key=f"_omit_btn_{idx}"):
             persist(flow.omit_value(question, value))
-            if is_last:
+            after_omit = flow.neighbor_index(QUESTIONS, saved_data, idx, 1)
+            if after_omit is None:
                 finalize()
-            go_to(idx + 1)
+            go_to(after_omit)
 
 declining = question["type"] == "consent" and flow.consent_decision(question, value) == question["decline"]
 if declining:
@@ -652,7 +678,7 @@ elif not answered and question["type"] == "self_id":
 col_prev, col_next = st.columns(2)
 with col_prev:
     prev_clicked = st.button(
-        "Anterior", icon=":material/arrow_back:", width="stretch", disabled=idx == 0, key=f"_prev_{idx}"
+        "Anterior", icon=":material/arrow_back:", width="stretch", disabled=prev_idx is None, key=f"_prev_{idx}"
     )
 with col_next:
     next_clicked = st.button(
@@ -666,14 +692,23 @@ with col_next:
     )
 
 if prev_clicked:
-    go_to(idx - 1)
+    go_to(prev_idx)
 if next_clicked:
     if declining:
         decline(flow.consent_decision(question, value))
     elif answered:
+        if question["type"] == "consent":
+            # The explicit, timestamped record of consent (the hash-chained
+            # audit log stands in for a signature on the online form).
+            audit.append_event(
+                conn,
+                respondent_id,
+                "consent_accepted",
+                {m["id"]: (value or {}).get(m["id"]) for m in question.get("members", [])},
+            )
         if is_last:
             finalize()
-        go_to(idx + 1)
+        go_to(next_idx)
     else:
         st.session_state["_omit_prompt"] = question["id"]
         st.rerun()

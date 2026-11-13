@@ -125,3 +125,22 @@ def test_codebook_includes_option_help():
     questions = [identificacion("yo"), bloque("b", "¿?", [("i1", "x")], ["0", "1"], ayudas=["Nunca", None])]
     (row,) = export.codebook(questions)
     assert row["opciones"] == "1=0 (Nunca); 2=1"
+
+
+def test_pages_skipped_by_a_condition_are_not_applicable():
+    from motor.preguntas import mostrar_si
+
+    questions = [
+        identificacion("yo"),
+        bloque("f2", "¿?", [("a", "x")], ["1", "2"]),
+        mostrar_si(bloque("f3", "¿?", [("b", "y")], ["1", "2"]), anterior="f2", distinta_de="1"),
+    ]
+    assert export.encode_answers(questions, {}) == {"a": export.NO_ANSWER, "b": export.NO_ANSWER}
+    assert export.encode_answers(questions, {"f2": v({"a": "1"})}) == {"a": 1, "b": export.NOT_APPLICABLE}
+    # Answers left over from before going back and changing course don't count.
+    stale = {"f2": v({"a": "1"}), "f3": v({"b": "2"})}
+    assert export.encode_answers(questions, stale)["b"] == export.NOT_APPLICABLE
+    assert export.encode_answers(questions, {"f2": v({"a": "2"}), "f3": v({"b": "2"})}) == {"a": 2, "b": 2}
+    rows = {row["columna"]: row for row in export.codebook(questions)}
+    assert rows["a"]["se_muestra"] == "siempre"
+    assert "solo si en «f2»" in rows["b"]["se_muestra"]

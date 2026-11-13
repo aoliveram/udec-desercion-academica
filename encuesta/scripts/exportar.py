@@ -133,7 +133,7 @@ def main():
     codebook = export.codebook(questions)
     write_csv(
         out_dir / "codebook.csv",
-        ["columna", "archivo", "pagina", "pregunta", "tipo", "texto", "opciones", "constructo", "fuente", "invertido"],
+        ["columna", "archivo", "pagina", "pregunta", "tipo", "texto", "opciones", "constructo", "fuente", "invertido", "se_muestra"],
         codebook,
     )
 
