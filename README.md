@@ -15,11 +15,23 @@ modelo de integración de Tinto.
 | [`encuesta/`](encuesta/) | Herramienta para aplicar la encuesta, en reemplazo del Google Forms. Empezar por [`encuesta/README.md`](encuesta/README.md) |
 | [`libro-psicometria-2026/`](libro-psicometria-2026/) | Libro de clases de psicometría básica: constructos, redacción de ítems, ítems invertidos y alfa de Cronbach (fuente Quarto) |
 | [`docs/`](docs/) | Documentos del proyecto |
+| [`docs/reporte-general.pdf`](docs/reporte-general.pdf) ([md](docs/reporte-general.md)) | **Reporte general:** el proyecto, el mapa de constructos (los que entran y los que no) y una ficha de cada uno |
 | [`docs/reporte-yannely-2026.pdf`](docs/reporte-yannely-2026.pdf) ([md](docs/reporte-yannely-2026.md)) | Encuesta FCFM 2026: constructos candidatos, ejemplo completo (UCLA-3) y calendario |
 | [`docs/programa-curso-2026.pdf`](docs/programa-curso-2026.pdf) | Programa del curso guiado: horario de reuniones e hitos |
 | `informe-yannely-abandono-academico-udec.pdf` | Informe de agosto de 2026: problema, hipótesis, marco teórico y metodología |
+| [`comite-etica/`](comite-etica/) | Presentación al Comité de Ética de la CFM: protocolo, cartas, plantillas de la VRID y lista de lo que falta |
 | [`papers/`](papers/) | Lecturas de referencia |
-| `Notas.txt` | Notas y tareas de trabajo |
+
+## Ejecutar la app
+
+Desde la raíz del repositorio (`E - udec-desercion-academica`), con la `.venv`
+de `E - survey-app` (ver [`encuesta/README.md`](encuesta/README.md)):
+
+```bash
+"../E - survey-app/.venv/bin/python" encuesta/scripts/demo.py
+```
+
+Con una `.venv` propia (pasos de abajo): `python encuesta/scripts/demo.py`.
 
 ## Primeros pasos
 
