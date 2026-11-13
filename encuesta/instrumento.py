@@ -12,12 +12,12 @@ con "[POR COMPLETAR: ...]" (en el texto que ve quien responde) o con
 
 Reglas para editar:
 
-1. Escalas validadas (UWES-9S, ASES, ESPU, UCLA-3, MSPSS-Familia):
+1. Escalas validadas (intención de abandono y de cambio de carrera, UWES-9S,
+   ASES, ESPU, UCLA-3, MSPSS-Familia):
    copiar el texto de cada ítem y su formato de respuesta TAL CUAL aparecen
    en el artículo de validación citado. No reescribirlos. Las decisiones
    sobre qué escalas entran están en instrumento/decisiones.md.
-2. Ítems nuevos (sin escala validada): marcarlos con `fuente=NUEVO`. Pasan
-   por jueces expertos y entrevistas cognitivas antes de aplicarse.
+2. Ítems nuevos (sin escala validada): marcarlos con `fuente=NUEVO`.
 3. Cada `id` es el nombre de la columna en la exportación: corto, en
    minúsculas, sin tildes ni espacios, y que no cambie una vez aplicada la
    encuesta.
@@ -38,13 +38,14 @@ from motor.preguntas import (
     consentimiento,
     identificacion,
     info,
+    mostrar_si,
     nominacion,
     numero,
     opcion_unica,
 )
 
 TITULO = "Encuesta CFM"
-VERSION = "0.4-borrador"
+VERSION = "0.6-borrador"
 
 NUEVO = "Ítem nuevo (reporte semestre 2026, §2.4)"
 
@@ -114,7 +115,7 @@ CONSENTIMIENTO = consentimiento(
     "Ciencias Físicas y Matemáticas.\n\n"
     "- **Qué harás:** responder esta encuesta (10 a 15 minutos) en tres momentos: este "
     "semestre, el primero y el segundo de 2027. Preguntamos por tus compañeros y compañeras, tu "
-    "experiencia de estudiar y algunos datos de contexto.\n"
+    "experiencia de estudiar, el trato de tus profesores y algunos datos de contexto.\n"
     "- **Es voluntario:** puedes omitir cualquier pregunta, dejar la encuesta o retirarte del "
     "estudio cuando quieras, sin consecuencias. Si te retiras, borramos tus datos.\n"
     "- **Tus compañeros:** algunas preguntas piden marcar nombres de una lista. Esas personas "
@@ -129,6 +130,7 @@ CONSENTIMIENTO = consentimiento(
     "CEBB-UdeC (cebb@udec.cl).",
     documento=(Path(__file__).parent / "documentos" / "consentimiento-informado.md").read_text(encoding="utf-8"),
     documento_pdf="documentos/consentimiento-informado.pdf",
+    acepto="Acepto participar y tengo 18 años o más",
     adicionales=[AUTORIZA_REGISTROS],
 )
 
@@ -139,8 +141,8 @@ IDENTIFICACION = identificacion("identificacion")
 
 INSTRUCCIONES_REDES = info(
     "instrucciones_redes",
-    "En las próximas preguntas verás una lista de estudiantes de la CFM, agrupada por año de "
-    "ingreso. Puedes buscar por nombre.\n\n"
+    "Las próximas preguntas son sobre **este semestre**. En cada una verás una lista de "
+    "estudiantes de la CFM, agrupada por año de ingreso. Puedes buscar por nombre.\n\n"
     "Marca a quienes correspondan. **No hay un número correcto**: puedes marcar a varias "
     "personas, a una o a nadie (en ese caso, marca «No hay nadie»).",
 )
@@ -156,8 +158,7 @@ G1_AFINIDAD = nominacion(
 
 G2_AYUDA = nominacion(
     "g2_ayuda",
-    "Cuando no entiendes una materia o un ejercicio, ¿a quiénes de la lista sueles pedirle "
-    "ayuda o con quiénes comparas resultados?",
+    "Cuando no entiendes una materia o un ejercicio, ¿a quiénes de la lista sueles pedirles ayuda?",
     maximo=15,
     constructo="Integración académica (red de ayuda)",
     fuente="Reporte semestre 2026, §2.6 (G2)",
@@ -191,8 +192,7 @@ METAPERCEPCION = grupo(
         ),
         numero(
             "meta_ayuda",
-            "¿Cuántas personas crees que te marcaron como alguien a quien le piden ayuda o con quien "
-            "comparan resultados?",
+            "¿Cuántas personas crees que te marcaron como alguien a quien le piden ayuda?",
             maximo="nomina",
             constructo="Metapercepción (red de ayuda)",
             fuente="Reporte semestre 2026, §2.6",
@@ -208,27 +208,124 @@ METAPERCEPCION = grupo(
     ],
 )
 
-LAZOS_FUERA = numero(
+# Lazos fuera del límite de la red: la nómina es la CFM, así que las
+# amistades de otras facultades no aparecen en G1-G3. En rangos, porque un
+# número exacto es difícil de recordar.
+LAZOS_FUERA = opcion_unica(
     "lazos_otras_carreras",
-    "¿Cuántas personas cercanas tienes en otras carreras de la UdeC?",
-    maximo=100,
+    "¿Cuántas amistades cercanas tienes en la UdeC fuera de la CFM, en otras facultades?",
+    ["0", "1 a 2", "3 a 5", "6 o más"],
     constructo="Integración social (fuera de la nómina)",
     fuente="Reporte semestre 2026, §2.6",
 )
 
 
-# --- Módulo 2: intención de abandono (POR COMPLETAR) ----------------------------
-# Placeholder hasta tener los ítems de López-Angulo, Muñoz-Inostroza,
-# Sáez-Delgado, Chandia, Mella-Norambuena y Brito-Álvarez (2025), Journal of
-# College Student Retention (escalas de intención de abandono y de cambio de
-# carrera, validadas en Chile).
+# --- Módulo 2: intención de abandono y de cambio de carrera -------------------
+# Escalas de Bäulke, Grunschel y Dresel (2022), validación chilena de
+# López-Angulo, Muñoz-Inostroza, Sáez-Delgado, Chandia, Mella-Norambuena y
+# Brito-Álvarez (2025), Journal of College Student Retention. Ítems en español
+# de sus apéndices 2 (abandono) y 3 (cambio de carrera), en figshare
+# (doi 10.6084/m9.figshare.28926803), con el número de ítem del apéndice.
+#
+# Se usan las fases 2 (pensamientos), 3 (deliberación) y 4 (búsqueda de
+# información), una pantalla por fase, con abandono arriba y cambio de carrera
+# debajo. La fase 2 la ven todos; la 3, solo quien marcó algo distinto de «1»
+# en la fase 2; la 4, solo quien marcó algo distinto de «1» en la fase 3
+# (decisión en instrumento/decisiones.md, D3). Las fases 1 (no encajar) y 5
+# (decisión final) quedan fuera.
+#
+# Los subtítulos que separan abandono de cambio de carrera son nuestros; los
+# ítems y la escala, del artículo. En pantalla van solo los números (con
+# las etiquetas, el 1 y el 7 no caben en una línea); la etiqueta de cada
+# punto aparece en una burbuja.
 
-INTENCION = info(
-    "intencion_pendiente",
-    "**[POR COMPLETAR: preguntas de intención de abandono]**\n\n"
-    "Aquí irán los ítems de las escalas de intención de abandono y de cambio de carrera de "
-    "López-Angulo et al. (2025), cuando tengamos el artículo.",
-)
+ACUERDO_7_TOTAL = ["1", "2", "3", "4", "5", "6", "7"]
+ACUERDO_7_TOTAL_AYUDAS = [
+    "Totalmente en desacuerdo",
+    "En desacuerdo",
+    "Ligeramente en desacuerdo",
+    "Ni de acuerdo ni en desacuerdo",
+    "Ligeramente de acuerdo",
+    "De acuerdo",
+    "Totalmente de acuerdo",
+]
+
+INTENCION_INSTRUCCION = "Indica tu grado de acuerdo con cada una de las afirmaciones."
+SOBRE_ABANDONO = "**Sobre dejar los estudios universitarios por completo** (no seguir en ninguna carrera universitaria)"
+SOBRE_CAMBIO = "**Sobre cambiarte de carrera** (seguir en la universidad, pero en otra carrera)"
+
+FASES_INTENCION = {
+    2: ("pensamientos de dejar los estudios / de cambiarse", {
+        "ab": [
+            (4, "Tengo varias ideas sobre lo que podría hacer en lugar de estudiar en la universidad."),
+            (5, "Estoy pensando dejar mis estudios por completo."),
+            (6, "No puedo evitar la sensación de que debería dejar mis estudios."),
+        ],
+        "cc": [
+            (4, "Tengo varias ideas sobre lo que podría estudiar en lugar de mi carrera."),
+            (5, "Estoy pensando en cambiar de carrera."),
+            (6, "No puedo evitar la sensación de que debería cambiar de carrera."),
+        ],
+    }),
+    3: ("deliberación", {
+        "ab": [
+            (7, "Evalúo con detalle lo que significaría para mí abandonar mis estudios."),
+            (8, "Evalúo las ventajas y desventajas de abandonar mis estudios."),
+            (9, "Pienso sistemáticamente lo que significaría para mí abandonar mis estudios en comparación con "
+                "continuarlos."),
+        ],
+        "cc": [
+            (7, "Evalúo con detalle lo que supondría para mí un cambio de carrera."),
+            (8, "Evalúo las ventajas y desventajas de un cambio de carrera."),
+            (9, "Pienso sistemáticamente lo que significaría para mí cambiar de carrera en comparación con "
+                "seguir estudiando mi carrera actual."),
+        ],
+    }),
+    4: ("búsqueda de información", {
+        "ab": [
+            (10, "Me informo específicamente sobre las alternativas al estudio universitario."),
+            (11, "Busco específicamente información sobre alternativas a los estudios universitarios (ej. "
+                 "internet, personas conocidas, entre otras)."),
+            (12, "Investigo a fondo cuáles son los requisitos en las distintas alternativas a los estudios "
+                 "universitarios (ej. Centro de Formación Técnica, Instituto Técnico Profesional, etc.)."),
+        ],
+        "cc": [
+            (10, "Me informo específicamente sobre otras carreras."),
+            (11, "Busco en distintas fuentes/canales información sobre otras carreras (ej. internet, personas "
+                 "conocidas, entre otras)."),
+            (12, "Investigo a fondo cuáles son los requisitos para otras carreras."),
+        ],
+    }),
+}
+
+
+def fase_intencion(fase):
+    nombre, items = FASES_INTENCION[fase]
+    escalas = {
+        "ab": ("Intención de abandono", "Apéndice 2", INTENCION_INSTRUCCION + "\n\n" + SOBRE_ABANDONO),
+        "cc": ("Intención de cambio de carrera", "Apéndice 3", SOBRE_CAMBIO),
+    }
+    bloques = []
+    for escala, (constructo, apendice, texto) in escalas.items():
+        numeros = [n for n, _ in items[escala]]
+        bloques.append(
+            bloque(
+                f"int_{escala}_f{fase}",
+                texto,
+                items=[(f"int_{escala}{n:02d}", t) for n, t in items[escala]],
+                opciones=ACUERDO_7_TOTAL,
+                ayudas=ACUERDO_7_TOTAL_AYUDAS,
+                constructo=f"{constructo}, fase {fase}: {nombre}",
+                fuente=f"López-Angulo et al. (2025), {apendice.lower()}, ítems {numeros[0]}-{numeros[-1]} "
+                "(original: Bäulke et al., 2022)",
+            )
+        )
+    return grupo(f"intencion_f{fase}", bloques)
+
+
+INTENCION_F2 = fase_intencion(2)
+INTENCION_F3 = mostrar_si(fase_intencion(3), anterior="intencion_f2", distinta_de=ACUERDO_7_TOTAL[0])
+INTENCION_F4 = mostrar_si(fase_intencion(4), anterior="intencion_f3", distinta_de=ACUERDO_7_TOTAL[0])
 
 
 # --- Módulos 3 y 4: escalas validadas ---------------------------------------
@@ -240,10 +337,7 @@ INTENCION = info(
 
 UWES = bloque(
     "uwes",
-    "Las siguientes preguntas se refieren a los sentimientos de las personas en sus estudios. "
-    "Por favor, lea cuidadosamente cada pregunta y decida si se ha sentido de esta forma. "
-    "Si nunca se ha sentido así, marque «Nunca»; en caso contrario, indique cuántas veces se ha "
-    "sentido así.",
+    "Indica con qué frecuencia te has sentido así en tus estudios.",
     items=[
         ("uwes_vi1", "Mis tareas como estudiante me hacen sentir lleno de energía"),
         ("uwes_vi2", "Me siento fuerte y vigoroso cuando estoy estudiando o voy a las clases"),
@@ -253,7 +347,9 @@ UWES = bloque(
         ("uwes_ab3", "Soy feliz cuando estoy haciendo tareas relacionadas con mis estudios"),
         ("uwes_de4", "Estoy orgulloso de hacer esta carrera"),
         ("uwes_ab4", "Estoy inmerso en mis estudios"),
-        ("uwes_ab5", "Me “dejo llevar” cuando realizo mis tareas como estudiante"),
+        # Aclaración entre paréntesis (nuestra): en Chile «dejarse llevar» también
+        # puede leerse como dejar las tareas para última hora.
+        ("uwes_ab5", "Me “dejo llevar” cuando realizo mis tareas como estudiante (me concentro tanto que pierdo la noción del tiempo)"),
     ],
     opciones=FRECUENCIA_UWES,
     ayudas=FRECUENCIA_UWES_AYUDAS,
@@ -333,6 +429,31 @@ MSPSS_FAMILIA = bloque(
     fuente="Zimet et al. (1988); López-Angulo et al. (2021), Tabla 5",
 )
 
+
+# Incivilidad docente: los 4 ítems de la Workplace Incivility Scale, versión
+# corta (Cortina et al., 2001; Matthews y Ritter, 2016), en la validación
+# española de Di Marco et al. (2018), adaptados: referente «algún profesor o
+# profesora de tus asignaturas» (en vez de compañeros o supervisores), período
+# «este semestre» (en vez del último año) y trato de tú. El artículo solo da
+# los extremos en inglés (never, many times); los puntos del medio van con su
+# número. El ítem 5 es nuevo: va en la misma pantalla, con su columna, y queda
+# fuera del análisis factorial de los 4 ítems (decisiones.md, D19).
+FRECUENCIA_5_INCIVILIDAD = ["1 · Nunca", "2", "3", "4", "5 · Muchas veces"]
+
+INCIVILIDAD = bloque(
+    "incivilidad",
+    "Durante este semestre, ¿con qué frecuencia algún profesor o profesora de tus asignaturas…",
+    items=[
+        ("inciv_01", "…ha prestado poca atención a tus ideas o ha mostrado poco interés en tus opiniones?"),
+        ("inciv_02", "…te ha interrumpido o ha comenzado a hablar mientras tú hablabas?"),
+        ("inciv_03", "…te ha ignorado o ha dejado de hablarte (por ejemplo, te ha hecho el vacío)?"),
+        ("inciv_04", "…ha hecho bromas a tu costa?"),
+        ("inciv_05", "…te ha descalificado frente a otros?"),
+    ],
+    opciones=FRECUENCIA_5_INCIVILIDAD,
+    constructo="Incivilidad docente (ítems 1-4: WIS corta; ítem 5: nuevo)",
+    fuente="Di Marco et al. (2018), adaptado a docentes; ítem 5: NUEVO",
+)
 
 # --- Módulo 7: ficha de contexto (ítems nuevos) ------------------------------
 # Lo que ya está en los registros (PAES, NEM, vía de admisión, beneficios)
@@ -426,8 +547,10 @@ PREGUNTAS = [
     G3_ESTUDIO,
     METAPERCEPCION,
     LAZOS_FUERA,
-    # Módulo 2: intención de abandono (placeholder)
-    INTENCION,
+    # Módulo 2: intención de abandono y de cambio de carrera
+    INTENCION_F2,
+    INTENCION_F3,  # solo si en la fase 2 hubo algo distinto de «1»
+    INTENCION_F4,  # solo si en la fase 3 hubo algo distinto de «1»
     # Módulo 3: integración académica
     UWES,
     ASES,
@@ -435,6 +558,7 @@ PREGUNTAS = [
     ESPU,
     UCLA3,
     MSPSS_FAMILIA,
+    INCIVILIDAD,  # al final de las escalas: es la más sensible
     # Módulo 7: contexto, de a dos preguntas por página
     grupo("ctx_familia_trabajo", [CTX_PRIMERA_GENERACION, CTX_TRABAJO]),
     grupo("ctx_vivienda_traslado", [CTX_VIVIENDA, CTX_TRASLADO]),

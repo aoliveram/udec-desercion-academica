@@ -19,17 +19,19 @@ artículo. Si se cambia la redacción, deja de ser la escala validada.
 
 | Constructo | Escala | Ítems | Decisión |
 |:--|:--|:-:|:--|
-| Intención de abandono | López-Angulo et al. (2025) | por definir | Entra; falta conseguir el artículo (placeholder en la encuesta) |
+| Intención de abandono y de cambio de carrera | López-Angulo et al. (2025) | 6 a 18 | Entra: fases 2 a 4; la 3 y la 4 solo si la fase anterior tiene algo distinto de «1» |
 | Compromiso académico | UWES-9S | 9 | Entra (provisoria, por sobre la ESA) |
 | Autoeficacia académica | ASES | 8 | Entra |
 | Sentido de pertenencia | ESPU | 10 | Entra |
 | Soledad | UCLA-3 | 3 | Entra |
 | Apoyo social percibido | MSPSS, solo subescala Familia | 4 | Entra |
 | Satisfacción académica | ESA | — | Fuera (se pisa con el UWES) |
-| Relación con docentes | LCQ-5 + incivilidad | — | Fuera |
+| Incivilidad docente | WIS corta (Di Marco et al., 2018) + 1 ítem nuevo | 5 | Entra (D19) |
+| Apoyo a la autonomía docente | LCQ-5 | — | Fuera |
 
-Presupuesto: 34 ítems de escalas (~4 min). Con redes, contexto e intención,
-la encuesta toma entre 10 y 15 minutos. El detalle está en
+Presupuesto: entre 45 y 57 ítems de escalas (5 a 6,5 min), según cuántas fases
+de intención vea cada persona. Con redes y contexto, la encuesta toma entre
+10 y 15 minutos. El detalle está en
 [`decisiones.pdf`](decisiones.pdf).
 
 Las fichas de abajo son de la etapa de búsqueda de escalas (octubre de 2026).
