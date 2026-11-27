@@ -1,8 +1,9 @@
 # Encuesta (reemplazo del Google Forms)
 
-Herramienta para aplicar la encuesta del proyecto a estudiantes de 1.º y 2.º
-año de Ciencias Físicas: una página por pregunta, nominación de compañeros y
-compañeras desde la nómina, escalas tipo Likert y exportación seudonimizada
+Herramienta para aplicar la encuesta del proyecto a estudiantes de la Facultad
+de Ciencias Físicas y Matemáticas (CFM): una página por pregunta (o un grupo
+corto de preguntas), nominación de compañeros y compañeras desde la nómina,
+escalas tipo Likert y exportación seudonimizada
 para analizar las redes en R (`igraph`) o Python (`networkx`).
 
 Es una versión limpia de `survey-app`, la herramienta que se desarrolló para
@@ -30,6 +31,23 @@ source .venv/bin/activate          # en Windows: .venv\Scripts\activate
 pip install -r requirements-dev.txt
 ```
 
+### En el Mac de desarrollo (sin `.venv` propia)
+
+Esta carpeta no tiene `.venv`: se reutiliza la de `E - survey-app`, que trae
+las mismas versiones de Python, Streamlit y pytest. Desde la raíz del
+repositorio (`E - udec-desercion-academica`):
+
+```bash
+cd encuesta
+PY="../../E - survey-app/.venv/bin/python"
+"$PY" scripts/demo.py                  # demo
+"$PY" -m streamlit run app.py          # app
+"$PY" -m pytest                        # pruebas
+```
+
+No instalar paquetes en esa `.venv` desde aquí (podría cambiar versiones y
+afectar a `E - survey-app`).
+
 ## 2. Probar la demo
 
 ```bash
@@ -54,10 +72,11 @@ página se crea con una función de [`motor/preguntas.py`](motor/preguntas.py):
 | `identificacion(id)` | «¿Quién eres tú?»: la persona elige su nombre de la nómina |
 | `nominacion(id, texto, maximo=15)` | Casillas con la nómina, por cohorte y con buscador, más «No hay nadie» |
 | `opcion_unica(id, texto, opciones)` | Una pregunta, una respuesta |
-| `bloque(id, texto, items, opciones)` | Varias afirmaciones con la misma escala en una página (escalas validadas) |
+| `bloque(id, texto, items, opciones)` | Varias afirmaciones con la misma escala en una página (escalas validadas). Con `ayudas=[...]`, cada opción muestra una burbuja al pasar el cursor |
 | `numero(id, texto, minimo=0, maximo=None)` | Un número entero; `maximo="nomina"` usa el tamaño de la nómina |
 | `abierta(id, texto)` | Texto libre (opcional) |
 | `arbol(id, raiz, nodos)` | Preguntas encadenadas: «¿Trabajas?» → si dice Sí, «¿Cuántas horas?» |
+| `grupo(id, [preguntas])` | Dos o más preguntas cortas en una misma página (`opcion_unica`, `numero`, `abierta`, `arbol` o un texto `info`); cada una conserva su columna |
 
 Ejemplo de una escala validada como bloque:
 
@@ -98,7 +117,10 @@ archivo. Para revisar que el instrumento esté bien armado:
 ```bash
 pytest                                       # incluye la validación del instrumento
 python scripts/instrumento_a_md.py > instrumento.md   # documento para jueces y CEBB
+python scripts/instrumento_a_pdf.py          # PDF con cada pantalla, en ../instrumento/preguntas-encuesta.pdf
 ```
+
+El PDF necesita XeLaTeX (p. ej. MacTeX) y la fuente Helvetica Neue.
 
 ## 4. La nómina
 
@@ -222,7 +244,7 @@ encuesta/
 ├── instrumento.py        ← la encuesta (lo único que se edita)
 ├── app.py                la app de Streamlit
 ├── motor/                persistencia, nóminas, flujo, seguridad, exportación
-├── scripts/              demo, servir, respaldar, verificar, exportar, instrumento_a_md
+├── scripts/              demo, servir, respaldar, verificar, exportar, instrumento_a_md, instrumento_a_pdf
 ├── ejemplos/ejemplo.csv  nómina ficticia para la demo
 ├── tests/                pruebas (pytest), incluida la app de punta a punta
 └── data/                 base, nóminas reales y exportaciones (fuera de git)

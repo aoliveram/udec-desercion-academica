@@ -54,10 +54,21 @@ def click_next(at):
 
 
 def answer_current_page(at, self_code=SELF):
-    q = page(at)
+    fill(at, page(at), self_code)
+    at.run()
+    assert not at.exception, at.exception
+    return click_next(at)
+
+
+def fill(at, q, self_code=SELF):
     t = q["type"]
-    if t == "consent":
+    if t == "group":
+        for member in q["members"]:
+            fill(at, member, self_code)
+    elif t == "consent":
         at.radio(key=key(q)).set_value(q["accept"])
+        for member in q.get("members", []):
+            fill(at, member, self_code)
     elif t == "self_id":
         at.selectbox(key=key(q)).set_value(self_code)
     elif t == "roster_checklist":
@@ -78,9 +89,6 @@ def answer_current_page(at, self_code=SELF):
             option = q["tree"][node_id]["options"][0]
             at.radio(key=key(q, node_id)).set_value(option).run()
             node_id = q["tree"][node_id]["branches"].get(option)
-    at.run()
-    assert not at.exception, at.exception
-    return click_next(at)
 
 
 def respondent(env_path):
@@ -101,7 +109,9 @@ def test_full_run_completes_with_timing_and_intact_audit_chain(env):
     assert row["instrument_version"] == instrumento.VERSION
     assert data["identificacion"]["value"] == SELF
     assert data["g1_afinidad"]["value"] == NOMINATED  # stored in display order: cohort, then name
-    assert data["ctx_trabajo"]["value"] == {"trabaja": "Sí", "horas": "Menos de 10"}
+    # ctx_trabajo is a tree inside a group: its answers live under the group's page.
+    assert data["ctx_familia_trabajo"]["value"]["ctx_trabajo"] == {"trabaja": "Sí", "horas": "Menos de 10"}
+    assert data["cierre"]["value"] == {"comentarios": "Todo bien"}
     times = db.get_answer_times(conn, row["id"])
     assert set(times) == {q["id"] for q in QUESTIONS}
     assert all(t is not None for t in times.values())
@@ -153,24 +163,41 @@ def test_withdrawing_consent_later_deletes_answers_and_frees_the_name(env):
 def test_identity_and_consent_cannot_be_skipped(env):
     at = click_next(start())
     assert at.button(key="_next_1").disabled
-    at.radio(key="w__consentimiento").set_value("Acepto participar").run()
+    at.radio(key="w__consentimiento").set_value(QUESTIONS[INDEX["consentimiento"]]["accept"]).run()
+    # The academic-record authorization is on the same page and also required.
+    assert at.button(key="_next_1").disabled
+    at.radio(key="w__autoriza_registros").set_value("No").run()
     at = click_next(at)
-    at = answer_current_page(at)  # autoriza_registros
     assert page(at)["type"] == "self_id"
     assert at.button(key=f"_next_{INDEX['identificacion']}").disabled
 
 
 def test_unanswered_page_offers_to_omit_and_records_it(env):
+    # A single-question page (the omit button records OMIT for the whole page).
+    q = next(q for q in QUESTIONS if q["type"] == "radio")
     at = start()
-    while page(at)["id"] != "autoriza_registros":
+    while page(at)["id"] != q["id"]:
         at = answer_current_page(at)
     at = click_next(at)
-    assert page(at)["id"] == "autoriza_registros"  # didn't advance
-    at = at.button(key=f"_omit_btn_{INDEX['autoriza_registros']}").click().run()
-    assert page(at)["id"] == "identificacion"
+    assert page(at)["id"] == q["id"]  # didn't advance
+    at = at.button(key=f"_omit_btn_{INDEX[q['id']]}").click().run()
+    assert page(at)["id"] == QUESTIONS[INDEX[q["id"]] + 1]["id"]
 
     _, _, data = respondent(env)
-    assert data["autoriza_registros"]["value"] == OMIT
+    assert data[q["id"]]["value"] == OMIT
+
+
+def test_consent_page_stores_the_authorization_under_its_own_column(env):
+    from motor import export
+
+    at = start()
+    while page(at)["type"] != "self_id":
+        at = answer_current_page(at)
+    _, _, data = respondent(env)
+    consent = QUESTIONS[INDEX["consentimiento"]]
+    assert data["consentimiento"]["value"]["decision"] == consent["accept"]
+    cells = export.encode_answers(QUESTIONS, data)
+    assert cells["autoriza_registros"] == 1  # «Sí», first option
 
 
 def test_nobody_is_recorded_as_an_empty_list_not_as_missing(env):
@@ -221,20 +248,22 @@ def test_name_filter_keeps_hidden_selections(env):
 
 
 def test_partially_answered_block_omits_only_the_missing_items(env):
+    block_id = next(q["id"] for q in QUESTIONS if q["type"] == "likert_block")
     at = start()
-    while page(at)["id"] != "intencion":
+    while page(at)["id"] != block_id:
         at = answer_current_page(at)
     q = page(at)
+    n = len(q["items"])
     first = q["items"][0]["id"]
     at.radio(key=key(q, first)).set_value(q["options"][0]).run()
     at = click_next(at)
-    assert any("Te falta responder 3 de 4" in m.value for m in at.markdown)
-    at = at.button(key=f"_omit_btn_{INDEX['intencion']}").click().run()
+    assert any(f"Te falta responder {n - 1} de {n}" in m.value for m in at.markdown)
+    at = at.button(key=f"_omit_btn_{INDEX[block_id]}").click().run()
 
     _, _, data = respondent(env)
-    value = data["intencion"]["value"]
+    value = data[block_id]["value"]
     assert value[first] == q["options"][0]
-    assert [value[item["id"]] for item in q["items"][1:]] == [OMIT] * 3
+    assert [value[item["id"]] for item in q["items"][1:]] == [OMIT] * (n - 1)
 
 
 def test_resume_link_lands_on_the_first_unanswered_page(env):
@@ -302,3 +331,121 @@ def test_export_produces_pseudonymized_tables(env, monkeypatch):
         assert person.name not in everything
     assert "Todo bien" in (out / "textos_abiertos.csv").read_text(encoding="utf-8")
     assert "Completas:     1" in (out / "resumen.txt").read_text(encoding="utf-8")
+
+
+def test_partially_answered_group_omits_only_the_missing_questions(env):
+    group = next(q for q in QUESTIONS if q["type"] == "group")
+    first, *rest = [m for m in group["members"] if m["type"] != "info"]
+    at = start()
+    while page(at)["id"] != group["id"]:
+        at = answer_current_page(at)
+    fill(at, first)
+    at = click_next(at.run())
+    assert any(f"Te falta responder {len(rest)} de {len(rest) + 1} preguntas" in m.value for m in at.markdown)
+    at = at.button(key=f"_omit_btn_{INDEX[group['id']]}").click().run()
+    assert page(at)["id"] != group["id"]
+
+    _, _, data = respondent(env)
+    value = data[group["id"]]["value"]
+    assert value[first["id"]] is not None and value[first["id"]] != OMIT
+    assert all(value[m["id"]] not in (None, {}) for m in rest)
+
+
+def test_block_with_option_help_injects_hover_css(env):
+    block = next(q for q in QUESTIONS if q["type"] == "likert_block" and q.get("option_help"))
+    at = start()
+    while page(at)["id"] != block["id"]:
+        at = answer_current_page(at)
+    css = " ".join(h.proto.body for h in at.get("html"))
+    assert f'st-key-w__{block["id"]}__' in css
+    assert block["option_help"][3] in css
+
+
+def _go_to_first_number_page(at):
+    # The number questions live inside a group page (metapercepción).
+    page_q, q = next(
+        (p, m) for p in QUESTIONS for m in ([p] if p["type"] == "number" else p.get("members", [])) if m["type"] == "number"
+    )
+    while page(at)["id"] != page_q["id"]:
+        at = answer_current_page(at)
+    return at, q
+
+
+def test_plus_on_an_empty_number_gives_one_and_keeps_counting(env):
+    at, q = _go_to_first_number_page(start())
+    assert at.number_input(key=key(q)).value is None  # no default
+    at = at.button(key=key(q) + "__mas").click().run()
+    assert at.number_input(key=key(q)).value == 1
+    at = at.button(key=key(q) + "__mas").click().run()
+    assert at.number_input(key=key(q)).value == 2
+    _, _, data = respondent(env)  # saved on every rerun, under the group's page
+    assert export._values_flat(QUESTIONS, data)[q["id"]]["value"] == 2
+
+
+def test_minus_on_an_empty_number_stays_at_zero(env):
+    at, q = _go_to_first_number_page(start())
+    at = at.button(key=key(q) + "__menos").click().run()
+    assert at.number_input(key=key(q)).value == 0
+    at = at.button(key=key(q) + "__menos").click().run()
+    assert at.number_input(key=key(q)).value == 0
+
+
+def test_each_page_gets_a_fresh_scroll_to_top_script(env):
+    at = start()
+    first = [h.proto.body for h in at.get("html") if "stMain" in h.proto.body]
+    at = answer_current_page(at)
+    second = [h.proto.body for h in at.get("html") if "stMain" in h.proto.body]
+    assert first and second and first != second  # identical HTML wouldn't run again
+
+
+def _go_to(at, page_id):
+    while page(at)["id"] != page_id:
+        at = answer_current_page(at)
+    return at
+
+
+def _answer_phase(at, option_index):
+    for block in page(at)["members"]:
+        for item in block["items"]:
+            at.radio(key=key(block, item["id"])).set_value(block["options"][option_index])
+    return click_next(at.run())
+
+
+def test_all_ones_in_phase_two_skips_phases_three_and_four(env):
+    at = _go_to(start(), "intencion_f2")
+    at = _answer_phase(at, 0)
+    assert page(at)["id"] == "uwes"
+    at = at.button(key=f"_prev_{INDEX['uwes']}").click().run()
+    assert page(at)["id"] == "intencion_f2"
+
+    _, _, data = respondent(env)
+    cells = export.encode_answers(QUESTIONS, data)
+    assert cells["int_ab05"] == 1
+    assert cells["int_ab08"] == cells["int_cc11"] == export.NOT_APPLICABLE
+
+
+def test_phase_four_shows_only_after_something_other_than_one_in_phase_three(env):
+    at = _go_to(start(), "intencion_f2")
+    at = _answer_phase(at, 1)
+    assert page(at)["id"] == "intencion_f3"
+    at = _answer_phase(at, 0)
+    assert page(at)["id"] == "uwes"
+
+
+def test_phase_page_counts_missing_statements(env):
+    at = _go_to(start(), "intencion_f2")
+    at = click_next(at)
+    total = sum(len(b["items"]) for b in page(at)["members"])
+    assert any(f"Te falta responder {total} de {total} afirmaciones" in m.value for m in at.markdown)
+
+
+def test_accepting_consent_is_logged_with_the_authorization(env):
+    at = start()
+    while page(at)["type"] != "self_id":
+        at = answer_current_page(at)
+    conn, row, _ = respondent(env)
+    events = conn.execute(
+        "SELECT payload_json FROM audit_log WHERE respondent_id = ? AND event_type = 'consent_accepted'", (row["id"],)
+    ).fetchall()
+    assert len(events) == 1
+    assert json.loads(events[0]["payload_json"]) == {"autoriza_registros": "Sí"}

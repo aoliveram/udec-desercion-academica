@@ -17,3 +17,9 @@ __pycache__/
 /libro-psicometria-2026/*_files/
 /libro-psicometria-2026/site_libs/
 /libro-psicometria-2026/_book/
+
+# Notas personales
+Notas.txt
+
+# Plantillas del CEBB central (se descargan de vrid.udec.cl)
+comite-etica/plantillas-vrid/

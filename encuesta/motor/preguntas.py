@@ -21,6 +21,14 @@ Tipos de página:
 - `abierta`         texto libre (opcional por diseño).
 - `arbol`           preguntas encadenadas: cuál viene después depende de la
                     respuesta anterior (p. ej. "¿Trabajas?" -> "¿Cuántas horas?").
+- `grupo`           dos o más preguntas en una misma página (`opcion_unica`,
+                    `numero`, `abierta`, `arbol`, `bloque` o un texto `info`).
+                    Cada una conserva su id y su columna.
+
+Páginas condicionales: `mostrar_si(pagina, anterior=..., distinta_de=...)`
+hace que una página aparezca solo según lo respondido en una página
+anterior (p. ej. la fase 3 de intención de abandono, solo para quien no
+marcó «1» en toda la fase 2). Quien no la ve queda como NO_APLICA.
 
 Omitir: si alguien aprieta "Siguiente" sin responder, la app le ofrece
 «Prefiero no contestar» y lo registra como tal (no como una respuesta).
@@ -39,12 +47,24 @@ OMIT = "Prefiero no contestar"
 
 _ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 
+NOT_CONDITIONAL = {"consent", "self_id"}
+
 
 def info(id, texto):
     return {"id": id, "type": "info", "label": texto}
 
 
-def consentimiento(id, texto, *, acepto="Acepto participar", rechazo="No acepto"):
+def consentimiento(
+    id, texto, *, acepto="Acepto participar", rechazo="No acepto", documento=None, documento_pdf=None,
+    adicionales=(),
+):
+    """`documento`: texto completo del consentimiento (Markdown), que se
+    muestra en un desplegable «Leer el documento completo»; `documento_pdf`:
+    ruta (relativa a la carpeta encuesta/) de un PDF que se ofrece para
+    descargar. `adicionales`: preguntas de opción única que van en la misma
+    página, debajo de la decisión (p. ej. autorizar el registro académico);
+    cada una conserva su id y su columna, y hay que responderlas para seguir
+    (salvo si la persona no acepta participar)."""
     return {
         "id": id,
         "type": "consent",
@@ -52,6 +72,9 @@ def consentimiento(id, texto, *, acepto="Acepto participar", rechazo="No acepto"
         "options": [acepto, rechazo],
         "accept": acepto,
         "decline": rechazo,
+        "document": documento,
+        "document_pdf": documento_pdf,
+        "members": list(adicionales),
     }
 
 
@@ -83,15 +106,21 @@ def opcion_unica(id, texto, opciones, *, constructo=None, fuente=None, invertido
     }
 
 
-def bloque(id, texto, items, opciones, *, constructo=None, fuente=None, invertidos=()):
+def bloque(id, texto, items, opciones, *, ayudas=None, constructo=None, fuente=None, invertidos=()):
     """`items`: lista de pares (id_del_item, texto). `invertidos`: ids de los
-    ítems que se puntúan al revés (solo documentación)."""
+    ítems que se puntúan al revés (solo documentación).
+
+    `ayudas`: opcional, una lista del mismo largo que `opciones` con el texto
+    que aparece en una burbuja al pasar el cursor sobre cada opción (None en
+    una posición = sin burbuja). Sirve para mostrar opciones cortas ("0" a
+    "6") sin perder el significado de cada una."""
     invertidos = set(invertidos)
     return {
         "id": id,
         "type": "likert_block",
         "label": texto,
         "options": list(opciones),
+        "option_help": list(ayudas) if ayudas is not None else None,
         "items": [
             {"id": item_id, "label": item_texto, "reverse_scored": item_id in invertidos}
             for item_id, item_texto in items
@@ -140,6 +169,36 @@ def arbol(id, raiz, nodos, *, constructo=None, fuente=None):
     }
 
 
+GROUP_MEMBER_TYPES = {"radio", "number", "text", "branching_tree", "likert_block", "info"}
+
+
+def grupo(id, preguntas):
+    """Varias preguntas en una misma página, una debajo de otra. `preguntas`:
+    páginas hechas con opcion_unica, numero, abierta, arbol, bloque o info
+    (un texto sin respuesta). La página se da por respondida cuando todas sus
+    preguntas lo están; «Prefiero no contestar» omite solo las que faltan."""
+    return {"id": id, "type": "group", "members": list(preguntas)}
+
+
+def mostrar_si(pagina, *, anterior, distinta_de):
+    """La `pagina` aparece solo si en la página `anterior` (que va antes)
+    hay al menos una respuesta distinta de `distinta_de`. «Prefiero no
+    contestar» no cuenta como distinta. Si la página `anterior` tampoco
+    apareció, esta tampoco. Quien no la ve queda como NO_APLICA en la
+    exportación."""
+    return {**pagina, "show_if": {"page": anterior, "other_than": distinta_de}}
+
+
+def opciones_de(pagina):
+    """Todas las opciones de respuesta de una página (y de lo que tenga dentro)."""
+    out = list(pagina.get("options", []))
+    for m in pagina.get("members", []):
+        out += opciones_de(m)
+    for node in pagina.get("tree", {}).values():
+        out += node["options"]
+    return out
+
+
 def validar(preguntas):
     """Revisa el instrumento antes de mostrarlo. Devuelve una lista de
     problemas en castellano (vacía si todo está bien)."""
@@ -169,8 +228,7 @@ def validar(preguntas):
     if not preguntas:
         return ["el instrumento no tiene preguntas"]
 
-    for i, p in enumerate(preguntas, start=1):
-        donde = f"página {i} ({p.get('id')})"
+    def revisar_pagina(p, donde):
         registrar_id(p.get("id"), donde)
         if p["type"] in ("radio", "consent", "likert_block"):
             revisar_opciones(p["options"], donde)
@@ -182,6 +240,25 @@ def validar(preguntas):
             sobrantes = p["_reverse_ids"] - {item["id"] for item in p["items"]}
             if sobrantes:
                 problemas.append(f"{donde}: invertidos que no son ítems del bloque: {sorted(sobrantes)}")
+            if p.get("option_help") is not None and len(p["option_help"]) != len(p["options"]):
+                problemas.append(f"{donde}: `ayudas` debe tener una entrada por opción")
+        if p["type"] == "consent":
+            for m in p.get("members", []):
+                if m["type"] != "radio":
+                    problemas.append(f"{donde}: el consentimiento solo admite preguntas de opción única adicionales")
+                    continue
+                revisar_pagina(m, f"{donde}, pregunta {m.get('id')}")
+        if p["type"] == "group":
+            miembros = p["members"]
+            if len([m for m in miembros if m["type"] != "info"]) < 1:
+                problemas.append(f"{donde}: el grupo no tiene preguntas")
+            for m in miembros:
+                if m["type"] not in GROUP_MEMBER_TYPES:
+                    problemas.append(
+                        f"{donde}: un grupo solo admite {sorted(GROUP_MEMBER_TYPES)}, no {m['type']!r} ({m.get('id')})"
+                    )
+                    continue
+                revisar_pagina(m, f"{donde}, pregunta {m.get('id')}")
         if p["type"] == "branching_tree":
             if p["root"] not in p["tree"]:
                 problemas.append(f"{donde}: la raíz {p['root']!r} no es un nodo del árbol")
@@ -194,6 +271,21 @@ def validar(preguntas):
                         problemas.append(f"{donde}, nodo {node_id}: {siguiente!r} no es un nodo del árbol")
         if p["type"] == "roster_checklist" and p["max_selections"] < 1:
             problemas.append(f"{donde}: el máximo de nominaciones debe ser al menos 1")
+
+    for i, p in enumerate(preguntas, start=1):
+        revisar_pagina(p, f"página {i} ({p.get('id')})")
+        condicion = p.get("show_if")
+        if condicion:
+            donde = f"página {i} ({p.get('id')})"
+            previas = {q["id"]: q for q in preguntas[: i - 1]}
+            if p["type"] in NOT_CONDITIONAL:
+                problemas.append(f"{donde}: el consentimiento y la identificación no pueden ser condicionales")
+            if condicion["page"] not in previas:
+                problemas.append(f"{donde}: mostrar_si apunta a {condicion['page']!r}, que no es una página anterior")
+            elif condicion["other_than"] not in opciones_de(previas[condicion["page"]]):
+                problemas.append(
+                    f"{donde}: {condicion['other_than']!r} no es una opción de la página {condicion['page']!r}"
+                )
 
     if tipos.count("self_id") != 1:
         problemas.append("debe haber exactamente una página de identificacion()")

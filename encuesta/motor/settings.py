@@ -62,6 +62,9 @@ FAST_ANSWER_THRESHOLD_SECONDS = 1.0
 # Text answers are hard-capped at this length before they ever reach the database.
 MAX_TEXT_LENGTH = 2000
 
+# Base font size of the app, in px (Streamlit's default is 16).
+BASE_FONT_SIZE_PX = 18
+
 
 def get_ip_pepper() -> str:
     """Return the secret pepper used to hash respondent IPs for rate limiting.

@@ -12,7 +12,8 @@ roster member in `nodes`, and one edge list per nomination question:
   the analysis has to tell apart:
     SIN_RESPUESTA  didn't reach the question (or never answered at all)
     OMITIDA        chose «Prefiero no contestar»
-    NO_APLICA      a branching_tree node off the path the person took
+    NO_APLICA      a branching_tree node off the path the person took, or
+                   a conditional page (mostrar_si) their answers skipped
   and, for nominations, `<id>_n = 0` means "No hay nadie" (an answer),
   never a missing one.
 """
@@ -21,6 +22,7 @@ import hashlib
 import hmac
 import json
 
+from motor import flow
 from motor.preguntas import OMIT
 
 NO_ANSWER = "SIN_RESPUESTA"
@@ -43,20 +45,77 @@ def key_fingerprint(key: bytes) -> str:
     return hashlib.sha256(b"huella|" + key).hexdigest()[:8]
 
 
-def _options_text(options):
-    return "; ".join(f"{i}={opt}" for i, opt in enumerate(options, start=1))
+def _options_text(options, helps=None):
+    helps = helps or [None] * len(options)
+    return "; ".join(
+        f"{i}={opt}" + (f" ({h})" if h else "") for i, (opt, h) in enumerate(zip(options, helps), start=1)
+    )
+
+
+def _pages_flat(questions):
+    """(page number, question) for every answerable question, with a group's
+    members listed under the group's page number (and a consent page's extra
+    questions under the consent's)."""
+    for page, q in enumerate(questions, start=1):
+        if q["type"] == "group":
+            for m in q["members"]:
+                yield page, m
+        elif q["type"] == "consent" and q.get("members"):
+            yield page, q
+            for m in q["members"]:
+                yield page, m
+        else:
+            yield page, q
+
+
+def _values_flat(questions, data):
+    """The saved data with each group's member values lifted to the top level."""
+    flat = dict(data)
+    for q in questions:
+        if q["type"] == "group" or (q["type"] == "consent" and q.get("members")):
+            value = data.get(q["id"], {}).get("value")
+            for m in q["members"]:
+                if isinstance(value, dict):
+                    member_value = value.get(m["id"])
+                else:  # a whole group omitted, or a consent saved before it had extra questions
+                    member_value = value if q["type"] == "group" else None
+                flat[m["id"]] = {"value": member_value}
+    return flat
+
+
+def open_texts(questions, data):
+    """[(question id, text)] for the free-text answers someone wrote."""
+    flat = _values_flat(questions, data)
+    out = []
+    for _, q in _pages_flat(questions):
+        if q["type"] == "text":
+            text = flat.get(q["id"], {}).get("value")
+            if text and text != OMIT:
+                out.append((q["id"], text))
+    return out
+
+
+def _condition_text(page_question):
+    condition = page_question.get("show_if")
+    if not condition:
+        return ""
+    return (
+        f"solo si en «{condition['page']}» hay alguna respuesta distinta de «{condition['other_than']}» "
+        f"(si no, {NOT_APPLICABLE})"
+    )
 
 
 def codebook(questions):
     """One dict per exported column (node table, edge lists and open texts)."""
     rows = []
-    for page, q in enumerate(questions, start=1):
+    for page, q in _pages_flat(questions):
         base = {
             "pagina": page,
             "pregunta": q["id"],
             "tipo": q["type"],
             "constructo": q.get("construct") or "",
             "fuente": q.get("source") or "",
+            "se_muestra": _condition_text(questions[page - 1]) or "siempre",
         }
         if q["type"] in SKIPPED_TYPES:
             continue
@@ -67,7 +126,8 @@ def codebook(questions):
             for item in q["items"]:
                 rows.append({**base, "columna": item["id"], "archivo": "nodos.csv",
                              "texto": f"{q['label']} {item['label']}",
-                             "opciones": _options_text(q["options"]), "invertido": int(item["reverse_scored"])})
+                             "opciones": _options_text(q["options"], q.get("option_help")),
+                             "invertido": int(item["reverse_scored"])})
         elif q["type"] == "branching_tree":
             for node_id, node in q["tree"].items():
                 rows.append({**base, "columna": f"{q['id']}__{node_id}", "archivo": "nodos.csv",
@@ -99,40 +159,52 @@ def _code(options, value):
 def encode_answers(questions, data):
     """{column: cell} for one respondent's saved data (`{qid: {"value": v}}`)."""
     cells = {}
-    for q in questions:
-        value = data.get(q["id"], {}).get("value")
-        if q["type"] in SKIPPED_TYPES or q["type"] == "text":
-            continue
-        if q["type"] == "radio":
-            cells[q["id"]] = _code(q["options"], value)
-        elif q["type"] == "likert_block":
-            answers = value if isinstance(value, dict) else {}
-            for item in q["items"]:
-                cells[item["id"]] = _code(q["options"], answers.get(item["id"]))
-        elif q["type"] == "branching_tree":
-            answers = value if isinstance(value, dict) else {}
-            on_path = _tree_path(q, answers)
-            finished = bool(answers) and on_path[-1] is None
-            for node_id, node in q["tree"].items():
-                if node_id in answers and node_id in on_path:
-                    cells[f"{q['id']}__{node_id}"] = _code(node["options"], answers[node_id])
-                else:
-                    cells[f"{q['id']}__{node_id}"] = NOT_APPLICABLE if finished else NO_ANSWER
-        elif q["type"] == "number":
-            if value is None:
-                cells[q["id"]] = NO_ANSWER
-            elif value == OMIT:
-                cells[q["id"]] = OMITTED
-            else:
-                cells[q["id"]] = value
-        elif q["type"] == "roster_checklist":
-            if value is None:
-                cells[f"{q['id']}_n"] = NO_ANSWER
-            elif value == OMIT:
-                cells[f"{q['id']}_n"] = OMITTED
-            else:
-                cells[f"{q['id']}_n"] = len(value)
+    skipped = {q["id"] for q in questions if flow.skipped_by_path(q, data, questions)}
+    flat = _values_flat(questions, data)
+    for page, q in _pages_flat(questions):
+        if questions[page - 1]["id"] in skipped:
+            # Not on this respondent's path: every column of it is NO_APLICA,
+            # even if answers were saved before going back and changing course.
+            columns = {}
+            _encode_question(q, None, columns)
+            cells.update(dict.fromkeys(columns, NOT_APPLICABLE))
+        else:
+            _encode_question(q, flat.get(q["id"], {}).get("value"), cells)
     return cells
+
+
+def _encode_question(q, value, cells):
+    if q["type"] in SKIPPED_TYPES or q["type"] == "text":
+        return
+    if q["type"] == "radio":
+        cells[q["id"]] = _code(q["options"], value)
+    elif q["type"] == "likert_block":
+        answers = value if isinstance(value, dict) else {}
+        for item in q["items"]:
+            cells[item["id"]] = _code(q["options"], answers.get(item["id"]))
+    elif q["type"] == "branching_tree":
+        answers = value if isinstance(value, dict) else {}
+        on_path = _tree_path(q, answers)
+        finished = bool(answers) and on_path[-1] is None
+        for node_id, node in q["tree"].items():
+            if node_id in answers and node_id in on_path:
+                cells[f"{q['id']}__{node_id}"] = _code(node["options"], answers[node_id])
+            else:
+                cells[f"{q['id']}__{node_id}"] = NOT_APPLICABLE if finished else NO_ANSWER
+    elif q["type"] == "number":
+        if value is None:
+            cells[q["id"]] = NO_ANSWER
+        elif value == OMIT:
+            cells[q["id"]] = OMITTED
+        else:
+            cells[q["id"]] = value
+    elif q["type"] == "roster_checklist":
+        if value is None:
+            cells[f"{q['id']}_n"] = NO_ANSWER
+        elif value == OMIT:
+            cells[f"{q['id']}_n"] = OMITTED
+        else:
+            cells[f"{q['id']}_n"] = len(value)
 
 
 def _tree_path(question, answers):

@@ -7,7 +7,10 @@ Every page stores one value under its question id. What the value means:
 - OMIT            the respondent chose «Prefiero no contestar»
 - anything else   the answer: an option label, a number, a text, a list
                   of roster codes ([] = "No hay nadie"), {item_id: option}
-                  for a likert_block, {node_id: option} for a branching_tree
+                  for a likert_block, {node_id: option} for a branching_tree,
+                  {member_id: member value} for a group, and
+                  {"decision": option, member_id: option} for a consent page
+                  with extra questions
 """
 
 from motor.preguntas import OMIT
@@ -36,11 +39,86 @@ def is_answered(question, value):
         return next_tree_node(question["tree"], question["root"], value) is None
     if question["type"] == "likert_block":
         return all(value.get(item["id"]) is not None for item in question["items"])
+    if question["type"] == "group":
+        return all(is_answered(m, value.get(m["id"])) for m in answerable_members(question))
+    if question["type"] == "consent" and question.get("members"):
+        decision = consent_decision(question, value)
+        if decision is None:
+            return False
+        if decision == question["decline"]:
+            return True  # declining needs nothing else
+        return all(isinstance(value, dict) and value.get(m["id"]) is not None for m in question["members"])
     return True
+
+
+def consent_decision(question, value):
+    """The accept/decline choice in a consent page's value: the value itself
+    for a plain consent page, value["decision"] for one with extra questions."""
+    if isinstance(value, dict):
+        return value.get("decision")
+    return value
+
+
+def answerable_members(group):
+    """A group's members that take an answer (its info texts don't)."""
+    return [m for m in group["members"] if m["type"] != "info"]
 
 
 def is_question_answered(question, saved_data):
     return is_answered(question, saved_data.get(question["id"], {}).get("value"))
+
+
+def _choices(value):
+    """Every option label in a page value (nested dicts included)."""
+    if isinstance(value, dict):
+        for v in value.values():
+            yield from _choices(v)
+    elif isinstance(value, str):
+        yield value
+
+
+def _page_by_id(questions, page_id):
+    return next(q for q in questions if q["id"] == page_id)
+
+
+def is_shown(question, saved_data, questions):
+    """Whether a page is part of this respondent's path. A page with a
+    `show_if` condition (mostrar_si) is, when the page it points to is
+    itself shown and holds at least one answer other than the excluded
+    one («Prefiero no contestar» doesn't count)."""
+    condition = question.get("show_if")
+    if not condition:
+        return True
+    ref = _page_by_id(questions, condition["page"])
+    if not is_shown(ref, saved_data, questions):
+        return False
+    value = saved_data.get(ref["id"], {}).get("value")
+    return any(c != condition["other_than"] and c != OMIT for c in _choices(value))
+
+
+def skipped_by_path(question, saved_data, questions):
+    """True when the respondent's answers ruled the page out (export:
+    NO_APLICA), as opposed to not having got that far yet (SIN_RESPUESTA)."""
+    condition = question.get("show_if")
+    if not condition:
+        return False
+    ref = _page_by_id(questions, condition["page"])
+    if skipped_by_path(ref, saved_data, questions):
+        return True
+    if not is_shown(ref, saved_data, questions) or not is_question_answered(ref, saved_data):
+        return False
+    return not is_shown(question, saved_data, questions)
+
+
+def neighbor_index(questions, saved_data, index, step):
+    """The next (step=1) or previous (step=-1) page on the respondent's
+    path, or None if there isn't one."""
+    i = index + step
+    while 0 <= i < len(questions):
+        if is_shown(questions[i], saved_data, questions):
+            return i
+        i += step
+    return None
 
 
 def compute_resume_index(questions, answered_ids):
@@ -68,6 +146,12 @@ def omit_value(question, value):
         pending = next_tree_node(question["tree"], question["root"], answers)
         if pending is not None:
             answers[pending] = OMIT
+        return answers
+    if question["type"] == "group":
+        answers = dict(value or {})
+        for m in answerable_members(question):
+            if not is_answered(m, answers.get(m["id"])):
+                answers[m["id"]] = omit_value(m, answers.get(m["id"]))
         return answers
     return OMIT
 

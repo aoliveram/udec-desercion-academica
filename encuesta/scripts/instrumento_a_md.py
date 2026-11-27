@@ -28,6 +28,7 @@ TIPOS = {
     "number": "número",
     "text": "texto libre",
     "branching_tree": "preguntas encadenadas",
+    "group": "varias preguntas en una página",
 }
 
 
@@ -46,12 +47,31 @@ def metadata(q):
 
 def page(n, q):
     out = [f"### Página {n}: `{q['id']}` ({TIPOS[q['type']]})\n", metadata(q)]
+    if q.get("show_if"):
+        c = q["show_if"]
+        out.append(f"*Condicional: aparece solo si en `{c['page']}` hay al menos una respuesta distinta de "
+                   f"«{c['other_than']}».*\n\n")
+    out.append(body(q))
+    return "".join(out) + "\n"
+
+
+def body(q):
+    out = []
     t = q["type"]
+    if t == "group":
+        for m in q["members"]:
+            out.append(f"\n**`{m['id']}`** ({TIPOS[m['type']]})\n\n{metadata(m)}{body(m)}\n")
+        return "".join(out)
     if t == "info":
         out.append(quote(q["label"]))
     elif t == "consent":
         out.append(quote(q["label"]))
-        out.append("\n\n" + " · ".join(f"( ) {o}" for o in q["options"]))
+        if q.get("document"):
+            out.append("\n\n*(desplegable «Leer el documento completo», con el texto de "
+                       f"`{q.get('document_pdf') or 'el documento'}`)*")
+        out.append("\n\n**¿Aceptas participar?** " + " · ".join(f"( ) {o}" for o in q["options"]))
+        for m in q.get("members") or []:
+            out.append(f"\n\n**{m['label']}** `{m['id']}`\n\n" + "\n".join(f"- ( ) {o}" for o in m["options"]))
     elif t == "self_id":
         out.append(quote(f"**{q['label']}**"))
         out.append("\n\n*(lista desplegable con buscador: todas las personas de la nómina)*")
@@ -69,6 +89,9 @@ def page(n, q):
     elif t == "likert_block":
         out.append(quote(f"**{q['label']}**"))
         out.append("\n\nEscala: " + " · ".join(q["options"]) + "\n")
+        if q.get("option_help"):
+            helps = [f"{o} = {h}" for o, h in zip(q["options"], q["option_help"]) if h]
+            out.append("\nBurbuja al pasar el cursor: " + "; ".join(helps) + "\n")
         for i, item in enumerate(q["items"], start=1):
             inv = " *(invertido)*" if item["reverse_scored"] else ""
             out.append(f"\n{i}. {item['label']} `{item['id']}`{inv}")
@@ -88,7 +111,7 @@ def page(n, q):
                 destino = f" → `{siguiente}`" if siguiente else ""
                 out.append(f"\n- ( ) {option}{destino}")
             out.append("\n")
-    return "".join(out) + "\n"
+    return "".join(out)
 
 
 def main():
@@ -97,7 +120,14 @@ def main():
         sys.exit("El instrumento tiene problemas:\n" + "\n".join(f"- {p}" for p in problemas))
 
     preguntas = instrumento.PREGUNTAS
-    n_items = sum(len(q["items"]) if q["type"] == "likert_block" else 1 for q in preguntas if q["type"] != "info")
+    def count(q):
+        if q["type"] == "likert_block":
+            return len(q["items"])
+        if q["type"] == "group":
+            return sum(count(m) for m in q["members"])
+        return 0 if q["type"] == "info" else 1
+
+    n_items = sum(count(q) for q in preguntas)
     print(f"# {instrumento.TITULO}\n")
     print(f"Versión **{instrumento.VERSION}** · {len(preguntas)} páginas · {n_items} preguntas o ítems.\n")
     print(
