@@ -20,14 +20,14 @@ Queremos saber si la integración social y académica de los estudiantes (con qu
 
 ### Qué implica participar
 
-Si aceptas, responderás una encuesta en línea en tres momentos: el segundo semestre de 2026, el primero de 2027 y el segundo de 2027. Cada aplicación toma entre 10 y 15 minutos. La encuesta pregunta por:
+Si aceptas, responderás una encuesta en línea en varios momentos, hasta dos veces por semestre, durante un máximo de cuatro años. Cada aplicación toma entre 10 y 15 minutos. La encuesta pregunta por:
 
 - Tus compañeros y compañeras: con quiénes pasas tiempo, a quiénes pides ayuda y con quiénes estudias, marcando nombres de una lista.
 - Tu experiencia de estudiar: compromiso con los estudios, confianza en tus capacidades académicas, sentido de pertenencia a la universidad, soledad, apoyo de tu familia y el trato que recibes de tus profesores y profesoras (sin preguntar nunca por un nombre).
 - Tus planes de seguir en tu carrera, cambiarte de carrera o dejar los estudios.
 - Algunos datos de contexto (por ejemplo, si trabajas o cuánto te demoras en llegar a la universidad).
 
-Además, te pediremos autorización para consultar tu registro académico en la Universidad: tu estado de matrícula en 2027 y 2028, tus puntajes de admisión y tus créditos aprobados. Esta autorización es aparte: puedes participar en la encuesta sin darla. Con ella podemos saber si sigues estudiando sin tener que preguntártelo.
+Además, te pediremos autorización para consultar tu registro académico en la Universidad: tu estado de matrícula, tus puntajes de admisión, tus créditos aprobados y las asignaturas que inscribas, mientras dure el estudio. Las asignaturas sirven para relacionar tus respuestas con los resultados generales de las evaluaciones docentes de esos cursos, que la Universidad ya recoge; nunca se identifica a un docente. Esta autorización es aparte: puedes participar en la encuesta sin darla. Con ella podemos saber si sigues estudiando sin tener que preguntártelo.
 
 ### Tus compañeros y compañeras
 
@@ -44,10 +44,10 @@ El riesgo es mínimo. Algunas preguntas tocan temas como la soledad, las relacio
 ### Confidencialidad y protección de datos
 
 - Solo el equipo de investigación tendrá acceso a los datos.
-- Al empezar la encuesta eliges tu nombre de la lista. Ese nombre se reemplaza por un código, que permite unir tus respuestas de las tres encuestas. Los análisis se hacen siempre con el código, nunca con tu nombre.
+- Al empezar la encuesta eliges tu nombre de la lista. Ese nombre se reemplaza por un código, que permite unir tus respuestas de las distintas encuestas. Los análisis se hacen siempre con el código, nunca con tu nombre.
 - Ningún docente, ninguna jefatura de carrera ni ninguna autoridad de la Universidad verá respuestas individuales. Nadie recibirá un puntaje de riesgo individual, y tus respuestas no tendrán ninguna consecuencia académica.
 - Los resultados se publicarán solo de forma agregada, en publicaciones académicas o conferencias, sin información que permita identificarte.
-- Los datos se guardan en un equipo del equipo de investigación con disco cifrado y acceso restringido, no en servicios de terceros. La relación entre tu nombre y tu código se conserva solo hasta 12 meses después de la última consulta al registro académico (2028); después se elimina, y desde entonces nadie puede saber qué respuestas son tuyas. Los datos sin nombres se conservan para investigación, con acceso restringido.
+- Los datos se guardan en un equipo del equipo de investigación con disco cifrado y acceso restringido, no en servicios de terceros. La relación entre tu nombre y tu código se usa durante un máximo de cuatro años desde la primera encuesta; después se elimina, y desde entonces nadie puede saber qué respuestas son tuyas. Los datos sin nombres se conservan para investigación, con acceso restringido.
 - Los datos se tratan conforme a la normativa vigente de protección de datos personales.
 
 ### Tus derechos
@@ -62,7 +62,7 @@ Participar es libre y voluntario. Puedes:
 
 Decidir no participar no afecta tu relación con la Universidad ni con el equipo de investigación. Participar no tiene costo ni compensación.
 
-En la segunda y la tercera encuesta te recordaremos estas condiciones y podrás retirarte antes de responder.
+En cada encuesta siguiente te recordaremos estas condiciones y podrás retirarte antes de responder.
 
 ### Contacto
 

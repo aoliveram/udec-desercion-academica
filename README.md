@@ -59,6 +59,32 @@ quarto publish gh-pages
 
 Para solo verlo en local, `quarto preview libro-psicometria-2026`.
 
+## Pendientes (27 de noviembre de 2026)
+
+**Comité de ética (Fase I, CFM).** Se envían `comite-etica/02-protocolo-investigacion.docx` y la carta de compromiso (`comite-etica/plantillas-vrid/`). Después, la Decanatura envía la carta al comité de la UdeC (Fase II).
+
+- Aplicar al protocolo y a la carta a la Facultad (`.docx`):
+  - hasta dos olas por semestre, desde 2027-I;
+  - datos identificables hasta 4 años desde la primera encuesta;
+  - «asignaturas inscritas» y las evaluaciones docentes (agregadas, docentes codificados);
+  - la nómina la entregan las jefaturas de carrera después de la aprobación;
+  - DEGyD y Bienestar Estudiantil en el procedimiento ante malestar.
+- Completar en el protocolo: equipo donde se guardan los datos y quién lo administra, matrícula de la CFM en 2026, tipo de proyecto y financiamiento, y el nombre de quien preside el comité de la CFM.
+- CV de los cuatro integrantes (solicitados), carta de compromiso firmada por Hernán y autorización de la Decanatura.
+- `comite-etica/README.md` y `generar.sh` todavía apuntan a los `.md` antiguos: actualizarlos o borrarlos.
+
+**Encuesta.**
+
+- Teléfono de Bienestar Estudiantil en la pantalla final (Yannely). También va en el consentimiento.
+- Contacto de la DISE en el consentimiento.
+- Confirmar los teléfonos de la DEGyD en degyd.udec.cl.
+- Lista de inscritos: se pide a cada jefatura de carrera, después de la aprobación de los comités.
+
+**Documentos.**
+
+- `docs/reporte-general.md` y `instrumento/decisiones.md` todavía dicen «tres olas (2026-II, 2027-I, 2027-II)».
+- Libro de psicometría: volver a publicar el sitio desde `main` (`cd libro-psicometria-2026 && quarto publish gh-pages`).
+
 ## Datos
 
 Ningún dato con nombres reales entra a este repositorio: las nóminas, la base

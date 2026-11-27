@@ -45,7 +45,7 @@ from motor.preguntas import (
 )
 
 TITULO = "Encuesta CFM"
-VERSION = "0.6-borrador"
+VERSION = "0.7-borrador"
 
 NUEVO = "Ítem nuevo (reporte semestre 2026, §2.4)"
 
@@ -99,9 +99,9 @@ BIENVENIDA = info(
 
 AUTORIZA_REGISTROS = opcion_unica(
     "autoriza_registros",
-    "¿Autorizas que el equipo consulte tu registro académico (matrícula en 2027 y 2028, puntajes "
-    "de admisión y créditos aprobados), solo para este estudio? Puedes participar aunque "
-    "respondas que no.",
+    "¿Autorizas que el equipo consulte tu registro académico (estado de matrícula, puntajes de "
+    "admisión, créditos aprobados y asignaturas inscritas mientras dure el estudio), solo para "
+    "este estudio? Puedes participar aunque respondas que no.",
     SI_NO,
     constructo="Consentimiento: registro académico",
     fuente="Consentimiento informado v2.0",
@@ -113,15 +113,15 @@ CONSENTIMIENTO = consentimiento(
     "Te invitamos a participar en el estudio *Topología de redes de afinidad como predictor de "
     "abandono académico* (Departamento de Física, UdeC), para estudiantes de la Facultad de "
     "Ciencias Físicas y Matemáticas.\n\n"
-    "- **Qué harás:** responder esta encuesta (10 a 15 minutos) en tres momentos: este "
-    "semestre, el primero y el segundo de 2027. Preguntamos por tus compañeros y compañeras, tu "
+    "- **Qué harás:** responder esta encuesta (10 a 15 minutos) en varios momentos, hasta dos "
+    "veces por semestre. Preguntamos por tus compañeros y compañeras, tu "
     "experiencia de estudiar, el trato de tus profesores y algunos datos de contexto.\n"
     "- **Es voluntario:** puedes omitir cualquier pregunta, dejar la encuesta o retirarte del "
     "estudio cuando quieras, sin consecuencias. Si te retiras, borramos tus datos.\n"
     "- **Tus compañeros:** algunas preguntas piden marcar nombres de una lista. Esas personas "
     "aparecen en los datos con un código, nunca con su nombre, aunque no participen.\n"
     "- **Confidencialidad:** solo el equipo investigador ve los datos. Tu nombre se reemplaza por "
-    "un código para unir tus respuestas de las tres encuestas. Ningún docente ni la jefatura verá "
+    "un código para unir tus respuestas de las distintas encuestas. Ningún docente ni la jefatura verá "
     "respuestas individuales, y nadie recibirá un puntaje de riesgo. Los resultados se publican "
     "solo agregados.\n"
     "- **Riesgos:** algunas preguntas tocan temas como la soledad. Si algo te incomoda, puedes "
@@ -528,8 +528,11 @@ COMENTARIOS = abierta(
 CIERRE = info(
     "cierre_texto",
     "Llegaste al final. Presiona **Enviar** para terminar.\n\n"
-    "¡Gracias por participar! Si alguna pregunta te removió algo y quieres conversarlo, puedes "
-    "escribir a [POR COMPLETAR: contacto de apoyo estudiantil de la UdeC].",
+    "¡Gracias por participar!\n\n"
+    "**Contactos de apoyo psicológico o protocolos de actuación:**\n\n"
+    "- Orientación y apoyo psicológico, Dirección de Equidad de Género y Diversidad Sexual "
+    "(DEGyD): +56 9 6473 2663, degyd.udec.cl\n"
+    "- Orientación y apoyo psicológico, Bienestar Estudiantil: [POR COMPLETAR: teléfono]",
 )
 
 
